@@ -1,87 +1,62 @@
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React, {useState} from 'react';
+import {View, FlatList, StyleSheet, TextInput, Button} from 'react-native';
+import {useToDoStore} from '../stores/ToDoStore';
+import ToDoItem from '../component/ToDoItem';
+import {Text} from 'react-native-svg';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+export function ListScreen() {
+  const {toDoList} = useToDoStore();
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={styles.container}>
+      <FlatList
+        data={toDoList}
+        keyExtractor={item => item.id}
+        renderItem={({item}) => (
+          <ToDoItem id={item.id} title={item.title} status={item.status} />
+        )}
+      />
     </View>
   );
 }
 
-export function ListScreen() {
-  const isDarkMode = useColorScheme() === 'dark';
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+export function AddScreen() {
+  const [title, setTitle] = useState<string>(''); // 새로운 ToDo의 제목 상태
+  const {addToDo} = useToDoStore(); // Zustand를 사용하여 ToDo를 추가하는 함수 가져오기
+
+  // 새로운 ToDo를 추가하는 함수
+  const handleAddToDo = () => {
+    if (title.trim() !== '') {
+      addToDo(title); // Zustand를 사용하여 ToDo를 추가
+      setTitle(''); // 입력 필드 비우기
+    }
   };
 
   return (
-    <ScrollView
-      contentInsetAdjustmentBehavior="automatic"
-      style={backgroundStyle}>
-      <View>
-        <Text>Main </Text>
-      </View>
-    </ScrollView>
+    <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        placeholder="할일을 입력하세요"
+        value={title}
+        onChangeText={setTitle}
+      />
+      <Button title="추가" onPress={handleAddToDo} />
+    </View>
   );
 }
 
-export function AddScreen() {
-  return <Text>Add</Text>;
-}
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+  },
+  input: {
+    marginVertical: 5,
+    marginHorizontal: 25,
+    padding: 10,
+    borderWidth: 1,
+    backgroundColor: '#ffffff',
+    borderColor: '#ffffff',
+    borderRadius: 20,
+  },
+});
