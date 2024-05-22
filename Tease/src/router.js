@@ -30,7 +30,6 @@ const MainTab = () => {
     };
     updateColor();
   }, [color]);
-  console.log(focusedColor);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
