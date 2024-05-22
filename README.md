@@ -85,8 +85,8 @@ ex) [1주차] 레니 과제 제출합니다
 
 ## 🍉 코드리뷰 파트너
 
-| 주차  | TeamA | TeamB | TeamC | TeamD |
-| ----- | ----- | ----- | ----- | ----- |
-| Week1 |       |       |       |       |
-| Week2 |       |       |       |       |
-| Week3 |       |       |       |       |
+| 주차  | TeamA          | TeamB         | TeamC       | TeamD                   |
+| ----- | -------------- | ------------- | ----------- | ----------------------- |
+| Week1 | Taeryong & Ino | Justin & Tina | Low & Tease | KimYounghoon & Junyoung |
+| Week2 |                |               |             |                         |
+| Week3 |                |               |             |                         |
