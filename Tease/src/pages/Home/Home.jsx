@@ -40,7 +40,6 @@ const Home = () => {
         ]}>
         <View style={styles.todoContentWrapper}>
           <View style={styles.todoContentLeft}>
-            {/* <View style={[styles.checkCircle, {borderColor: color}]}></View> */}
             {item.check ? (
               <View style={styles.checkCircle}>
                 <CheckIcon width={24} height={24} fill={color} />
