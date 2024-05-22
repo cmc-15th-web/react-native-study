@@ -12,9 +12,16 @@ import {useStore} from '../../store';
 const Add = ({navigation}) => {
   const [keyword, setKeyword] = useState();
   const inputRef = useRef();
-  const {color} = useStore(state => state);
+  const {color, todoId, addTodo, addTodoId} = useStore(state => state);
 
   const addTodoHandler = () => {
+    const todoItem = {
+      id: todoId,
+      check: false,
+      content: keyword,
+    };
+    addTodo(todoItem);
+    addTodoId();
     navigation.navigate('MainTab');
   };
   return (

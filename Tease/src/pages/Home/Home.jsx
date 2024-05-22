@@ -29,15 +29,34 @@ const dummy = [
 ];
 
 const Home = () => {
-  const {color} = useStore(state => state);
+  const {color, todos, updateTodo} = useStore(state => state);
 
   const renderItem = ({item}) => {
+    const clickTodoHandler = () => {
+      const newTodos = todos.map(e => {
+        if (e.id === item.id) {
+          return {...e, check: !e.check};
+        } else {
+          return {...e};
+        }
+      });
+      updateTodo(newTodos);
+    };
+    const removeTodo = () => {
+      const newTodos = todos.filter(e => {
+        if (e.id !== item.id) {
+          return e;
+        }
+      });
+      updateTodo(newTodos);
+    };
     return (
       <TouchableOpacity
         style={[
           styles.todoContentContainer,
           {backgroundColor: item.check ? color : '#fff'},
-        ]}>
+        ]}
+        onPress={clickTodoHandler}>
         <View style={styles.todoContentWrapper}>
           <View style={styles.todoContentLeft}>
             {item.check ? (
@@ -52,13 +71,15 @@ const Home = () => {
               {item.content}
             </Text>
           </View>
-          <View style={styles.todoContentRight}>
+          <TouchableOpacity
+            style={styles.todoContentRight}
+            onPress={removeTodo}>
             {item.check ? (
               <TrashIcon width={24} height={24} fill={'#fff'} />
             ) : (
               <TrashIcon width={24} height={24} fill={color} />
             )}
-          </View>
+          </TouchableOpacity>
         </View>
       </TouchableOpacity>
     );
@@ -69,7 +90,7 @@ const Home = () => {
       <Header title={'Today'} />
       <View style={styles.contentsWrapper}>
         <FlatList
-          data={dummy}
+          data={todos}
           renderItem={renderItem}
           keyExtractor={item => item.id}
           removeClippedSubviews
