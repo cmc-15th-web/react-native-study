@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
-
+import {TouchableOpacity, StyleSheet, Dimensions} from 'react-native';
 import Home from './pages/Home/Home';
 import Add from './pages/Add/Add';
 import Setting from './pages/Setting/Setting';
 
-// import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
@@ -20,7 +19,9 @@ import {colors} from './styles/commonStyle.js';
 
 const defaultColor = colors.darkGray.color;
 
-const MainTab = () => {
+const {width} = Dimensions.get('window');
+
+const MainTab = ({navigation}) => {
   const {color, setColor} = useStore(state => state);
   const [focusedColor, setFocusedColor] = useState(colors[color].color);
 
@@ -31,40 +32,48 @@ const MainTab = () => {
     updateColor();
   }, [color]);
   return (
-    <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
-          let IconComponent;
-          switch (route.name) {
-            case 'Home':
-              IconComponent = HomeIcon;
-              break;
-            case 'Add':
-              IconComponent = AddIcon;
-              break;
-            case 'Setting':
-              IconComponent = SettingIcon;
-              break;
-            default:
-              IconComponent = null;
-          }
-          const iconColor = focused ? focusedColor : defaultColor;
-          return (
-            IconComponent && (
-              <IconComponent width={size} height={size} fill={iconColor} />
-            )
-          );
-        },
-        headerShown: false,
-      })}>
-      <Tab.Screen name="Home" component={Home} options={{title: '혿'}} />
-      <Tab.Screen name="Add" component={Add} options={{title: ''}} />
-      <Tab.Screen
-        name="Setting"
-        component={Setting}
-        options={{title: '설정'}}
-      />
-    </Tab.Navigator>
+    <>
+      <Tab.Navigator
+        initialRouteName="Home"
+        screenOptions={({route}) => ({
+          tabBarStyle: {...styles.tabContainer},
+          tabBarIcon: ({focused, color, size}) => {
+            let IconComponent;
+            switch (route.name) {
+              case 'Home':
+                IconComponent = HomeIcon;
+                break;
+              case 'Add':
+                IconComponent = AddIcon;
+                break;
+              case 'Setting':
+                IconComponent = SettingIcon;
+                break;
+              default:
+                IconComponent = null;
+            }
+            const iconColor = focused ? focusedColor : defaultColor;
+            return (
+              IconComponent && (
+                <IconComponent width={size} height={size} fill={iconColor} />
+              )
+            );
+          },
+          headerShown: false,
+        })}>
+        <Tab.Screen name="Home" component={Home} options={{title: '혿'}} />
+        <Tab.Screen
+          name="Setting"
+          component={Setting}
+          options={{title: '설정'}}
+        />
+      </Tab.Navigator>
+      <TouchableOpacity
+        style={[styles.addBtn, {left: width / 2 - 25}]}
+        onPress={() => navigation.navigate('Add')}>
+        <AddIcon width={50} height={50} fill={color} />
+      </TouchableOpacity>
+    </>
   );
 };
 
@@ -75,8 +84,26 @@ const Router = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="MainTab" component={MainTab} />
+      <Stack.Screen name="Add" component={Add} />
     </Stack.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  tabContainer: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    height: 60,
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingBottom: 8,
+  },
+  addBtn: {
+    position: 'absolute',
+    bottom: 5.5,
+  },
+});
 
 export default Router;

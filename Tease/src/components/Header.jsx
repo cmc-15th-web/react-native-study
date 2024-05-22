@@ -4,11 +4,12 @@ import {useStore} from '../store';
 
 const Header = ({title}) => {
   const {color} = useStore(state => state);
+
   return (
     <View style={styles.header}>
       <View></View>
       <View>
-        <Text style={{color: color}}>Today</Text>
+        <Text style={[{color: color}, styles.headerText]}>{title}</Text>
       </View>
       <View></View>
     </View>
@@ -23,5 +24,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  headerText: {
+    fontSize: 16,
+    fontWeight: '400',
+  },
+  contentsWrapper: {
+    flex: 1,
+    marginVertical: 25,
+    marginHorizontal: 32,
   },
 });

@@ -9,9 +9,6 @@ import {
 import React, {useState} from 'react';
 import Header from '../../components/Header';
 import {useStore} from '../../store';
-import TrashIcon from '../../assets/icons/Trash.js';
-import CheckIcon from '../../assets/icons/Check.js';
-import CircleIcon from '../../assets/icons/Circle.js';
 
 const dummy = [
   {
@@ -32,7 +29,7 @@ const dummy = [
 ];
 
 const Home = () => {
-  const {color, setColor} = useStore(state => state);
+  const {color} = useStore(state => state);
 
   const renderItem = ({item}) => {
     return (
@@ -123,3 +120,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
 });
+
+import TrashIcon from '../../assets/icons/Trash.js';
+import CheckIcon from '../../assets/icons/Check.js';
+import CircleIcon from '../../assets/icons/Circle.js';
