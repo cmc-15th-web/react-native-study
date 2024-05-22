@@ -1,8 +1,11 @@
+import React, {useEffect, useState} from 'react';
+
 import Home from './pages/Home/Home';
 import Add from './pages/Add/Add';
 import Setting from './pages/Setting/Setting';
 
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+// import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import HomeIcon from './assets/icons/HomeIcon.js';
@@ -10,14 +13,24 @@ import AddIcon from './assets/icons/AddIcon.js';
 import SettingIcon from './assets/icons/SettingIcon.js';
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
-import {colors} from './styles/common.js';
+import {useStore} from './store';
+import {colors} from './styles/commonStyle.js';
 
-let focuesColor = colors.purple.color;
 const defaultColor = colors.darkGray.color;
 
 const MainTab = () => {
+  const {color, setColor} = useStore(state => state);
+  const [focusedColor, setFocusedColor] = useState(colors[color].color);
+
+  useEffect(() => {
+    const updateColor = async () => {
+      setFocusedColor(colors[color].color);
+    };
+    updateColor();
+  }, [color]);
+  console.log(focusedColor);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -36,7 +49,7 @@ const MainTab = () => {
             default:
               IconComponent = null;
           }
-          const iconColor = focused ? focuesColor : defaultColor;
+          const iconColor = focused ? focusedColor : defaultColor;
           return (
             IconComponent && (
               <IconComponent width={size} height={size} fill={iconColor} />
@@ -45,9 +58,13 @@ const MainTab = () => {
         },
         headerShown: false,
       })}>
-      <Tab.Screen name="Home" component={Home} />
-      <Stack.Screen name="Add" component={Add} />
-      <Tab.Screen name="Setting" component={Setting} />
+      <Tab.Screen name="Home" component={Home} options={{title: '혿'}} />
+      <Tab.Screen name="Add" component={Add} options={{title: ''}} />
+      <Tab.Screen
+        name="Setting"
+        component={Setting}
+        options={{title: '설정'}}
+      />
     </Tab.Navigator>
   );
 };
