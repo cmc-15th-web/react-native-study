@@ -8,10 +8,12 @@ import {
 } from 'react-native';
 import React, {useState, useRef} from 'react';
 import {useStore} from '../../store';
+import AddModal from '../../components/AddModal';
 
 const Add = ({navigation}) => {
   const [keyword, setKeyword] = useState();
   const inputRef = useRef();
+  const [modalVisible, setModalVisible] = useState(false);
   const {color, todoId, addTodo, addTodoId} = useStore(state => state);
 
   const addTodoHandler = () => {
@@ -22,10 +24,19 @@ const Add = ({navigation}) => {
     };
     addTodo(todoItem);
     addTodoId();
+    setModalVisible(!modalVisible);
+    // navigation.navigate('MainTab');
+  };
+  const moveMainTab = () => {
     navigation.navigate('MainTab');
   };
   return (
     <SafeAreaView style={styles.container}>
+      <AddModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        moveMainTab={moveMainTab}
+      />
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <ArrowBackIcon width={24} height={24} fill={color} />

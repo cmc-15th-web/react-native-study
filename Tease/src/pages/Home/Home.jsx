@@ -9,27 +9,21 @@ import {
 import React, {useState} from 'react';
 import Header from '../../components/Header';
 import {useStore} from '../../store';
-
-const dummy = [
-  {
-    id: 1,
-    check: true,
-    content: '아침먹기',
-  },
-  {
-    id: 2,
-    check: false,
-    content: '아침먹기',
-  },
-  {
-    id: 3,
-    check: false,
-    content: '아침먹기',
-  },
-];
+import HomeModal from '../../components/HomeModal';
 
 const Home = () => {
   const {color, todos, updateTodo} = useStore(state => state);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [deleteTodoItem, setDeleteTodoItem] = useState();
+
+  const removeTodo = item => {
+    const newTodos = todos.filter(e => {
+      if (e.id !== item.id) {
+        return e;
+      }
+    });
+    updateTodo(newTodos);
+  };
 
   const renderItem = ({item}) => {
     const clickTodoHandler = () => {
@@ -42,14 +36,11 @@ const Home = () => {
       });
       updateTodo(newTodos);
     };
-    const removeTodo = () => {
-      const newTodos = todos.filter(e => {
-        if (e.id !== item.id) {
-          return e;
-        }
-      });
-      updateTodo(newTodos);
+    const homeModalVisible = item => {
+      setModalVisible(!modalVisible);
+      setDeleteTodoItem(item);
     };
+
     return (
       <TouchableOpacity
         style={[
@@ -73,7 +64,7 @@ const Home = () => {
           </View>
           <TouchableOpacity
             style={styles.todoContentRight}
-            onPress={removeTodo}>
+            onPress={() => homeModalVisible(item)}>
             {item.check ? (
               <TrashIcon width={24} height={24} fill={'#fff'} />
             ) : (
@@ -87,6 +78,12 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <HomeModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        removeTodo={removeTodo}
+        deleteTodoItem={deleteTodoItem}
+      />
       <Header title={'Today'} />
       <View style={styles.contentsWrapper}>
         <FlatList
