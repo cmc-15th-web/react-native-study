@@ -1,78 +1,121 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Text} from 'react-native';
-// import Icon from 'react-native-vector-icons/MaterialIcons';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
+import {ListScreen, AddScreen} from '../screen/ToDoList';
+import {Setting} from '../screen/Setting';
+
+import HomeSvg from '../assets/img/Home.svg';
+import THemeSvg from '../assets/img/Theme.svg';
+import AddButton from './AddButton';
+import {Button, StyleSheet} from 'react-native';
 
 const Tab = createBottomTabNavigator();
+type TabParamList = {
+  Today: undefined;
+  AddButton: undefined;
+  Setting: undefined;
+};
 
-function HomeScreen() {
-  return <Text>Home</Text>;
-}
-
-function SearchScreen() {
-  return <Text>Search</Text>;
-}
-
-function NotificationScreen() {
-  return <Text>Notification</Text>;
-}
-
-function MessageScreen() {
-  return <Text>Message</Text>;
-}
-
-function BottomTabNavigationApp() {
+const StackNav: React.FC = () => {
   return (
-    <NavigationContainer>
-      <Tab.Navigator initialRouteName="Home">
-        <Tab.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            title: '홈',
-            tabBarIcon: ({color, size}) => (
-                <div>home</div>
-            //   <Icon name="home" color={color} size={size} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Search"
-          component={SearchScreen}
-          options={{
-            title: '알림',
-            tabBarIcon: ({color, size}) => (
-                <div>noti</div>
-            //   <Icon name="notifications" color={color} size={size} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Notification"
-          component={NotificationScreen}
-          options={{
-            title: '검색',
-            tabBarIcon: ({color, size}) => (
-                <div>search</div>
-            //   <Icon name="search" color={color} size={size} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Message"
-          component={MessageScreen}
-          options={{
-            title: '메시지',
-            tabBarIcon: ({color, size}) => (
-                <div>message</div>
-            //   <Icon name="message" color={color} size={size} />
-            ),
-          }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Home"
+        component={TabNav}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Add"
+        component={AddScreen}
+        options={{
+          title: '할일을 추가해주세요!',
+          headerRight: () => (
+            <Button
+              onPress={() => {
+                console.log('완료 버튼이 눌렸습니다!');
+              }}
+              title="완료"
+            />
+          ),
+        }}
+      />
+    </Stack.Navigator>
   );
-}
+};
 
-export default BottomTabNavigationApp;
+const TabNav: React.FC = () => {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen
+        name="Home"
+        component={ListScreen}
+        options={{
+          title: 'Today',
+          tabBarLabel: '홈',
+          tabBarIcon: ({color, size}) => <HomeSvg />,
+        }}
+      />
+      <Tab.Screen
+        name="AddButton"
+        component={EmptyScreen}
+        options={({
+          navigation,
+        }: {
+          navigation: NavigationProp<ParamListBase>;
+        }) => ({
+          tabBarItemStyle: {height: 0},
+          tabBarButton: () => {
+            const castedNavigation = navigation as NativeStackNavigationProp<
+              TabParamList,
+              'AddButton'
+            >;
+            return <AddButton navigation={castedNavigation} />;
+          },
+        })}
+      />
+      <Tab.Screen
+        name="Setting"
+        component={Setting}
+        options={{
+          title: '설정',
+          tabBarLabel: '설정',
+          tabBarIcon: ({color, size}) => <THemeSvg />,
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
+const EmptyScreen = () => {
+  return <></>;
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#ECF0F1',
+  },
+  buttonsContainer: {
+    padding: 10,
+  },
+  addButton: {
+    width: 80,
+    height: 80,
+    justifyContent: 'center',
+  },
+  addIcon: {
+    width: 50,
+    height: 50,
+  },
+  textStyle: {
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+});
+
+export default StackNav;
