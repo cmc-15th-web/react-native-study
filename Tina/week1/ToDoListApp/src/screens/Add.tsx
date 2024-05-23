@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import color from '../styles/color';
+import THEME_COLOR from '../styles/theme-color';
 import Input from '../components/add/TextInput';
 
 const Add = () => {
@@ -17,5 +17,5 @@ const Wrapper = styled.SafeAreaView`
   display: flex;
   align-items: center;
   margin-top: 20px;
-  background-color: ${color.gray};
+  background-color: ${THEME_COLOR.gray};
 `;

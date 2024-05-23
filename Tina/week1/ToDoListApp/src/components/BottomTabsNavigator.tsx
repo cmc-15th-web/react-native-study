@@ -3,15 +3,17 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
 import Setting from '../screens/Setting';
 import HomeIcon from '../assets/icons/HomeIcon';
-import AddIcon from '../assets/icons/add.svg';
+import AddIcon from '../assets/icons/AddIcon';
 import SettingIcon from '../assets/icons/ThemeIcon';
-import color from '../styles/color';
+import THEME_COLOR from '../styles/theme-color';
 import styled from 'styled-components/native';
 import {BottomTabsProps} from '../types/navigator';
+import {useThemeColor} from '../store/color';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabsNavigator = ({navigation}: BottomTabsProps) => {
+  const {theme} = useThemeColor();
   return (
     <>
       <Tab.Navigator
@@ -29,8 +31,8 @@ const BottomTabsNavigator = ({navigation}: BottomTabsProps) => {
           options={{
             tabBarIcon: HomeIcon,
             headerShown: false,
-            tabBarActiveTintColor: color.orange,
-            tabBarInactiveTintColor: color.darkGray,
+            tabBarActiveTintColor: theme,
+            tabBarInactiveTintColor: THEME_COLOR.darkGray,
             tabBarLabelStyle: {fontSize: 12},
             tabBarLabel: '홈',
           }}
@@ -41,15 +43,15 @@ const BottomTabsNavigator = ({navigation}: BottomTabsProps) => {
           options={{
             tabBarIcon: SettingIcon,
             headerShown: false,
-            tabBarActiveTintColor: color.orange,
-            tabBarInactiveTintColor: color.darkGray,
+            tabBarActiveTintColor: theme,
+            tabBarInactiveTintColor: THEME_COLOR.darkGray,
             tabBarLabelStyle: {fontSize: 12},
             tabBarLabel: '설정',
           }}
         />
       </Tab.Navigator>
       <AddTab onPress={() => navigation.push('Add')}>
-        <AddIcon height={50} width={50} />
+        <AddIcon />
       </AddTab>
     </>
   );

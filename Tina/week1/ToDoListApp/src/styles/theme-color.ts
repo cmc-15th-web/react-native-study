@@ -1,4 +1,4 @@
-const color = {
+const THEME_COLOR = {
   orange: '#FF8F50',
   green: '#57BB73',
   blue: '#5061FF',
@@ -10,4 +10,6 @@ const color = {
   white: '#FFFFFF',
 };
 
-export default color;
+export type ThemeColor = keyof typeof THEME_COLOR;
+
+export default THEME_COLOR;

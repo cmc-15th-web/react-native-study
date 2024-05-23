@@ -1,13 +1,15 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import color from '../styles/color';
+import THEME_COLOR from '../styles/theme-color';
 import Task from '../components/home/Task';
+import {useThemeColor} from '../store/color';
 
 const Home = () => {
+  const {theme} = useThemeColor();
   return (
     <Wrapper>
       <Header>
-        <Text>Today</Text>
+        <Text color={theme}>Today</Text>
       </Header>
       <TodoList>
         <Task id={0} task="할일" isCompleted={true} />
@@ -21,7 +23,7 @@ export default Home;
 
 const Wrapper = styled.SafeAreaView`
   flex: 1;
-  background-color: ${color.gray};
+  background-color: ${THEME_COLOR.gray};
 `;
 
 const Header = styled.View`
@@ -32,8 +34,12 @@ const Header = styled.View`
   padding: 12px 20px;
 `;
 
-const Text = styled.Text`
-  color: ${color.orange};
+interface ColorProps {
+  color: string;
+}
+
+const Text = styled.Text<ColorProps>`
+  color: ${({color}) => color};
   font-size: 18px;
 `;
 

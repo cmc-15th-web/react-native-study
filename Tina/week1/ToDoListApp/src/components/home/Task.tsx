@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import CompletedIcon from '../../assets/icons/completed.svg';
-import UncompletedIcon from '../../assets/icons/uncompleted.svg';
+import UncompletedIcon from '../../assets/icons/UncompletedIcon';
 import DeleteIcon from '../../assets/icons/DeleteIcon.tsx';
 import {TouchableOpacity} from 'react-native';
-import color from '../../styles/color';
+import THEME_COLOR from '../../styles/theme-color.ts';
+import {useThemeColor} from '../../store/color.ts';
 
 interface TaskProps {
   id: number;
@@ -13,14 +14,17 @@ interface TaskProps {
 }
 const Task = (props: TaskProps) => {
   const {id, isCompleted, task} = props;
+  const {theme} = useThemeColor();
   return (
-    <Wrapper isCompleted={isCompleted}>
+    <Wrapper isCompleted={isCompleted} color={theme}>
       <TouchableOpacity>
         {isCompleted ? <CompletedIcon /> : <UncompletedIcon />}
       </TouchableOpacity>
-      <Text isCompleted={isCompleted}>{task}</Text>
+      <Text isCompleted={isCompleted} color={theme}>
+        {task}
+      </Text>
       <TouchableOpacity>
-        <DeleteIcon color={isCompleted ? color.white : color.orange} />
+        <DeleteIcon color={isCompleted ? THEME_COLOR.white : theme} />
       </TouchableOpacity>
     </Wrapper>
   );
@@ -28,11 +32,12 @@ const Task = (props: TaskProps) => {
 
 export default Task;
 
-interface StyleType {
+interface StyleProps {
   isCompleted: boolean;
+  color: string;
 }
 
-const Wrapper = styled.View<StyleType>`
+const Wrapper = styled.View<StyleProps>`
   height: 56px;
   width: 330px;
   border-radius: 20px;
@@ -41,12 +46,12 @@ const Wrapper = styled.View<StyleType>`
   justify-content: space-between;
   align-items: center;
   padding: 16px 20px;
-  background-color: ${({isCompleted}) =>
-    isCompleted ? color.orange : color.white};
+  background-color: ${props =>
+    props.isCompleted ? props.color : THEME_COLOR.white};
   margin-bottom: 18px;
 `;
 
-const Text = styled.Text<StyleType>`
+const Text = styled.Text<StyleProps>`
   width: 220px;
-  color: ${({isCompleted}) => (isCompleted ? color.white : color.orange)};
+  color: ${props => (props.isCompleted ? THEME_COLOR.white : props.color)};
 `;

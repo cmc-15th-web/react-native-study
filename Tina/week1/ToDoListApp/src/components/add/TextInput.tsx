@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import color from '../../styles/color';
+import THEME_COLOR from '../../styles/theme-color';
 
 const Input = () => {
   return <TextInput />;
@@ -13,5 +13,5 @@ const TextInput = styled.TextInput`
   width: 330px;
   border-radius: 20px;
   padding: 16px 30px;
-  background-color: ${color.white};
+  background-color: ${THEME_COLOR.white};
 `;

@@ -1,28 +1,29 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import color from '../styles/color';
+import THEME_COLOR, {ThemeColor} from '../styles/theme-color';
+import {useThemeColor} from '../store/color';
+
+const themeColors: ThemeColor[] = ['orange', 'green', 'blue', 'purple', 'pink'];
 
 const Setting = () => {
-  const themeColors: string[] = [
-    color.orange,
-    color.green,
-    color.blue,
-    color.purple,
-    color.pink,
-  ];
+  const {theme, setThemeColor} = useThemeColor();
   return (
     <Wrapper>
       <Header>
-        <Text styledColor={color.orange}>설정</Text>
+        <Text styledColor={theme}>설정</Text>
       </Header>
       <Text
-        styledColor={color.black}
+        styledColor={THEME_COLOR.black}
         style={{marginHorizontal: 32, marginVertical: 16}}>
         색상을 선택해주세요.
       </Text>
       <ColorPalette>
-        {themeColors.map(themeColor => (
-          <ColorChip styledColor={themeColor} />
+        {themeColors.map((color: ThemeColor) => (
+          <ColorChip
+            key={color}
+            styledColor={THEME_COLOR[color]}
+            onPress={() => setThemeColor(color)}
+          />
         ))}
       </ColorPalette>
     </Wrapper>

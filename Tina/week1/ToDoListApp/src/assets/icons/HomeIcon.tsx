@@ -1,9 +1,11 @@
 import React from 'react';
 import {Svg, Path} from 'react-native-svg';
-import color from '../../styles/color';
+import THEME_COLOR from '../../styles/theme-color';
+import {useThemeColor} from '../../store/color';
 
 const HomeIcon = ({focused}: {focused: boolean}) => {
-  const iconColor = focused ? color.orange : color.darkGray;
+  const {theme} = useThemeColor();
+  const iconColor = focused ? theme : THEME_COLOR.darkGray;
   return (
     <Svg width="28" height="28" viewBox="0 0 28 28" fill="none">
       <Path

@@ -1,19 +1,24 @@
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import styled from 'styled-components/native';
-import color from '../../styles/color';
+import {useThemeColor} from '../../store/color';
 
 const CompleteButton = () => {
+  const {theme} = useThemeColor();
   return (
     <TouchableOpacity>
-      <Text>완료</Text>
+      <Text themeColor={theme}>완료</Text>
     </TouchableOpacity>
   );
 };
 
 export default CompleteButton;
 
-const Text = styled.Text`
+interface TextProps {
+  themeColor: string;
+}
+
+const Text = styled.Text<TextProps>`
   font-size: 18px;
-  color: ${color.orange};
+  color: ${({themeColor}) => themeColor};
 `;

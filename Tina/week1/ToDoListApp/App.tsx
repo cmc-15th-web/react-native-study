@@ -6,11 +6,13 @@ import Add from './src/screens/Add.tsx';
 import {RootStackList} from './src/types/navigator.ts';
 import BackButton from './src/components/add/BackButton.tsx';
 import CompleteButton from './src/components/add/CompleteButton.tsx';
-import color from './src/styles/color.ts';
+import THEME_COLOR from './src/styles/theme-color.ts';
+import {useThemeColor} from './src/store/color.ts';
 
 const Stack = createNativeStackNavigator<RootStackList>();
 
 function App(): React.JSX.Element {
+  const {theme} = useThemeColor();
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -30,11 +32,11 @@ function App(): React.JSX.Element {
             headerRight: CompleteButton,
             headerTitleStyle: {
               fontSize: 18,
-              color: `${color.orange}`,
+              color: `${theme}`,
               fontWeight: 'normal',
             },
             headerStyle: {
-              backgroundColor: `${color.gray}`,
+              backgroundColor: `${THEME_COLOR.gray}`,
             },
             headerShadowVisible: false,
           }}
