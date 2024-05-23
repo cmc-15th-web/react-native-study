@@ -14,6 +14,7 @@ import THemeSvg from '../assets/img/Theme.svg';
 import AddButton from './AddButton';
 import {Button, StyleSheet} from 'react-native';
 import {useToDoStore} from '../stores/ToDoStore';
+import {useThemeStore} from '../stores/ThemeStore';
 
 const Tab = createBottomTabNavigator();
 type TabParamList = {
@@ -57,15 +58,27 @@ const StackNav: React.FC = ({}) => {
 };
 
 const TabNav: React.FC = () => {
+  const {themeColor} = useThemeStore();
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      tabBarOptions={{
+        labelStyle: {
+          color: themeColor, // 테마 색상으로 지정
+          textAlign: 'center', // 가운데 정렬
+        },
+        style: {
+          backgroundColor: 'white', // 배경색을 원하는 색상으로 지정
+        },
+      }}>
       <Tab.Screen
         name="Home"
         component={ListScreen}
         options={{
           title: 'Today',
           tabBarLabel: '홈',
-          tabBarIcon: ({color, size}) => <HomeSvg />,
+          tabBarIcon: ({focused}) => (
+            <HomeSvg style={{color: focused ? themeColor : '#888888'}} />
+          ),
         }}
       />
       <Tab.Screen
@@ -92,7 +105,9 @@ const TabNav: React.FC = () => {
         options={{
           title: '설정',
           tabBarLabel: '설정',
-          tabBarIcon: ({color, size}) => <THemeSvg />,
+          tabBarIcon: ({focused}) => (
+            <THemeSvg style={{color: focused ? themeColor : '#888888'}} />
+          ),
         }}
       />
     </Tab.Navigator>

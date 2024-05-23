@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {useToDoStore} from '../stores/ToDoStore';
+import {useThemeStore} from '../stores/ThemeStore';
 
 import CheckSvg from '../assets/img/Check.svg';
 import CircleSvg from '../assets/img/Circle.svg';
@@ -14,6 +15,7 @@ type ToDoItemProps = {
 
 const ToDoItem: React.FC<ToDoItemProps> = ({id, title, status}) => {
   const {toggleStatus, removeToDo} = useToDoStore();
+  const {themeColor} = useThemeStore();
 
   const handleToggleStatus = () => {
     toggleStatus(id);
@@ -27,20 +29,25 @@ const ToDoItem: React.FC<ToDoItemProps> = ({id, title, status}) => {
     <View>
       <TouchableOpacity
         onPress={handleToggleStatus}
-        style={[styles.container, status ? styles.completedContainer : null]}>
+        style={[
+          styles.container,
+          status ? {backgroundColor: themeColor} : null,
+        ]}>
         {status ? (
-          <CheckSvg width={30} height={30} />
+          <CheckSvg width={30} height={30} style={{color: themeColor}} />
         ) : (
-          <CircleSvg width={30} height={30} />
+          <CircleSvg width={30} height={30} style={{color: themeColor}} />
         )}
 
-        <Text style={styles.title}>{title}</Text>
+        <Text style={[styles.title, status ? {color: 'white'} : null]}>
+          {title}
+        </Text>
 
         <TouchableOpacity onPress={handleRemoveToDo}>
           <TrashSvg
             width={30}
             height={30}
-            style={{color: status ? '#FFFFFF' : '#FF8F50'}}
+            style={{color: status ? '#FFFFFF' : themeColor}}
           />
         </TouchableOpacity>
       </TouchableOpacity>
