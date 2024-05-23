@@ -2,7 +2,10 @@ import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {useStore} from '../store';
 
-const Header = ({title}) => {
+interface HeaderProps {
+  title: string;
+}
+const Header: React.FC<HeaderProps> = ({title}) => {
   const {color} = useStore(state => state);
 
   return (

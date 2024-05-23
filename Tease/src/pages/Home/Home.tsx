@@ -7,16 +7,22 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {useState} from 'react';
-import Header from '../../components/Header';
-import {useStore} from '../../store';
-import HomeModal from '../../components/HomeModal';
+import Header from '../../components/Header.tsx';
+import {useStore} from '../../store.ts';
+import HomeModal from '../../components/HomeModal.tsx';
 
-const Home = () => {
+interface TodoItem {
+  id: number;
+  content: string;
+  check: boolean;
+}
+
+const Home: React.FC = () => {
   const {color, todos, updateTodo} = useStore(state => state);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [deleteTodoItem, setDeleteTodoItem] = useState();
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [deleteTodoItem, setDeleteTodoItem] = useState<TodoItem | null>(null);
 
-  const removeTodo = item => {
+  const removeTodo = (item: TodoItem) => {
     const newTodos = todos.filter(e => {
       if (e.id !== item.id) {
         return e;
@@ -25,7 +31,7 @@ const Home = () => {
     updateTodo(newTodos);
   };
 
-  const renderItem = ({item}) => {
+  const renderItem = ({item}: {item: TodoItem}) => {
     const clickTodoHandler = () => {
       const newTodos = todos.map(e => {
         if (e.id === item.id) {
@@ -36,7 +42,7 @@ const Home = () => {
       });
       updateTodo(newTodos);
     };
-    const homeModalVisible = item => {
+    const homeModalVisible = (item: TodoItem) => {
       setModalVisible(!modalVisible);
       setDeleteTodoItem(item);
     };
@@ -62,9 +68,7 @@ const Home = () => {
               {item.content}
             </Text>
           </View>
-          <TouchableOpacity
-            style={styles.todoContentRight}
-            onPress={() => homeModalVisible(item)}>
+          <TouchableOpacity onPress={() => homeModalVisible(item)}>
             {item.check ? (
               <TrashIcon width={24} height={24} fill={'#fff'} />
             ) : (
@@ -89,7 +93,7 @@ const Home = () => {
         <FlatList
           data={todos}
           renderItem={renderItem}
-          keyExtractor={item => item.id}
+          keyExtractor={(item: TodoItem) => item.id}
           removeClippedSubviews
           showsVerticalScrollIndicator={false}
         />

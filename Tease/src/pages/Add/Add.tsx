@@ -7,17 +7,25 @@ import {
   TextInput,
 } from 'react-native';
 import React, {useState, useRef} from 'react';
-import {useStore} from '../../store';
-import AddModal from '../../components/AddModal';
+import {useStore} from '../../store.ts';
+import AddModal from '../../components/AddModal.tsx';
+import {useNavigation} from '@react-navigation/native';
 
-const Add = ({navigation}) => {
-  const [keyword, setKeyword] = useState();
+interface TodoItem {
+  id: number;
+  check: boolean;
+  content: string;
+}
+
+const Add: React.FC = () => {
+  const [keyword, setKeyword] = useState<string>('');
   const inputRef = useRef();
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const {color, todoId, addTodo, addTodoId} = useStore(state => state);
+  const navigation = useNavigation();
 
   const addTodoHandler = () => {
-    const todoItem = {
+    const todoItem: TodoItem = {
       id: todoId,
       check: false,
       content: keyword,
@@ -62,7 +70,6 @@ const Add = ({navigation}) => {
           style={styles.inputStyle}
           autoFocus
           ref={inputRef}
-          onSubmitEditing={() => console.log(1)}
         />
       </View>
     </SafeAreaView>

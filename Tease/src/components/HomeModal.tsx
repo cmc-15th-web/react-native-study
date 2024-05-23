@@ -1,22 +1,29 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Dimensions,
-} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import Modal from 'react-native-modal';
 import {colors} from '../styles/commonStyle';
 
-const HomeModal = ({
+interface TodoItem {
+  id: string;
+  content: string;
+  check: boolean;
+}
+
+interface HomeModalProps {
+  modalVisible: boolean;
+  setModalVisible: (modalVisible: boolean) => void;
+  removeTodo: (todoItem: TodoItem) => void;
+  deleteTodoItem: TodoItem;
+}
+
+const HomeModal: React.FC<HomeModalProps> = ({
   modalVisible,
   setModalVisible,
   removeTodo,
   deleteTodoItem,
 }) => {
-  const removeHandler = deleteTodoItem => {
-    removeTodo(deleteTodoItem);
+  const removeHandler = (deleteItem: number) => {
+    removeTodo(deleteItem);
     setModalVisible(!modalVisible);
   };
   return (

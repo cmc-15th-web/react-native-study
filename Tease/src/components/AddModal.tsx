@@ -1,15 +1,19 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Dimensions,
-} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import Modal from 'react-native-modal';
 import {colors} from '../styles/commonStyle';
 
-const AddModal = ({modalVisible, setModalVisible, moveMainTab}) => {
+interface AddModalProps {
+  modalVisible: boolean;
+  setModalVisible: (modalVisible: boolean) => void;
+  moveMainTab: () => void;
+}
+
+const AddModal: React.FC<AddModalProps> = ({
+  modalVisible,
+  setModalVisible,
+  moveMainTab,
+}) => {
   const confirmHandler = () => {
     setModalVisible(!modalVisible);
     moveMainTab();

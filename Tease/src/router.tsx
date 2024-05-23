@@ -1,28 +1,40 @@
 import React, {useEffect, useState} from 'react';
 import {TouchableOpacity, StyleSheet, Dimensions} from 'react-native';
-import Home from './pages/Home/Home';
-import Add from './pages/Add/Add';
-import Setting from './pages/Setting/Setting';
+import Home from './pages/Home/Home.tsx';
+import Add from './pages/Add/Add.tsx';
+import Setting from './pages/Setting/Setting.tsx';
 
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import HomeIcon from './assets/icons/HomeIcon.js';
-import AddIcon from './assets/icons/AddIcon.js';
-import SettingIcon from './assets/icons/SettingIcon.js';
+import {useStore} from './store.ts';
+import {colors} from './styles/commonStyle.ts';
 
-const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
+type RootStackParamList = {
+  MainTab: undefined;
+  Add: undefined;
+};
 
-import {useStore} from './store';
-import {colors} from './styles/commonStyle.js';
+type MainTabParamList = {
+  Home: undefined;
+  Setting: undefined;
+};
+
+// const Tab = createBottomTabNavigator();
+// const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator<MainTabParamList>();
+const Stack = createStackNavigator<RootStackParamList>();
 
 const defaultColor = colors.darkGray.color;
 
 const {width} = Dimensions.get('window');
 
-const MainTab = ({navigation}) => {
-  const {color, setColor} = useStore(state => state);
+const MainTab = ({
+  navigation,
+}: {
+  navigation: BottomTabNavigationProp<MainTabParamList>;
+}) => {
+  const {color} = useStore(state => state);
   const [focusedColor, setFocusedColor] = useState(colors[color].color);
 
   useEffect(() => {
@@ -38,7 +50,11 @@ const MainTab = ({navigation}) => {
         screenOptions={({route}) => ({
           tabBarStyle: {...styles.tabContainer},
           tabBarIcon: ({focused, color, size}) => {
-            let IconComponent;
+            let IconComponent: React.FC<{
+              width: number;
+              height: number;
+              fill: string;
+            }> | null = null;
             switch (route.name) {
               case 'Home':
                 IconComponent = HomeIcon;
@@ -107,3 +123,7 @@ const styles = StyleSheet.create({
 });
 
 export default Router;
+
+import HomeIcon from './assets/icons/HomeIcon.js';
+import AddIcon from './assets/icons/AddIcon.js';
+import SettingIcon from './assets/icons/SettingIcon.js';

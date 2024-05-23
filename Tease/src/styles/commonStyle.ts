@@ -1,6 +1,12 @@
 import {StyleSheet} from 'react-native';
 
-export const colors = StyleSheet.create({
+interface Colors {
+  [key: string]: {
+    color: string;
+  };
+}
+
+export const colors: Colors = StyleSheet.create({
   orange: {
     color: '#FF8F50',
   },

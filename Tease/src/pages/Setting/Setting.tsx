@@ -12,7 +12,7 @@ import {useStore} from '../../store';
 import {colors} from '../../styles/commonStyle';
 
 const {width} = Dimensions.get('window');
-const Setting = () => {
+const Setting: React.FC = () => {
   const {setColor} = useStore(state => state);
   return (
     <SafeAreaView style={styles.container}>
