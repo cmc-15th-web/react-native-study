@@ -1,5 +1,12 @@
-import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Modal,
+  Button,
+} from 'react-native';
 import {useToDoStore} from '../stores/ToDoStore';
 import {useThemeStore} from '../stores/ThemeStore';
 
@@ -16,13 +23,20 @@ type ToDoItemProps = {
 const ToDoItem: React.FC<ToDoItemProps> = ({id, title, status}) => {
   const {toggleStatus, removeToDo} = useToDoStore();
   const {themeColor} = useThemeStore();
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handleToggleStatus = () => {
     toggleStatus(id);
   };
 
   const handleRemoveToDo = () => {
+    setModalVisible(true);
+    // removeToDo(id);
+  };
+
+  const RemoveToDo = () => {
     removeToDo(id);
+    setModalVisible(false);
   };
 
   return (
@@ -51,6 +65,31 @@ const ToDoItem: React.FC<ToDoItemProps> = ({id, title, status}) => {
           />
         </TouchableOpacity>
       </TouchableOpacity>
+      {/* 모달화면 */}
+      <Modal
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(false);
+        }}>
+        <View style={styles.modalBack}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalText}>정말 삭제하시겠습니까?</Text>
+            <View style={styles.modalUnder}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => setModalVisible(false)}>
+                <Text style={styles.buttonText}>취소</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => RemoveToDo()}>
+                <Text style={styles.buttonText}>확인</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -76,6 +115,33 @@ const styles = StyleSheet.create({
   completedContainer: {
     backgroundColor: '#FF8F50',
     color: 'white',
+  },
+  modalBack: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    backgroundColor: 'gray',
+    padding: 20,
+    borderRadius: 10,
+  },
+  modalUnder: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  modalText: {
+    color: 'white',
+    backgroundColor: 'none',
+  },
+  button: {
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
   },
 });
 

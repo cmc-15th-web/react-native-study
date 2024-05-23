@@ -12,7 +12,7 @@ import {Setting} from '../screen/SettingScreen';
 import HomeSvg from '../assets/img/Home.svg';
 import THemeSvg from '../assets/img/Theme.svg';
 import AddButton from './AddButton';
-import {Button, StyleSheet} from 'react-native';
+import {Button, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {useToDoStore} from '../stores/ToDoStore';
 import {useThemeStore} from '../stores/ThemeStore';
 
@@ -44,12 +44,9 @@ const StackNav: React.FC = ({}) => {
         options={({navigation}) => ({
           title: '할일을 추가해주세요!',
           headerRight: () => (
-            <Button
-              onPress={() => {
-                handleAddToDo();
-              }}
-              title="완료"
-            />
+            <TouchableOpacity onPress={() => handleAddToDo()}>
+              <Text>완료</Text>
+            </TouchableOpacity>
           ),
         })}
       />
@@ -60,16 +57,7 @@ const StackNav: React.FC = ({}) => {
 const TabNav: React.FC = () => {
   const {themeColor} = useThemeStore();
   return (
-    <Tab.Navigator
-      tabBarOptions={{
-        labelStyle: {
-          color: themeColor, // 테마 색상으로 지정
-          textAlign: 'center', // 가운데 정렬
-        },
-        style: {
-          backgroundColor: 'white', // 배경색을 원하는 색상으로 지정
-        },
-      }}>
+    <Tab.Navigator>
       <Tab.Screen
         name="Home"
         component={ListScreen}
