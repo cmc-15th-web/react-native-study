@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import THEME_COLOR from '../../styles/theme-color';
+import {useTask} from '../../store/task';
 
 const Input = () => {
-  return <TextInput />;
+  const {task, setTask} = useTask();
+  return <TextInput value={task} onChangeText={e => setTask(e)} />;
 };
 
 export default Input;

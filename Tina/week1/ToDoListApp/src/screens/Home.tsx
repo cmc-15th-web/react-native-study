@@ -3,17 +3,20 @@ import styled from 'styled-components/native';
 import THEME_COLOR from '../styles/theme-color';
 import Task from '../components/home/Task';
 import {useThemeColor} from '../store/color';
+import {useTask} from '../store/task';
 
 const Home = () => {
   const {theme} = useThemeColor();
+  const {taskList} = useTask();
   return (
     <Wrapper>
       <Header>
         <Text color={theme}>Today</Text>
       </Header>
       <TodoList>
-        <Task id={0} task="할일" isCompleted={true} />
-        <Task id={1} task="할일" isCompleted={false} />
+        {taskList.map((item, idx) => (
+          <Task key={idx} isCompleted={item.isCompleted} task={item.task} />
+        ))}
       </TodoList>
     </Wrapper>
   );
