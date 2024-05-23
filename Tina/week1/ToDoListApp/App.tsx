@@ -1,5 +1,5 @@
 import React from 'react';
-import BottomTabsNavigator from './src/components/BottomTabsNavigator.tsx';
+import BottomTabsNavigator from './src/components/common/BottomTabsNavigator.tsx';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Add from './src/screens/Add.tsx';

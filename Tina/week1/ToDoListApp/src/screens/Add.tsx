@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import THEME_COLOR from '../styles/theme-color';
-import Input from '../components/add/TextInput';
+import {useTask} from '../store/task';
 
 const Add = () => {
+  const {task, setTask} = useTask();
   return (
     <Wrapper>
-      <Input />
+      <TextInput value={task} onChangeText={e => setTask(e)} />
     </Wrapper>
   );
 };
@@ -18,4 +19,12 @@ const Wrapper = styled.SafeAreaView`
   align-items: center;
   margin-top: 20px;
   background-color: ${THEME_COLOR.gray};
+`;
+
+const TextInput = styled.TextInput`
+  height: 56px;
+  width: 330px;
+  border-radius: 20px;
+  padding: 16px 30px;
+  background-color: ${THEME_COLOR.white};
 `;

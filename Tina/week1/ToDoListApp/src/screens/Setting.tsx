@@ -2,15 +2,16 @@ import React from 'react';
 import styled from 'styled-components/native';
 import THEME_COLOR, {ThemeColor} from '../styles/theme-color';
 import {useThemeColor} from '../store/color';
+import ThemeColorText from '../components/common/ContentText';
 
 const themeColors: ThemeColor[] = ['orange', 'green', 'blue', 'purple', 'pink'];
 
 const Setting = () => {
-  const {theme, setThemeColor} = useThemeColor();
+  const {setThemeColor} = useThemeColor();
   return (
     <Wrapper>
       <Header>
-        <Text styledColor={theme}>설정</Text>
+        <ThemeColorText text="설정" />
       </Header>
       <Text
         styledColor={THEME_COLOR.black}

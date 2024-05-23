@@ -1,12 +1,10 @@
 import React from 'react';
 import {Alert, TouchableOpacity} from 'react-native';
-import styled from 'styled-components/native';
-import {useThemeColor} from '../../store/color';
 import {useTask} from '../../store/task';
 import {useNavigation} from '@react-navigation/native';
+import ThemeColorText from '../common/ContentText';
 
 const CompleteButton = () => {
-  const {theme} = useThemeColor();
   const {task, setTask, taskList, setTaskList} = useTask();
   const navigation = useNavigation();
 
@@ -23,18 +21,9 @@ const CompleteButton = () => {
 
   return (
     <TouchableOpacity onPress={handleOnPress}>
-      <Text themeColor={theme}>완료</Text>
+      <ThemeColorText text="완료" />
     </TouchableOpacity>
   );
 };
 
 export default CompleteButton;
-
-interface TextProps {
-  themeColor: string;
-}
-
-const Text = styled.Text<TextProps>`
-  font-size: 18px;
-  color: ${({themeColor}) => themeColor};
-`;

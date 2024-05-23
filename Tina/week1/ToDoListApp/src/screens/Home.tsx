@@ -2,16 +2,15 @@ import React from 'react';
 import styled from 'styled-components/native';
 import THEME_COLOR from '../styles/theme-color';
 import Task from '../components/home/Task';
-import {useThemeColor} from '../store/color';
 import {useTask} from '../store/task';
+import ThemeColorText from '../components/common/ContentText';
 
 const Home = () => {
-  const {theme} = useThemeColor();
   const {taskList} = useTask();
   return (
     <Wrapper>
       <Header>
-        <Text color={theme}>Today</Text>
+        <ThemeColorText text="Today" />
       </Header>
       <TodoList>
         {taskList.map((item, idx) => (
@@ -35,15 +34,6 @@ const Header = styled.View`
   display: flex;
   align-items: center;
   padding: 12px 20px;
-`;
-
-interface ColorProps {
-  color: string;
-}
-
-const Text = styled.Text<ColorProps>`
-  color: ${({color}) => color};
-  font-size: 18px;
 `;
 
 const TodoList = styled.View`
