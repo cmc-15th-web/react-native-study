@@ -1,4 +1,5 @@
-import create from 'zustand';
+import {create} from 'zustand';
+import {v4 as uuidv4} from 'uuid';
 
 type ToDoItem = {
   id: string;
@@ -8,13 +9,16 @@ type ToDoItem = {
 
 type ToDoStore = {
   toDoList: ToDoItem[];
+  save: boolean;
   addToDo: (title: string) => void;
   toggleStatus: (id: string) => void;
   removeToDo: (id: string) => void;
+  setSave: (value: boolean) => void;
 };
 
 export const useToDoStore = create<ToDoStore>(set => ({
   toDoList: [],
+  save: false,
   addToDo: title =>
     set(state => ({
       toDoList: [
@@ -32,4 +36,7 @@ export const useToDoStore = create<ToDoStore>(set => ({
     set(state => ({
       toDoList: state.toDoList.filter(item => item.id !== id),
     })),
+  setSave: (value: boolean) => {
+    set({save: value});
+  },
 }));

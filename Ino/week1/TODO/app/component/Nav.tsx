@@ -13,6 +13,7 @@ import HomeSvg from '../assets/img/Home.svg';
 import THemeSvg from '../assets/img/Theme.svg';
 import AddButton from './AddButton';
 import {Button, StyleSheet} from 'react-native';
+import {useToDoStore} from '../stores/ToDoStore';
 
 const Tab = createBottomTabNavigator();
 type TabParamList = {
@@ -21,28 +22,35 @@ type TabParamList = {
   Setting: undefined;
 };
 
-const StackNav: React.FC = () => {
+const StackNav: React.FC = ({}) => {
+  const {setSave} = useToDoStore(); // Zustand를 사용하여 ToDo를 추가하는 함수 가져오기
+
+  // 새로운 ToDo를 추가하는 함수
+  const handleAddToDo = () => {
+    setSave(true);
+  };
+
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Home"
+        name="Main"
         component={TabNav}
         options={{headerShown: false}}
       />
       <Stack.Screen
         name="Add"
         component={AddScreen}
-        options={{
+        options={({navigation}) => ({
           title: '할일을 추가해주세요!',
           headerRight: () => (
             <Button
               onPress={() => {
-                console.log('완료 버튼이 눌렸습니다!');
+                handleAddToDo();
               }}
               title="완료"
             />
           ),
-        }}
+        })}
       />
     </Stack.Navigator>
   );
