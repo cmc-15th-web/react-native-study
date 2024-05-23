@@ -24,7 +24,6 @@ export const Setting: React.FC = () => {
     <View style={styles.container}>
       <Text style={styles.text}>색상을 선택해주세요.</Text>
       <View style={styles.colorContainer}>{renderThemeColors()}</View>
-      <Text>{themeColor}</Text>
     </View>
   );
 };

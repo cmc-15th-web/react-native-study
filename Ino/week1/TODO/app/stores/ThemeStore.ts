@@ -7,7 +7,7 @@ type ThemeStore = {
 };
 
 export const useThemeStore = create<ThemeStore>(set => ({
-  themeColor: '', // 초기에 빈 문자열로 설정
+  themeColor: '#FF8F50', // 초기에 빈 문자열로 설정
 
   // 테마 색상을 로드하고 설정하는 액션
   loadAndSetThemeColor: async () => {
