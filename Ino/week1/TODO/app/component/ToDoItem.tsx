@@ -34,15 +34,13 @@ const ToDoItem: React.FC<ToDoItemProps> = ({id, title, status}) => {
           <CircleSvg width={30} height={30} />
         )}
 
-        <Text style={[styles.title, status ? styles.completed : null]}>
-          {title}
-        </Text>
+        <Text style={styles.title}>{title}</Text>
 
         <TouchableOpacity onPress={handleRemoveToDo}>
           <TrashSvg
             width={30}
             height={30}
-            style={[status ? {color: 'FFFFFF'} : null]}
+            style={{color: status ? '#FFFFFF' : '#FF8F50'}}
           />
         </TouchableOpacity>
       </TouchableOpacity>
@@ -57,10 +55,11 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     marginHorizontal: 25,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: 'white',
     display: 'flex',
     flexDirection: 'row',
     borderRadius: 20,
+    backgroundColor: 'white',
   },
   title: {
     fontSize: 18,
@@ -68,12 +67,8 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   completedContainer: {
-    backgroundColor: 'orange',
+    backgroundColor: '#FF8F50',
     color: 'white',
-  },
-  completed: {
-    textDecorationLine: 'line-through',
-    color: '#888',
   },
 });
 
