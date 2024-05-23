@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {useThemeColor} from '../../store/color';
+import {useThemeColor} from '@/store/color';
 
 const ThemeColorText = ({text}: {text: string}) => {
   const {theme} = useThemeColor();

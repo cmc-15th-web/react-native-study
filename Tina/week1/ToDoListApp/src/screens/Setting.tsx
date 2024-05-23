@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import THEME_COLOR, {ThemeColor} from '../styles/theme-color';
-import {useThemeColor} from '../store/color';
-import ThemeColorText from '../components/common/ContentText';
+import THEME_COLOR, {ThemeColor} from '@/styles/theme-color';
+import {useThemeColor} from '@/store/color';
+import ThemeColorText from '@/components/common/ContentText';
 
 const themeColors: ThemeColor[] = ['orange', 'green', 'blue', 'purple', 'pink'];
 

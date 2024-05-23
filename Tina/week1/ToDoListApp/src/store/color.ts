@@ -1,5 +1,5 @@
 import {create} from 'zustand';
-import THEME_COLOR, {ThemeColor} from '../styles/theme-color';
+import THEME_COLOR, {ThemeColor} from '@/styles/theme-color';
 
 interface Theme {
   theme: string;

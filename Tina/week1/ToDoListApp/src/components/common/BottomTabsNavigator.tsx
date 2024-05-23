@@ -1,14 +1,14 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Home from '../../screens/Home';
-import Setting from '../../screens/Setting';
-import HomeIcon from '../../assets/icons/HomeIcon';
-import AddIcon from '../../assets/icons/AddIcon';
-import SettingIcon from '../../assets/icons/ThemeIcon';
-import THEME_COLOR from '../../styles/theme-color';
+import Home from '@/screens/Home';
+import Setting from '@/screens/Setting';
+import HomeIcon from '@icons/HomeIcon';
+import AddIcon from '@icons/AddIcon';
+import SettingIcon from '@icons/ThemeIcon';
+import THEME_COLOR from '@/styles/theme-color';
 import styled from 'styled-components/native';
-import {BottomTabsProps} from '../../types/navigator';
-import {useThemeColor} from '../../store/color';
+import {BottomTabsProps} from '@/types/navigator';
+import {useThemeColor} from '@/store/color';
 
 const Tab = createBottomTabNavigator();
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import THEME_COLOR from '../styles/theme-color';
-import Task from '../components/home/Task';
-import {useTask} from '../store/task';
-import ThemeColorText from '../components/common/ContentText';
+import THEME_COLOR from '@/styles/theme-color';
+import Task from '@/components/home/Task';
+import {useTask} from '@/store/task';
+import ThemeColorText from '@/components/common/ContentText';
 
 const Home = () => {
   const {taskList} = useTask();

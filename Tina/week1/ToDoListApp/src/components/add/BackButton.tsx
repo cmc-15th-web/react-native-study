@@ -1,6 +1,6 @@
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
-import BackIcon from '../../assets/icons/BackIcon';
+import BackIcon from '@icons/BackIcon';
 import {useNavigation} from '@react-navigation/native';
 
 const BackButton = () => {

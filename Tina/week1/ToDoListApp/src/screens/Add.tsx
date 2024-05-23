@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import THEME_COLOR from '../styles/theme-color';
-import {useTask} from '../store/task';
+import THEME_COLOR from '@/styles/theme-color';
+import {useTask} from '@/store/task';
 
 const Add = () => {
   const {task, setTask} = useTask();

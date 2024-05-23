@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import CompletedIcon from '../../assets/icons/completed.svg';
-import UncompletedIcon from '../../assets/icons/UncompletedIcon';
-import DeleteIcon from '../../assets/icons/DeleteIcon.tsx';
+import CompletedIcon from '@icons/completed.svg';
+import UncompletedIcon from '@icons/UncompletedIcon';
+import DeleteIcon from '@icons/DeleteIcon.tsx';
 import {Alert, TouchableOpacity} from 'react-native';
-import THEME_COLOR from '../../styles/theme-color.ts';
-import {useThemeColor} from '../../store/color.ts';
-import {useTask} from '../../store/task.ts';
+import THEME_COLOR from '@/styles/theme-color.ts';
+import {useThemeColor} from '@/store/color.ts';
+import {useTask} from '@/store/task.ts';
 
 interface TaskProps {
   isCompleted: boolean;

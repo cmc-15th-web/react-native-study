@@ -1,8 +1,8 @@
 import React from 'react';
 import {Alert, TouchableOpacity} from 'react-native';
-import {useTask} from '../../store/task';
+import {useTask} from '@/store/task';
 import {useNavigation} from '@react-navigation/native';
-import ThemeColorText from '../common/ContentText';
+import ThemeColorText from '@/components/common/ContentText';
 
 const CompleteButton = () => {
   const {task, setTask, taskList, setTaskList} = useTask();
