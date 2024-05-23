@@ -2,23 +2,18 @@ import React from 'react';
 import styled from 'styled-components/native';
 import color from '../styles/color';
 
-const Home = () => {
+const Setting = () => {
   return (
     <Wrapper>
       <Header>
-        <Text>Today</Text>
+        <Text>설정</Text>
       </Header>
-      <TodoList />
     </Wrapper>
   );
 };
+export default Setting;
 
-export default Home;
-
-const Wrapper = styled.SafeAreaView`
-  flex: 1;
-  background-color: ${color.gray};
-`;
+const Wrapper = styled.SafeAreaView``;
 
 const Header = styled.View`
   width: 100%;
@@ -32,5 +27,3 @@ const Text = styled.Text`
   color: ${color.orange};
   font-size: 18px;
 `;
-
-const TodoList = styled.ScrollView``;
