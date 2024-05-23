@@ -5,8 +5,9 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
-import {ListScreen, AddScreen} from '../screen/ToDoList';
-import {Setting} from '../screen/Setting';
+import {ListScreen} from '../screen/ToDoList';
+import {AddScreen} from '../screen/AddScreen';
+import {Setting} from '../screen/SettingScreen';
 
 import HomeSvg from '../assets/img/Home.svg';
 import THemeSvg from '../assets/img/Theme.svg';
