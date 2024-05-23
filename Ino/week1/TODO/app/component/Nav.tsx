@@ -12,7 +12,7 @@ import {Setting} from '../screen/SettingScreen';
 import HomeSvg from '../assets/img/Home.svg';
 import THemeSvg from '../assets/img/Theme.svg';
 import AddButton from './AddButton';
-import {Button, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {Button, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useToDoStore} from '../stores/ToDoStore';
 import {useThemeStore} from '../stores/ThemeStore';
 
@@ -25,6 +25,7 @@ type TabParamList = {
 
 const StackNav: React.FC = ({}) => {
   const {setSave} = useToDoStore(); // Zustand를 사용하여 ToDo를 추가하는 함수 가져오기
+  const {themeColor} = useThemeStore();
 
   // 새로운 ToDo를 추가하는 함수
   const handleAddToDo = () => {
@@ -45,9 +46,13 @@ const StackNav: React.FC = ({}) => {
           title: '할일을 추가해주세요!',
           headerRight: () => (
             <TouchableOpacity onPress={() => handleAddToDo()}>
-              <Text>완료</Text>
+              <Text style={{color: themeColor}}>완료</Text>
             </TouchableOpacity>
           ),
+          headerStyle: {
+            backgroundColor: '#f5f5f5',
+          },
+          headerTintColor: themeColor,
         })}
       />
     </Stack.Navigator>
@@ -67,6 +72,10 @@ const TabNav: React.FC = () => {
           tabBarIcon: ({focused}) => (
             <HomeSvg style={{color: focused ? themeColor : '#888888'}} />
           ),
+          headerStyle: {
+            backgroundColor: '#f5f5f5',
+          },
+          headerTintColor: themeColor,
         }}
       />
       <Tab.Screen
@@ -96,6 +105,10 @@ const TabNav: React.FC = () => {
           tabBarIcon: ({focused}) => (
             <THemeSvg style={{color: focused ? themeColor : '#888888'}} />
           ),
+          headerStyle: {
+            backgroundColor: '#f5f5f5',
+          },
+          headerTintColor: themeColor,
         }}
       />
     </Tab.Navigator>
