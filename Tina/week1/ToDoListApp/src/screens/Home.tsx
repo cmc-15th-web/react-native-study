@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import color from '../styles/color';
+import Task from '../components/home/Task';
 
 const Home = () => {
   return (
@@ -8,7 +9,10 @@ const Home = () => {
       <Header>
         <Text>Today</Text>
       </Header>
-      <TodoList />
+      <TodoList>
+        <Task id={0} task="할일" isCompleted={true} />
+        <Task id={1} task="할일" isCompleted={false} />
+      </TodoList>
     </Wrapper>
   );
 };
@@ -33,4 +37,9 @@ const Text = styled.Text`
   font-size: 18px;
 `;
 
-const TodoList = styled.ScrollView``;
+const TodoList = styled.View`
+  flex: 1;
+  align-items: center;
+  width: 100%;
+  padding: 25px 32px;
+`;
