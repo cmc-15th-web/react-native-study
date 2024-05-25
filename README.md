@@ -70,23 +70,23 @@ ex) [1주차] 레니 과제 제출합니다
   ├─ Tina
   ├─ Low
   ├─ Tease
-  ├─ KimYounghoon
+  ├─ Younghoon
   ├─ Junyoung
   └─ README.md
 ```
 
 ## 🍉 출석표
 
-| 주차  | 날짜     | Taeryong | Ino | Justin | Tina | Low | Tease | KimYounghoon | Junyoung |
-| ----- | -------- | -------- | --- | ------ | ---- | --- | ----- | ------------ | -------- |
-| Week1 | 24.05.25 |          |     |        |      |     |       |              |          |
-| Week2 | 24.06.15 |          |     |        |      |     |       |              |          |
-| Week3 | 24.06.22 |          |     |        |      |     |       |              |          |
+| 주차  | 날짜     | Taeryong | Ino | Justin | Tina | Low | Tease | Younghoon | Junyoung |
+| ----- | -------- | -------- | --- | ------ | ---- | --- | ----- | --------- | -------- |
+| Week1 | 24.05.25 | ✅       | ✅  | ✅     | ✅   | ✅  | ✅    | ✅        | ✅       |
+| Week2 | 24.06.15 |          |     |        |      |     |       |           |          |
+| Week3 | 24.06.22 |          |     |        |      |     |       |           |          |
 
 ## 🍉 코드리뷰 파트너
 
-| 주차  | TeamA          | TeamB         | TeamC       | TeamD                   |
-| ----- | -------------- | ------------- | ----------- | ----------------------- |
-| Week1 | Taeryong & Ino | Justin & Tina | Low & Tease | KimYounghoon & Junyoung |
-| Week2 |                |               |             |                         |
-| Week3 |                |               |             |                         |
+| 주차  | TeamA          | TeamB         | TeamC       | TeamD                |
+| ----- | -------------- | ------------- | ----------- | -------------------- |
+| Week1 | Taeryong & Ino | Justin & Tina | Low & Tease | Younghoon & Junyoung |
+| Week2 |                |               |             |                      |
+| Week3 |                |               |             |                      |
