@@ -7,9 +7,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {useState} from 'react';
-import Header from '../../components/Header.tsx';
-import {useStore} from '../../store.ts';
-import HomeModal from '../../components/HomeModal.tsx';
+import Header from '../../components/Header.js';
+import {useStore} from '../../store.js';
+import HomeModal from '../../components/HomeModal.js';
 
 interface TodoItem {
   id: number;

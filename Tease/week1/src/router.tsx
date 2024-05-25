@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {TouchableOpacity, StyleSheet, Dimensions} from 'react-native';
-import Home from './pages/Home/Home.tsx';
-import Add from './pages/Add/Add.tsx';
-import Setting from './pages/Setting/Setting.tsx';
+import Home from './pages/Home/Home.js';
+import Add from './pages/Add/Add.js';
+import Setting from './pages/Setting/Setting.js';
 
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import {useStore} from './store.ts';
-import {colors} from './styles/commonStyle.ts';
+import {useStore} from './store.js';
+import {colors} from './styles/commonStyle.js';
 
 type RootStackParamList = {
   MainTab: undefined;

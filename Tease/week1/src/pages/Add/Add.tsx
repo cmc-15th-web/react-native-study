@@ -7,8 +7,8 @@ import {
   TextInput,
 } from 'react-native';
 import React, {useState, useRef} from 'react';
-import {useStore} from '../../store.ts';
-import AddModal from '../../components/AddModal.tsx';
+import {useStore} from '../../store.js';
+import AddModal from '../../components/AddModal.js';
 import {useNavigation} from '@react-navigation/native';
 
 interface TodoItem {
