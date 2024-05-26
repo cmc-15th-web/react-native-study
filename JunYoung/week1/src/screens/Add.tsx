@@ -16,6 +16,13 @@ interface AddProps {
 const Add: React.FC<AddProps> = ({navigation}) => {
   const [text, setText] = useState('');
 
+  // navigation.setOptions를 통해 네비게이션 옵션을 설정
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => headerRightBtn({handleComplete}),
+    });
+  }, [navigation, text]);
+
   const handleComplete = () => {
     if (text.trim()) {
       navigation.navigate('홈', {
@@ -26,12 +33,6 @@ const Add: React.FC<AddProps> = ({navigation}) => {
       });
     }
   };
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => headerRightBtn({handleComplete}),
-    });
-  }, [navigation, text]);
 
   return (
     <View style={styles.container}>

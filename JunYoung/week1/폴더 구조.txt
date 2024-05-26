@@ -1,0 +1,28 @@
+├── App.tsx
+├── assets -> 폰트, 아이콘 저장
+│   ├── fonts
+│   └── icons.tsx
+├── components
+│   ├── Add
+│   │   ├── headerLeftBtn.tsx -> 할 일 화면의 헤더 왼쪽 부분
+│   │   └── headerRightBtn.tsx -> 할 일 화면의 헤더 오른쪽 부분
+│   ├── BottomTabNavi.tsx
+│   ├── Header.tsx -> 사용 x
+│   └── types.ts -> todo 타입 지정
+├── context
+│   ├── ThemeContext.tsx -> 테마 Context 
+│   └── TodoContext.tsx -> todo Context
+├── iconss
+│   ├── Add.svg
+│   ├── ArrowBack.svg
+│   ├── Check.svg
+│   ├── HomeBtn.svg
+│   ├── Theme.svg
+│   └── Trash.svg
+├── screens -> 3개의 화면 (피그마에 있는)
+│   ├── Add.tsx
+│   ├── Home.tsx
+│   └── Theme.tsx
+└── test.txt
+
+8 directories, 28 files

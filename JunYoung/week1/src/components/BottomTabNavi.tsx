@@ -5,7 +5,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {AddIcon, HomeBtn, ThemeBtn} from '../assets/icons';
 import Home from '../screens/Home';
 import Theme from '../screens/Theme';
-import {useTheme} from '../context/ThemeContext';
+import {useTheme} from '../hooks/useTheme';
 
 const Tab = createBottomTabNavigator();
 
@@ -13,43 +13,44 @@ const BottomTabNavi = ({navigation}: any) => {
   const {themeColor} = useTheme();
 
   return (
-    <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarHideOnKeyboard: true,
-        tabBarShowLabel: false,
-        tabBarStyle: {backgroundColor: '#fff'},
-        tabBarActiveTintColor: themeColor,
-        tabBarInactiveTintColor: '#888888',
-        tabBarIcon: ({color}) => {
-          // 아이콘과 텍스트 색상 변경 설정
-          let icon;
+    <>
+      <Tab.Navigator
+        screenOptions={({route}) => ({
+          tabBarHideOnKeyboard: true,
+          tabBarShowLabel: false,
+          tabBarStyle: {backgroundColor: '#fff'},
+          tabBarActiveTintColor: themeColor,
+          tabBarInactiveTintColor: '#888888',
+          tabBarIcon: ({color}) => {
+            // 아이콘과 텍스트 색상 변경 설정
+            let icon;
 
-          if (route.name === '홈') {
-            icon = <HomeBtn width={28} height={28} fill={color} />;
-          } else if (route.name === '설정') {
-            icon = <ThemeBtn width={28} height={28} fill={color} />;
-          }
+            if (route.name === '홈') {
+              icon = <HomeBtn width={28} height={28} fill={color} />;
+            } else if (route.name === '설정') {
+              icon = <ThemeBtn width={28} height={28} fill={color} />;
+            }
 
-          return (
-            <View style={styles.container}>
-              {icon}
-              <Text style={[styles.font, {color}]}>{route.name}</Text>
-            </View>
-          );
-        },
-      })}>
-      <Tab.Screen
-        name="홈"
-        component={Home}
-        options={{
-          headerStyle: [styles.header],
-          headerTitleStyle: {color: themeColor},
-          // tabBarActiveTintColor: themeColor,
-          // tabBarInactiveTintColor: '#888888',
-          title: 'Today',
-        }}
-      />
-      <Tab.Screen
+            return (
+              <View style={styles.container}>
+                {icon}
+                <Text style={[styles.font, {color}]}>{route.name}</Text>
+              </View>
+            );
+          },
+        })}>
+        <Tab.Screen
+          name="홈"
+          component={Home}
+          options={{
+            headerStyle: [styles.header],
+            headerTitleStyle: {color: themeColor},
+            // tabBarActiveTintColor: themeColor,
+            // tabBarInactiveTintColor: '#888888',
+            title: 'Today',
+          }}
+        />
+        {/* <Tab.Screen
         name="AddScreen"
         component={View}
         options={{
@@ -61,16 +62,28 @@ const BottomTabNavi = ({navigation}: any) => {
             </TouchableOpacity>
           ),
         }}
-      />
-      <Tab.Screen
-        name="설정"
-        component={Theme}
-        options={{
-          headerStyle: [styles.header],
-          headerTitleStyle: {color: themeColor},
+        listeners={{
+          tabPress: e => {
+            e.preventDefault();
+            navigation.navigate('Add');
+          },
         }}
-      />
-    </Tab.Navigator>
+      /> */}
+        <Tab.Screen
+          name="설정"
+          component={Theme}
+          options={{
+            headerStyle: [styles.header],
+            headerTitleStyle: {color: themeColor},
+          }}
+        />
+      </Tab.Navigator>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Add')}
+        style={styles.addBtn}>
+        <AddIcon width={50} height={50} fill={themeColor} />
+      </TouchableOpacity>
+    </>
   );
 };
 
@@ -91,6 +104,9 @@ const styles = StyleSheet.create({
   addBtn: {
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'absolute',
+    bottom: 0,
+    alignSelf: 'center',
   },
   tabBar: {
     height: 60,
