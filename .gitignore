@@ -1,3 +1,4 @@
 __tests__
 .bundle
 .vscode
+.DS_Store
