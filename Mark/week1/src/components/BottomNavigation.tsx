@@ -1,21 +1,24 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 import Home from '../screens/Home';
 import Setting from '../screens/Setting';
 import HomeSvg from '../assets/icon_home.svg';
 import SettingSvg from '../assets/icon_setting.svg';
 import BtnAddSvg from '../assets/btn_add.svg';
 import { TouchableOpacity } from 'react-native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AddToDo from '../screens/AddTodo';
 
-const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator<RootTabParamList>();
 
 const BottomNavigation = () => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  const handlePress = () => {
+    navigation.navigate('AddToDo');
+  }
+
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name='home' component={Home} options={{
+      <Tab.Screen name='Home' component={Home} options={{
         title: '홈',
         tabBarLabel: '홈',
         tabBarIcon: ({focused}) => (
@@ -23,11 +26,16 @@ const BottomNavigation = () => {
         ),
       }}/>
 
-      <Tab.Screen name='AddToDo' component={AddScreenStack} options={{
-        tabBarButton: (props) => <BtnAddToDo {...props}/> 
+      <Tab.Screen name='AddToDo' component={Home} options={{
+        tabBarLabel: () => null,
+        tabBarIcon: () => (
+          <TouchableOpacity onPress={handlePress}>
+            <BtnAddSvg />
+          </TouchableOpacity>
+        )
       }}/>
       
-      <Tab.Screen name='setting' component={Setting} options={{
+      <Tab.Screen name='Setting' component={Setting} options={{
         title: '설정',
         tabBarLabel: '설정',
         tabBarIcon: ({focused}) => (
@@ -35,32 +43,6 @@ const BottomNavigation = () => {
         ),
       }}/>
     </Tab.Navigator>
-  )
-}
-
-const AddScreenStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name='AddToDo'
-        component={AddToDo}
-        options={{ headerShown: false }}
-      />
-    </Stack.Navigator>
-  );
-};
-
-const BtnAddToDo = () => {
-  const navigation = useNavigation();
-
-  const handlePress = () => {
-    // navigation.navigate();
-  }
-
-  return (
-    <TouchableOpacity onPress={handlePress}>
-      <BtnAddSvg />
-    </TouchableOpacity>
   )
 }
 
