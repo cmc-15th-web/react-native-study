@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@react-navigation/bottom-tabs": "^6.5.20",
+    "@react-navigation/native-stack": "^6.9.26",
+    "@types/navermaps": "^3.7.5",
+    "react-native-webview": "^13.10.2"
+  }
+}
