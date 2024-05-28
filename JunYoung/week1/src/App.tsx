@@ -10,7 +10,8 @@ import Add from './screens/Add';
 // 버튼 import
 import {headerLeftBtn} from './components/Add/headerLeftBtn';
 import {headerRightBtn} from './components/Add/headerRightBtn';
-import {ThemeProvider, useTheme} from './context/ThemeContext';
+import {ThemeProvider} from './context/ThemeContext';
+import {useTheme} from './hooks/useTheme';
 
 const Stack = createNativeStackNavigator();
 

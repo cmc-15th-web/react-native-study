@@ -1,6 +1,6 @@
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
-import {useTheme} from '../../context/ThemeContext';
+import {useTheme} from '../../hooks/useTheme';
 
 // 버튼 import
 import {ArrowBackBtn} from '../../assets/icons';

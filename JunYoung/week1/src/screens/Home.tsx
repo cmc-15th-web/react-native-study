@@ -4,7 +4,7 @@ import {RouteProp} from '@react-navigation/native';
 import {RootStackParamList} from '../components/types';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {TrashBtn, CheckIcon} from '../assets/icons';
-import {useTheme} from '../context/ThemeContext';
+import {useTheme} from '../hooks/useTheme';
 
 // HomeScreenRouteProp 타입을 정의하여 RouteProp에서 'Home' 화면의 매개변수 타입을 가져온다.
 type HomeScreenRouteProp = RouteProp<RootStackParamList, 'Home'>;

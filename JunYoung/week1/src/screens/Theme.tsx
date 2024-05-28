@@ -1,7 +1,8 @@
 import React from 'react';
 import {StyleSheet, View, TouchableOpacity, Text} from 'react-native';
-import {useTheme} from '../context/ThemeContext';
+import {useTheme} from '../hooks/useTheme';
 
+// 테마색 토큰화
 const themeColors = ['#FF8F50', '#57BB73', '#5061FF', '#C750FF', '#FF7474'];
 
 const ThemeSelector = () => {
