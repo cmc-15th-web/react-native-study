@@ -20,11 +20,21 @@ const BottomNavigation = () => {
   }
 
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false, tabBarItemStyle: styles.tab }}>
+    <Tab.Navigator screenOptions={{ tabBarItemStyle: styles.tab }}>
       <Tab.Screen name='Home' component={Home} options={{
-        title: '홈',
+        title: 'Today',
         tabBarLabel: '홈',
         tabBarActiveTintColor: color,
+        headerStyle: {
+          backgroundColor: 'rgb(242,242,242)',
+        },
+        headerShadowVisible: false,
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          color: color,
+          fontSize: 18,
+          fontWeight: 500,
+        },
         tabBarIcon: ({focused}) => (
           <HomeSvg color={focused ? color: palette.darkGray}/>
         ),
@@ -43,6 +53,16 @@ const BottomNavigation = () => {
         title: '설정',
         tabBarLabel: '설정',
         tabBarActiveTintColor: color,
+        headerStyle: {
+          backgroundColor: 'rgb(242,242,242)',
+        },
+        headerShadowVisible: false,
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          color: color,
+          fontSize: 18,
+          fontWeight: 500,
+        },
         tabBarIcon: ({focused}) => (
           <SettingSvg color={focused ? color: palette.darkGray}/>
         ),
@@ -59,7 +79,7 @@ const styles = StyleSheet.create({
     width: 38,
     height: 38,
     alignSelf: 'center'
-  }
+  },
 })
 
 export default BottomNavigation;
