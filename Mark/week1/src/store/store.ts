@@ -3,7 +3,7 @@ import palette from '../constants/palette';
 
 interface Store {
   color: string;
-  todos: [];
+  todos: ToDos[];
   setColor: (color: string) => void;
   setToDos: (todos: []) => void;
 }
