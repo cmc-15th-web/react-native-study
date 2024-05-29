@@ -44,7 +44,7 @@ const BottomNavigation = () => {
         tabBarLabel: () => null,
         tabBarButton: () => (
           <TouchableOpacity style={styles.addBtn} onPress={handlePress}>
-            <BtnAddSvg />
+            <BtnAddSvg color={color}/>
           </TouchableOpacity>
         )
       }}/>

@@ -1,4 +1,4 @@
-const palette = {
+const palette: Palette = {
   orange: '#FF8F50',
   green: '#57BB73',
   blue: '#5061FF',
