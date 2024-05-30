@@ -1,10 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import ArrowBackSvg from '../assets/icon_arrow_back.svg';
 import { useStore } from '../store/store';
 import palette from '../constants/palette';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddToDo = () => {
   const [text, setText] = useState<string>('');
@@ -27,6 +26,11 @@ const Header = ({text}: Props) => {
   const addToDo = useStore(state => state.addToDo);
   
   const handlePress = async () => {
+    if (text.length < 1) {
+      Alert.alert('', '1글자 이상 작성해주세요!');
+      return;
+    }
+    Alert.alert('', '할일이 추가되었습니다!');
     addToDo({id: Date.now(), text: text});
     navigation.goBack();
   };

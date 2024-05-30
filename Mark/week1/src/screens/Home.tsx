@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useStore } from "../store/store";
 import palette from "../constants/palette";
 import CheckSvg from '../assets/icon_check.svg';
@@ -31,6 +31,13 @@ const ToDo = ({id, text}: ToDo) => {
   const removeToDo = useStore(state => state.removeToDo);
   const [checked, setChecked] = useState(false);
 
+  const handleRemove = () => {
+    Alert.alert('', '정말로 삭제하시겠습니까?', [
+      {text: '취소', onPress: () => {}, style: 'cancel'},
+      {text: '삭제', onPress: () => removeToDo(id), style: 'destructive'},
+    ]);
+  };
+
   return (
     <TouchableOpacity
       onPress={() => setChecked(!checked)}
@@ -47,7 +54,7 @@ const ToDo = ({id, text}: ToDo) => {
         ]}>
         {text}
       </Text>
-      <TouchableOpacity onPress={() => removeToDo(id)}>
+      <TouchableOpacity onPress={handleRemove}>
         <TrashSvg color={checked ? palette.white : color}/>
       </TouchableOpacity>
     </TouchableOpacity>
