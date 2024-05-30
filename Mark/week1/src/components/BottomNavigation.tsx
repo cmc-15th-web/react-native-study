@@ -4,7 +4,7 @@ import Home from '../screens/Home';
 import Setting from '../screens/Setting';
 import HomeSvg from '../assets/icon_home.svg';
 import SettingSvg from '../assets/icon_setting.svg';
-import BtnAddSvg from '../assets/btn_add.svg';
+import BtnAddSvg from '../assets/icon_add.svg';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { useStore } from '../store/store';
 import palette from '../constants/palette';
