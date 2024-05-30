@@ -8,6 +8,7 @@ interface Store {
   setColor: (color: string) => void;
   setToDos: (todos: ToDo[]) => void;
   addToDo: (todos: ToDo) => void;
+  removeToDo: (id: number) => void;
 }
 export const useStore = create<Store>((set)=>({
   color: palette.orange,
@@ -19,4 +20,9 @@ export const useStore = create<Store>((set)=>({
     AsyncStorage.setItem('todos', JSON.stringify(updated));
     return {todos: updated};
   }),
+  removeToDo: (id: number) => set((state) => {
+    const filtered = state.todos.filter(todo => todo.id !== id);
+    AsyncStorage.setItem('todos', JSON.stringify(filtered));
+    return {todos: filtered};
+  })
 }))

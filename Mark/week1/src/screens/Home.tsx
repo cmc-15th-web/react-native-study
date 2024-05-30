@@ -4,6 +4,7 @@ import { useStore } from "../store/store";
 import palette from "../constants/palette";
 import CheckSvg from '../assets/icon_check.svg';
 import CircleSvg from '../assets/icon_circle.svg';
+import TrashSvg from '../assets/icon_trash.svg';
 
 const Home = () => {
   const todos = useStore<ToDo[]>(state => state.todos);
@@ -27,6 +28,7 @@ const Home = () => {
 
 const ToDo = ({id, text}: ToDo) => {
   const color = useStore(state => state.color);
+  const removeToDo = useStore(state => state.removeToDo);
   const [checked, setChecked] = useState(false);
 
   return (
@@ -45,7 +47,9 @@ const ToDo = ({id, text}: ToDo) => {
         ]}>
         {text}
       </Text>
-      <TouchableOpacity />
+      <TouchableOpacity onPress={() => removeToDo(id)}>
+        <TrashSvg color={checked ? palette.white : color}/>
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 }
@@ -58,6 +62,7 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: 16,
     paddingHorizontal: 20,
@@ -66,9 +71,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   toDoText: {
+    flex: 1,
     fontSize: 18,
+  },
+  trash: {
+    
   }
-
 })
 
 export default Home;
