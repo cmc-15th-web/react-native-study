@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
-  const {setColor} = useStore();
+  const {setColor, setToDos} = useStore();
 
   useEffect(() => {
     const getColorFromStorage = async () => {
@@ -23,7 +23,19 @@ function App(): React.JSX.Element {
       }
     };
 
+    const getTodosFromStorage = async () => {
+      try {
+        const storedTodos = await AsyncStorage.getItem('todos');
+        if (storedTodos) {
+          setToDos(JSON.parse(storedTodos));
+        }
+      } catch (error) {
+        console.error('Error getting todos from storage:', error);
+      }
+    };
+
     getColorFromStorage();
+    getTodosFromStorage();
   }, [])
 
   return (

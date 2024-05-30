@@ -1,29 +1,31 @@
-import { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useState } from "react";
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useStore } from "../store/store";
 import palette from "../constants/palette";
 import CheckSvg from '../assets/icon_check.svg';
 import CircleSvg from '../assets/icon_circle.svg';
 
 const Home = () => {
-  const todos = useStore<ToDos[]>(state => state.todos);
+  const todos = useStore<ToDo[]>(state => state.todos);
 
-  useEffect(() => {
-    
-  }, [])
-
-  return (
-    <View style={styles.container}>
-      {todos.length > 0 ? (
-        todos.map((todo) => <ToDo key={todo.id} id={todo.id} text={todo.text}/>)
-      ) : (
-        <Text style={{textAlign: 'center'}}>할일이 없습니다!</Text>
-      )}
-    </View>
+  const renderItem = ({item}: {item: ToDo}) => (
+    <ToDo id={item.id} text={item.text} />
   );
-}
 
-const ToDo = ({id, text}: ToDos) => {
+  return todos.length > 0 ? (
+    <FlatList
+      data={todos}
+      renderItem={renderItem}
+      keyExtractor={item => item.id.toString()}
+      style={styles.container}
+      showsVerticalScrollIndicator={false}
+    />
+  ) : (
+    <Text style={{textAlign: 'center'}}>할일이 없습니다!</Text>
+  );
+};
+
+const ToDo = ({id, text}: ToDo) => {
   const color = useStore(state => state.color);
   const [checked, setChecked] = useState(false);
 
@@ -50,8 +52,9 @@ const ToDo = ({id, text}: ToDos) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 25,
     paddingHorizontal: 30,
+    marginTop: 25,
+    marginBottom: 50,
   },
   wrapper: {
     flexDirection: 'row',

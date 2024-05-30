@@ -1,5 +1,5 @@
-type ToDos = {
-  id: string;
+type ToDo = {
+  id: number;
   text: string;
 }
 
