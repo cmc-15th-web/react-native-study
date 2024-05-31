@@ -1,9 +1,13 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import NaverMap from "./components/NaverMap";
 
 function App() {
-  return <div>asd</div>;
+  return (
+    <>
+      <NaverMap />
+    </>
+  );
 }
 
 export default App;
