@@ -17,7 +17,14 @@ const NaverMap: React.FC = () => {
     }
   }, []);
 
-  return <div id="map" style={{ width: "100%", height: "400px" }} />;
+  return (
+    <div
+      id="map"
+      style={{ width: "100%", height: "100vh", backgroundColor: "beige" }}
+    >
+      <h1>네이버 지도입니다.</h1>
+    </div>
+  );
 };
 
 export default NaverMap;

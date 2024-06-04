@@ -1,12 +1,15 @@
 import React from "react";
 import "./App.css";
-import NaverMap from "./components/NaverMap";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import NaverMap from "./screens/NaverMap";
 
 function App() {
   return (
-    <>
-      <NaverMap />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/naverMap" element={<NaverMap />}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
