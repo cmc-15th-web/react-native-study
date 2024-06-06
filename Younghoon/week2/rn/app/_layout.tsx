@@ -1,11 +1,13 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { WebviewWrapper } from "components/webview-wrapper";
+import { WebviewTest } from "components/webivew-test";
 
 const App = () => {
   return (
-    <View>
-      <Text>App</Text>
-    </View>
+    <WebviewWrapper>
+      <WebviewTest />
+    </WebviewWrapper>
   );
 };
 
