@@ -1,10 +1,12 @@
-import { useNetwork } from "hooks/use-network";
+import { useLocation } from "@/hooks/use-location";
+import { useNetwork } from "@/hooks/use-network";
 import { useRef } from "react";
-import { Alert, Platform } from "react-native";
+import { Platform } from "react-native";
 import { WebView, WebViewMessageEvent } from "react-native-webview";
 
 export function WebviewTest() {
   const { localIP } = useNetwork();
+  const { location } = useLocation();
 
   const webViewRef = useRef<WebView>(null);
 
@@ -16,8 +18,16 @@ export function WebviewTest() {
   };
   injectCustomJavascript();
 
-  const getMessage = (event: WebViewMessageEvent) => {
-    Alert.alert(event.nativeEvent.data);
+  const onMessage = (event: WebViewMessageEvent) => {
+    const message = JSON.parse(event.nativeEvent.data);
+    if (message.type === "getLocation") {
+      if (location) {
+        const { latitude, longitude } = location.coords;
+        webViewRef.current?.postMessage(
+          JSON.stringify({ type: "location", latitude, longitude })
+        );
+      }
+    }
   };
 
   return (
@@ -31,7 +41,7 @@ export function WebviewTest() {
           javaScriptEnabled={true}
           userAgent={`webview-${Platform.OS === "ios" ? "ios" : "android"}`}
           ref={webViewRef}
-          onMessage={getMessage}
+          onMessage={onMessage}
         />
       ) : null}
     </>
