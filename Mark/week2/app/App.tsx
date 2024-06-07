@@ -1,14 +1,8 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  View,
-} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import StackNavigator from './src/components/StackNavigator';
 
-
 function App(): React.JSX.Element {
-
   return (
     <View style={styles.container}>
       <StackNavigator />
@@ -19,7 +13,7 @@ function App(): React.JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  }
-})
+  },
+});
 
 export default App;
