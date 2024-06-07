@@ -1,6 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export function KakaoMap() {
+  const [currentLocation, setCurrentLocation] = useState<{
+    latitude: number;
+    longitude: number;
+  } | null>(null);
+
   useEffect(() => {
     const script = document.createElement('script');
     script.defer = true;
@@ -9,29 +14,18 @@ export function KakaoMap() {
       window.kakao.maps.load(() => {
         const container = document.getElementById('map');
         const options = {
-          center: new window.kakao.maps.LatLng(33.450701, 126.570667),
+          center: new window.kakao.maps.LatLng(37.394726159, 127.111209047),
           level: 3,
         };
         const map = new window.kakao.maps.Map(container, options);
 
-        const displayCurrentLocation = (
-          latitude: number,
-          longitude: number,
-        ) => {
-          const locPosition = new window.kakao.maps.LatLng(latitude, longitude);
-          // const marker = new window.kakao.maps.Marker({
-          //   map: map,
-          //   position: locPosition,
-          // });
-          map.setCenter(locPosition);
-        };
-
-        window.addEventListener('message', (event) => {
-          const message = JSON.parse(event.data);
-          if (message.type === 'location') {
-            displayCurrentLocation(message.latitude, message.longitude);
-          }
-        });
+        if (currentLocation) {
+          const moveLatLon = new window.kakao.maps.LatLng(
+            currentLocation.latitude,
+            currentLocation.longitude,
+          );
+          map.setCenter(moveLatLon);
+        }
 
         if (window.ReactNativeWebView) {
           window.ReactNativeWebView.postMessage(
@@ -41,6 +35,18 @@ export function KakaoMap() {
       });
     };
     document.head.appendChild(script);
+  }, [currentLocation]);
+
+  useEffect(() => {
+    window.addEventListener('message', (event) => {
+      const message = JSON.parse(event.data);
+      if (message.type === 'location') {
+        setCurrentLocation({
+          latitude: message.latitude,
+          longitude: message.longitude,
+        });
+      }
+    });
   }, []);
 
   return <div id="map" style={{ width: '100%', height: '100vh' }} />;

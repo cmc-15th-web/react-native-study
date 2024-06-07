@@ -10,6 +10,8 @@ export function WebviewTest() {
 
   const webViewRef = useRef<WebView>(null);
 
+  const [reloading, setReloading] = useState<boolean>(false);
+
   useEffect(() => {
     if (webViewRef.current && location) {
       const { latitude, longitude } = location.coords;
@@ -26,11 +28,19 @@ export function WebviewTest() {
       const message = JSON.parse(event.nativeEvent.data);
 
       console.log(message);
+
+      if (message.type === "mapLoaded") {
+        setReloading(true);
+      }
       if (message.type === "getLocation") {
         if (location) {
           const { latitude, longitude } = location.coords;
           webViewRef.current?.postMessage(
-            JSON.stringify({ type: "location", latitude, longitude })
+            JSON.stringify({
+              type: "location",
+              latitude,
+              longitude,
+            })
           );
         }
       }
@@ -38,6 +48,8 @@ export function WebviewTest() {
       console.error("parse message error: ", error);
     }
   };
+
+  console.log(location);
 
   return (
     <>
