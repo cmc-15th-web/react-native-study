@@ -1,7 +1,7 @@
 import { useLocation } from "@/hooks/use-location";
 import { useNetwork } from "@/hooks/use-network";
-import { useRef, useEffect } from "react";
-import { Platform } from "react-native";
+import { useRef, useEffect, useState } from "react";
+import { Alert, Platform } from "react-native";
 import { WebView, WebViewMessageEvent } from "react-native-webview";
 
 export function WebviewTest() {
@@ -19,16 +19,13 @@ export function WebviewTest() {
     }
   }, [location]);
 
-  const injectCustomJavascript = () => {
-    webViewRef.current?.injectJavaScript(`
-      document.body.style.backgroundColor = 'black';
-      true;
-    `);
-  };
+  const injectCustomJavascript = () => {};
 
   const onMessage = (event: WebViewMessageEvent) => {
     try {
       const message = JSON.parse(event.nativeEvent.data);
+
+      console.log(message);
       if (message.type === "getLocation") {
         if (location) {
           const { latitude, longitude } = location.coords;
@@ -44,19 +41,17 @@ export function WebviewTest() {
 
   return (
     <>
-      {localIP ? (
-        <WebView
-          originWhitelist={["*"]}
-          source={{
-            uri: `http://${localIP}:5173`,
-          }}
-          javaScriptEnabled={true}
-          userAgent={`webview-${Platform.OS === "ios" ? "ios" : "android"}`}
-          ref={webViewRef}
-          onMessage={onMessage}
-          onLoadEnd={injectCustomJavascript}
-        />
-      ) : null}
+      <WebView
+        originWhitelist={["*"]}
+        source={{
+          uri: `http://${localIP}:5173`,
+        }}
+        javaScriptEnabled={true}
+        userAgent={`webview-${Platform.OS === "ios" ? "ios" : "android"}`}
+        ref={webViewRef}
+        onMessage={onMessage}
+        onLoadEnd={injectCustomJavascript}
+      />
     </>
   );
 }
