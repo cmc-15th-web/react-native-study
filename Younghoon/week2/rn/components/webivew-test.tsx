@@ -1,8 +1,11 @@
+import { useNetwork } from "hooks/use-network";
 import { useRef } from "react";
 import { Alert, Platform } from "react-native";
 import { WebView, WebViewMessageEvent } from "react-native-webview";
 
 export function WebviewTest() {
+  const { localIP } = useNetwork();
+
   const webViewRef = useRef<WebView>(null);
 
   const injectCustomJavascript = () => {
@@ -18,15 +21,19 @@ export function WebviewTest() {
   };
 
   return (
-    <WebView
-      originWhitelist={["*"]}
-      source={{
-        uri: "http://172.30.1.8:5173/",
-      }}
-      javaScriptEnabled={true}
-      userAgent={`webview-${Platform.OS === "ios" ? "ios" : "android"}`}
-      ref={webViewRef}
-      onMessage={getMessage}
-    />
+    <>
+      {localIP ? (
+        <WebView
+          originWhitelist={["*"]}
+          source={{
+            uri: `http://${localIP}:5173`,
+          }}
+          javaScriptEnabled={true}
+          userAgent={`webview-${Platform.OS === "ios" ? "ios" : "android"}`}
+          ref={webViewRef}
+          onMessage={getMessage}
+        />
+      ) : null}
+    </>
   );
 }
