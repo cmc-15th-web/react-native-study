@@ -3,7 +3,9 @@ import { useEffect } from 'react';
 export default function App() {
   useEffect(() => {
     if (window.ReactNativeWebView) {
-      window.ReactNativeWebView.postMessage('asdf');
+      window.ReactNativeWebView.postMessage(
+        JSON.stringify({ type: 'loadComplte' }),
+      );
     }
   }, []);
 

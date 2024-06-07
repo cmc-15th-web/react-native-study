@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import * as Location from "expo-location";
-import * as Permissions from "expo-permissions";
 import { Alert } from "react-native";
 
 export const useLocation = () => {
@@ -10,18 +9,18 @@ export const useLocation = () => {
 
   // 권한 받아오기
   useEffect(() => {
-    async () => {
-      const { status } = await Permissions.askAsync(
-        Permissions.LOCATION_FOREGROUND
-      );
+    const getLocationPermission = async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         Alert.alert("위치 권한이 거부되었습니다.");
         return;
       }
 
-      const location = await Location.getCurrentPositionAsync({});
+      let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
     };
+
+    getLocationPermission();
   }, []);
 
   return { location };

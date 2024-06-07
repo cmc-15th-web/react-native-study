@@ -1,6 +1,6 @@
 import { useLocation } from "@/hooks/use-location";
 import { useNetwork } from "@/hooks/use-network";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { Platform } from "react-native";
 import { WebView, WebViewMessageEvent } from "react-native-webview";
 
@@ -10,23 +10,35 @@ export function WebviewTest() {
 
   const webViewRef = useRef<WebView>(null);
 
+  useEffect(() => {
+    if (webViewRef.current && location) {
+      const { latitude, longitude } = location.coords;
+      webViewRef.current.postMessage(
+        JSON.stringify({ type: "location", latitude, longitude })
+      );
+    }
+  }, [location]);
+
   const injectCustomJavascript = () => {
     webViewRef.current?.injectJavaScript(`
       document.body.style.backgroundColor = 'black';
       true;
     `);
   };
-  injectCustomJavascript();
 
   const onMessage = (event: WebViewMessageEvent) => {
-    const message = JSON.parse(event.nativeEvent.data);
-    if (message.type === "getLocation") {
-      if (location) {
-        const { latitude, longitude } = location.coords;
-        webViewRef.current?.postMessage(
-          JSON.stringify({ type: "location", latitude, longitude })
-        );
+    try {
+      const message = JSON.parse(event.nativeEvent.data);
+      if (message.type === "getLocation") {
+        if (location) {
+          const { latitude, longitude } = location.coords;
+          webViewRef.current?.postMessage(
+            JSON.stringify({ type: "location", latitude, longitude })
+          );
+        }
       }
+    } catch (error) {
+      console.error("parse message error: ", error);
     }
   };
 
@@ -42,6 +54,7 @@ export function WebviewTest() {
           userAgent={`webview-${Platform.OS === "ios" ? "ios" : "android"}`}
           ref={webViewRef}
           onMessage={onMessage}
+          onLoadEnd={injectCustomJavascript}
         />
       ) : null}
     </>
