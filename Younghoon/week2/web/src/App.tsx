@@ -1,13 +1,5 @@
-import { useEffect } from 'react';
+import { KakaoMap } from './components/kakao-map';
 
 export default function App() {
-  useEffect(() => {
-    if (window.ReactNativeWebView) {
-      window.ReactNativeWebView.postMessage(
-        JSON.stringify({ type: 'loadComplte' }),
-      );
-    }
-  }, []);
-
-  return <div></div>;
+  return <KakaoMap />;
 }
