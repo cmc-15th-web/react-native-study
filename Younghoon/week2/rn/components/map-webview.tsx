@@ -1,22 +1,13 @@
 import { useLocation } from "@/hooks/use-location";
+import { onWebviewMessage } from "@/libs/utils";
 import { useRef } from "react";
 import { Platform } from "react-native";
-import { WebView, WebViewMessageEvent } from "react-native-webview";
+import { WebView } from "react-native-webview";
 
-export function WebviewTest() {
+export function MapWebview() {
   const { location } = useLocation();
 
   const webViewRef = useRef<WebView>(null);
-
-  const onMessage = (event: WebViewMessageEvent) => {
-    try {
-      const message = JSON.parse(event.nativeEvent.data);
-
-      console.log(message);
-    } catch (error) {
-      console.error("parse message error: ", error);
-    }
-  };
 
   return (
     <>
@@ -28,7 +19,7 @@ export function WebviewTest() {
         javaScriptEnabled={true}
         userAgent={`webview-${Platform.OS === "ios" ? "ios" : "android"}`}
         ref={webViewRef}
-        onMessage={onMessage}
+        onMessage={onWebviewMessage}
         injectedJavaScriptObject={{ location }}
       />
     </>
