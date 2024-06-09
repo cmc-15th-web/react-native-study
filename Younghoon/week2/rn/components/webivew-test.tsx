@@ -23,7 +23,7 @@ export function WebviewTest() {
       <WebView
         originWhitelist={["*"]}
         source={{
-          uri: `http://172.30.1.100:5173`,
+          uri: `http://172.30.72.122:5173`,
         }}
         javaScriptEnabled={true}
         userAgent={`webview-${Platform.OS === "ios" ? "ios" : "android"}`}

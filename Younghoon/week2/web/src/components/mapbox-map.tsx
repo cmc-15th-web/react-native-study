@@ -1,11 +1,13 @@
-import { Map } from 'mapbox-gl';
+import { Map, Marker } from 'mapbox-gl';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import { Minus, Plus } from 'lucide-react';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 export function MapboxMap() {
   const map = useRef<Map | undefined>(undefined);
   const mapContainer = useRef<HTMLDivElement | null>(null);
+  const marker = useRef<mapboxgl.Marker | undefined>(undefined);
 
   const [initialLocationSet, setInitialLocationSet] = useState<boolean>(false);
   const [currentLng, setCurrentLng] = useState<number>(0);
@@ -22,7 +24,11 @@ export function MapboxMap() {
       center: [currentLng, currentLat],
       zoom,
     });
-  }, [currentLat, currentLng, zoom]);
+
+    marker.current = new Marker()
+      .setLngLat([currentLng, currentLat])
+      .addTo(map.current);
+  }, [currentLat, currentLng, zoom, map, marker]);
 
   useEffect(() => {
     if (window.ReactNativeWebView) {
@@ -43,6 +49,7 @@ export function MapboxMap() {
       if (location && !initialLocationSet) {
         const { latitude, longitude } = location.coords;
         map.current?.setCenter([longitude, latitude]);
+        marker.current?.setLngLat([currentLng, currentLat]);
         setCurrentLat(latitude);
         setCurrentLng(longitude);
         setInitialLocationSet(true);
@@ -74,6 +81,7 @@ export function MapboxMap() {
           onClick={() => {
             map.current?.setCenter([currentLng, currentLat]);
             map.current?.setZoom(15);
+            marker.current?.setLngLat([currentLng, currentLat]);
           }}
         >
           내 위치로 이동
