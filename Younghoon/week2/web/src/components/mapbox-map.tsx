@@ -1,7 +1,9 @@
 import { Map, Marker } from 'mapbox-gl';
 import { useEffect, useRef, useState } from 'react';
-import { Button } from './ui/button';
-import { Minus, Plus } from 'lucide-react';
+import { fetchAddress } from '@/services/map.service';
+import { useWebview } from '@/hooks/use-webview';
+import { MapboxMapButton } from './mapbox-map-button';
+
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 export function MapboxMap() {
@@ -17,15 +19,7 @@ export function MapboxMap() {
   const [zoom, setZoom] = useState<number>(15);
   const [address, setAddress] = useState<string>('');
 
-  const fetchAddress = async (lng: number, lat: number) => {
-    const response = await fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${import.meta.env.VITE_MAPBOX_API_KEY}`,
-    );
-    const data = await response.json();
-    if (data.features && data.features.length > 0) {
-      setAddress(data.features[0].place_name);
-    }
-  };
+  useWebview({ type: 'test', data: { lng, lat, zoom, address } });
 
   useEffect(() => {
     if (map.current) return;
@@ -40,22 +34,15 @@ export function MapboxMap() {
       .setLngLat([currentLng, currentLat])
       .addTo(map.current);
 
-    map.current.on('click', (e) => {
+    map.current.on('click', async (e) => {
       const { lng, lat } = e.lngLat;
       marker.current?.setLngLat([lng, lat]);
       setCurrentLng(lng);
       setCurrentLat(lat);
-      fetchAddress(lng, lat);
+      const address = await fetchAddress(lng, lat);
+      setAddress(address);
     });
   }, [currentLat, currentLng, zoom, map, marker, address]);
-
-  useEffect(() => {
-    if (window.ReactNativeWebView) {
-      window.ReactNativeWebView.postMessage(
-        JSON.stringify({ type: 'test', data: { lng, lat, zoom, address } }),
-      );
-    }
-  }, [lng, lat, zoom, address]);
 
   useEffect(() => {
     if (
@@ -92,52 +79,14 @@ export function MapboxMap() {
 
   return (
     <div className="h-screen w-screen overflow-hidden">
-      <div className="absolute left-4 top-4 z-50 flex w-screen items-center justify-between pr-8">
-        <Button
-          variant="ghost"
-          size="default"
-          className="bg-[#5061FF] text-white hover:bg-[#5061FF] hover:text-white"
-          onClick={() => {
-            map.current?.setCenter([currentLng, currentLat]);
-            map.current?.setZoom(15);
-            marker.current?.setLngLat([currentLng, currentLat]);
-          }}
-        >
-          내 위치로 이동
-        </Button>
-        <div className="flex items-center gap-1">
-          <Button
-            variant="ghost"
-            className="bg-[#5061FF] text-white hover:bg-[#5061FF] hover:text-white"
-            size="sm"
-            disabled={zoom >= 18}
-            onClick={() => {
-              if (zoom >= 18) {
-                setZoom(18);
-                return;
-              }
-              setZoom((prevState) => prevState + 1);
-            }}
-          >
-            <Plus className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="ghost"
-            className="bg-[#5061FF] text-white hover:bg-[#5061FF] hover:text-white"
-            disabled={zoom <= 1}
-            size="sm"
-            onClick={() => {
-              if (zoom <= 1) {
-                setZoom(1);
-                return;
-              }
-              setZoom((prevState) => prevState - 1);
-            }}
-          >
-            <Minus className="h-4 w-4" />
-          </Button>
-        </div>
-      </div>
+      <MapboxMapButton
+        currentLat={currentLat}
+        currentLng={currentLng}
+        map={map}
+        marker={marker}
+        setZoom={setZoom}
+        zoom={zoom}
+      />
       <div ref={mapContainer} className="h-full w-full" />
     </div>
   );
