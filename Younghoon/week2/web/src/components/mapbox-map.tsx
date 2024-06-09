@@ -15,6 +15,17 @@ export function MapboxMap() {
   const [lng, setLng] = useState<number>(-70.9);
   const [lat, setLat] = useState<number>(42.35);
   const [zoom, setZoom] = useState<number>(15);
+  const [address, setAddress] = useState<string>('');
+
+  const fetchAddress = async (lng: number, lat: number) => {
+    const response = await fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${import.meta.env.VITE_MAPBOX_API_KEY}`,
+    );
+    const data = await response.json();
+    if (data.features && data.features.length > 0) {
+      setAddress(data.features[0].place_name);
+    }
+  };
 
   useEffect(() => {
     if (map.current) return;
@@ -28,15 +39,23 @@ export function MapboxMap() {
     marker.current = new Marker()
       .setLngLat([currentLng, currentLat])
       .addTo(map.current);
-  }, [currentLat, currentLng, zoom, map, marker]);
+
+    map.current.on('click', (e) => {
+      const { lng, lat } = e.lngLat;
+      marker.current?.setLngLat([lng, lat]);
+      setCurrentLng(lng);
+      setCurrentLat(lat);
+      fetchAddress(lng, lat);
+    });
+  }, [currentLat, currentLng, zoom, map, marker, address]);
 
   useEffect(() => {
     if (window.ReactNativeWebView) {
       window.ReactNativeWebView.postMessage(
-        JSON.stringify({ type: 'test', data: { lng, lat, zoom } }),
+        JSON.stringify({ type: 'test', data: { lng, lat, zoom, address } }),
       );
     }
-  }, [lng, lat, zoom]);
+  }, [lng, lat, zoom, address]);
 
   useEffect(() => {
     if (
