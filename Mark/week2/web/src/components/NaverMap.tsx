@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef } from "react";
 
-const NaverMap = ({latitude, longitude}: CurrentLocation) => {
+const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
   const mapRef = useRef<HTMLDivElement | null>(null);
 
   const initMap = (mapRef: React.RefObject<HTMLDivElement>) => {
@@ -22,20 +22,18 @@ const NaverMap = ({latitude, longitude}: CurrentLocation) => {
     return () => {
       document.head.removeChild(script);
     };
-  }
+  };
 
   useEffect(() => {
     const cleanMap = initMap(mapRef);
-    // alert(`위도: ${latitude}, 경도: ${longitude}`)
+    // alert(`위도: ${latitude}, 경도: ${longitude}`);
 
     return cleanMap;
   }, []);
 
   return (
-      <div id="map" ref={mapRef} style={{ width: "100%", height: "100vh" }}></div>
+    <div id="map" ref={mapRef} style={{ width: "100%", height: "100vh" }}></div>
   );
-  
-}
+};
 
 export default NaverMap;
-

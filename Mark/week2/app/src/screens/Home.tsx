@@ -1,6 +1,5 @@
-import {Platform, StyleSheet, View} from 'react-native';
+import {Alert, Platform, StyleSheet, View} from 'react-native';
 import {WebView} from 'react-native-webview';
-import {useStore} from '../store/store';
 import {useEffect, useRef} from 'react';
 import reactotron from 'reactotron-react-native';
 import {PERMISSIONS, RESULTS, request} from 'react-native-permissions';
@@ -8,7 +7,6 @@ import Geolocation from '@react-native-community/geolocation';
 
 const Home = () => {
   const webViewRef = useRef<WebView>(null);
-  // const location = useStore(state => state.location);
   const localServerURL =
     Platform.OS === 'android'
       ? 'http://10.0.2.2:3000'
@@ -31,7 +29,6 @@ const Home = () => {
             payload: {
               latitude: coords.latitude,
               longitude: coords.longitude,
-              // os: Platform.OS,
             },
           };
           if (webViewRef.current) {
@@ -47,19 +44,27 @@ const Home = () => {
       return watchId;
     } else {
       reactotron.log('Location permission denied');
-      // requestLocationPermission();
+      Alert.alert(
+        'Location Permission Required',
+        'This app needs location permission to provide the best experience. Please grant location access.',
+        [
+          {
+            text: 'OK',
+            onPress: () => requestLocationPermission(),
+          },
+        ],
+      );
     }
   };
 
   useEffect(() => {
     const watchId = requestLocationPermission();
-    
+
     return () => {
       if (typeof watchId === 'number') {
         Geolocation.clearWatch(watchId);
       }
     };
-
   }, []);
 
   return (

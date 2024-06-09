@@ -1,12 +1,12 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, SafeAreaView} from 'react-native';
 import StackNavigator from './src/components/StackNavigator';
 
 function App(): React.JSX.Element {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StackNavigator />
-    </View>
+    </SafeAreaView>
   );
 }
 
