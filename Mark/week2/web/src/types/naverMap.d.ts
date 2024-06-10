@@ -7,8 +7,18 @@ declare namespace naver.maps {
     constructor(element: HTMLElement, options: MapOptions);
   }
 
+  class Marker {
+    constructor(options: MarkerOptions);
+  }
+
   interface MapOptions {
     center: LatLng;
     zoom: number;
+  }
+
+  interface MarkerOptions {
+    position: LatLng;
+    map: Map;
+    icon?: any;
   }
 }

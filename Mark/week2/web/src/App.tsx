@@ -17,10 +17,11 @@ function App() {
       //     message.payload.longitude.toString()
       // );
       if (message.type === "location") {
-        setCurrentLocation({
-          latitude: message.payload.latitude,
-          longitude: message.payload.longitude,
-        });
+        // 애뮬레이터 테스트의 경우 디폴트 위치를 사용하기 위해 주석 처리
+        // setCurrentLocation({
+        //   latitude: message.payload.latitude,
+        //   longitude: message.payload.longitude,
+        // });
       }
     };
 

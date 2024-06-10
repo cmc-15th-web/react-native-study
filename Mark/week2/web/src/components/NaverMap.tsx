@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Palette } from "../constants/palette";
 
 const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
   const mapRef = useRef<HTMLDivElement | null>(null);
@@ -15,6 +16,14 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
         };
 
         const map = new window.naver.maps.Map(mapRef.current, mapOption);
+
+        const marker = new window.naver.maps.Marker({
+          position: new window.naver.maps.LatLng(latitude, longitude),
+          map: map,
+          icon: {
+            url: '/assets/marker.svg',
+          }
+        });
       }
     };
     document.head.appendChild(script);
@@ -29,7 +38,7 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
     // alert(`위도: ${latitude}, 경도: ${longitude}`);
 
     return cleanMap;
-  }, []);
+  }, [latitude, longitude]);
 
   return (
     <div id="map" ref={mapRef} style={{ width: "100%", height: "100vh" }}></div>
