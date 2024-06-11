@@ -9,40 +9,30 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
   const [mapInstance, setMapInstance] = useState<naver.maps.Map | null>(null);
   const [starList, setStarList] = useState<naver.maps.Marker[]>([]);
   const [isStarred, setIsStarred] = useState<boolean>(false);
+  const [starAddressList, setStarAddressList] = useState<String[]>([]);
 
   const initMap = () => {
-    const script = document.createElement("script");
-    script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.REACT_APP_NAVER_MAP_API_KEY}`;
-    script.async = true;
-    script.onload = () => {
-      if (window.naver && mapRef.current) {
-        const mapOption = {
-          center: new window.naver.maps.LatLng(latitude, longitude),
-          zoom: 15,
-        };
+    if (window.naver && mapRef.current) {
+      const mapOption = {
+        center: new window.naver.maps.LatLng(latitude, longitude),
+        zoom: 15,
+      };
 
-        const map = new window.naver.maps.Map(mapRef.current, mapOption);
-        setMapInstance(map);
+      const map = new window.naver.maps.Map(mapRef.current, mapOption);
+      setMapInstance(map);
 
-        const currentMarker = new window.naver.maps.Marker({
-          position: new window.naver.maps.LatLng(latitude, longitude),
-          map: map,
-          icon: {
-            url: '/assets/current.svg',
-          }
-        });
-      }
-    };
-    document.head.appendChild(script);
-
-    return () => {
-      document.head.removeChild(script);
-    };
+      const currentMarker = new window.naver.maps.Marker({
+        position: new window.naver.maps.LatLng(latitude, longitude),
+        map: map,
+        icon: {
+          url: "/assets/current.svg",
+        },
+      });
+    }
   };
 
   useEffect(() => {
     initMap();
-    // alert(`위도: ${latitude}, 경도: ${longitude}`);
   }, [latitude, longitude]);
 
   useEffect(() => {
@@ -55,12 +45,12 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
           position: e.coord,
           map: mapInstance,
           icon: {
-            url: '/assets/marker.svg'
-          }
+            url: "/assets/marker.svg",
+          },
         });
 
         setSelected(newMarker);
-      }
+      };
 
       const listener = window.naver.maps.Event.addListener(mapInstance, "click", handleClick);
       return () => {
@@ -81,6 +71,16 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
     setIsStarred(check);
   }, [selected, starList]);
 
+  useEffect(() => {
+    const message = {
+      type: 'star',
+      payload: {
+        starAddressList: starAddressList
+      }
+    };
+    window.ReactNativeWebView.postMessage(JSON.stringify(message));
+  }, [starAddressList])
+
   const handleStar = () => {
     if (isStarred) {
       // 즐겨찾기 해제
@@ -94,6 +94,22 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
         return !isSamePosition;
       });
       setStarList(newStarList);
+
+      // 주소 비교해서 제거
+      naver.maps.Service.reverseGeocode(
+        {
+          coords: selected!.getPosition(),
+          orders: [
+            naver.maps.Service.OrderType.ADDR, naver.maps.Service.OrderType.ROAD_ADDR,
+          ].join(',')
+        },
+        function (status, response) {
+          if (status === naver.maps.Service.Status.OK) {
+            const address = response.v2.address.roadAddress || response.v2.address.jibunAddress;
+            setStarAddressList((prevList) => prevList.filter(addr => addr !== address));
+          }
+        }
+      );
     } else {
       // 즐겨찾기 추가
       const newStar = new window.naver.maps.Marker({
@@ -104,6 +120,22 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
         },
       });
       setStarList((prevList) => [...prevList, newStar]);
+
+      // 주소변환 후 추가
+      naver.maps.Service.reverseGeocode(
+        {
+          coords: selected!.getPosition(),
+          orders: [
+            naver.maps.Service.OrderType.ADDR, naver.maps.Service.OrderType.ROAD_ADDR
+          ].join(',')
+        },
+        function (status, response) {
+          if (status === naver.maps.Service.Status.OK) {
+            const address = response.v2.address.roadAddress || response.v2.address.jibunAddress;
+            setStarAddressList(prevList => [...prevList, address]);
+          }
+        }
+      );
     }
   };
 
