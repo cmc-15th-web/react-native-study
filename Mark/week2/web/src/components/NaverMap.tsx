@@ -28,7 +28,7 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
           position: new window.naver.maps.LatLng(latitude, longitude),
           map: map,
           icon: {
-            url: '../assets/marker.svg',
+            url: '/assets/current.svg',
           }
         });
       }
@@ -54,6 +54,9 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
         const newMarker = new window.naver.maps.Marker({
           position: e.coord,
           map: mapInstance,
+          icon: {
+            url: '/assets/marker.svg'
+          }
         });
 
         setSelected(newMarker);
