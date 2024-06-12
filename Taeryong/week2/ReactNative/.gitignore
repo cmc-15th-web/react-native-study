@@ -4,6 +4,8 @@
 
 ## 제거
 .bundle
+.env
+.env.d.ts
 
 
 # Xcode
