@@ -2,14 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import { StarSvg } from "../assets/StarSvg";
 import { Palette } from "../constants/palette";
 import { BtnStar, Map } from "./NaverMap.style";
+import { useStore } from "../store/store";
 
 const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const [selected, setSelected] = useState<naver.maps.Marker | null>(null);
   const [mapInstance, setMapInstance] = useState<naver.maps.Map | null>(null);
-  const [starList, setStarList] = useState<naver.maps.Marker[]>([]);
   const [isStarred, setIsStarred] = useState<boolean>(false);
-  const [starAddressList, setStarAddressList] = useState<String[]>([]);
+  const starList = useStore((state) => state.starList);
+  const starAddressList = useStore((state) => state.starAddressList);
+  const { setStarList, setStarAddressList } = useStore();
 
   const initMap = () => {
     if (window.naver && mapRef.current) {
@@ -52,7 +54,11 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
         setSelected(newMarker);
       };
 
-      const listener = window.naver.maps.Event.addListener(mapInstance, "click", handleClick);
+      const listener = window.naver.maps.Event.addListener(
+        mapInstance,
+        "click",
+        handleClick
+      );
       return () => {
         window.naver.maps.Event.removeListener(listener);
       };
@@ -74,15 +80,14 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
   useEffect(() => {
     if (window.ReactNativeWebView && window.ReactNativeWebView.postMessage) {
       const message = {
-        type: 'star',
+        type: "star",
         payload: {
-          starAddressList: starAddressList
-        }
+          starAddressList: starAddressList,
+        },
       };
       window.ReactNativeWebView.postMessage(JSON.stringify(message));
     }
-    
-  }, [starAddressList])
+  }, [starAddressList]);
 
   const handleStar = () => {
     if (isStarred) {
@@ -90,7 +95,8 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
       const selectedPos = selected!.getPosition();
       const newStarList = starList.filter((marker) => {
         const markerPos = marker.getPosition();
-        const isSamePosition = markerPos.y === selectedPos.y && markerPos.x === selectedPos.x;
+        const isSamePosition =
+          markerPos.y === selectedPos.y && markerPos.x === selectedPos.x;
         if (isSamePosition) {
           marker.setMap(null);
         }
@@ -103,13 +109,17 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
         {
           coords: selected!.getPosition(),
           orders: [
-            naver.maps.Service.OrderType.ADDR, naver.maps.Service.OrderType.ROAD_ADDR,
-          ].join(',')
+            naver.maps.Service.OrderType.ADDR,
+            naver.maps.Service.OrderType.ROAD_ADDR,
+          ].join(","),
         },
         function (status, response) {
           if (status === naver.maps.Service.Status.OK) {
-            const address = response.v2.address.roadAddress || response.v2.address.jibunAddress;
-            setStarAddressList((prevList) => prevList.filter(addr => addr !== address));
+            const address =
+              response.v2.address.roadAddress ||
+              response.v2.address.jibunAddress;
+            const newList = starAddressList.filter((addr) => addr !== address);
+            setStarAddressList(newList);
           }
         }
       );
@@ -122,20 +132,25 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
           url: "/assets/star.svg",
         },
       });
-      setStarList((prevList) => [...prevList, newStar]);
+      const newList = [...starList, newStar];
+      setStarList(newList);
 
       // 주소변환 후 추가
       naver.maps.Service.reverseGeocode(
         {
           coords: selected!.getPosition(),
           orders: [
-            naver.maps.Service.OrderType.ADDR, naver.maps.Service.OrderType.ROAD_ADDR
-          ].join(',')
+            naver.maps.Service.OrderType.ADDR,
+            naver.maps.Service.OrderType.ROAD_ADDR,
+          ].join(","),
         },
         function (status, response) {
           if (status === naver.maps.Service.Status.OK) {
-            const address = response.v2.address.roadAddress || response.v2.address.jibunAddress;
-            setStarAddressList(prevList => [...prevList, address]);
+            const address =
+              response.v2.address.roadAddress ||
+              response.v2.address.jibunAddress;
+            const newList = [...starAddressList, address];
+            setStarAddressList(newList);
           }
         }
       );
@@ -146,7 +161,11 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
     <Map id="map" ref={mapRef}>
       {selected ? (
         <BtnStar id="btn-star" onClick={handleStar}>
-          <StarSvg width="30" height="30" fill={isStarred ? Palette.Blue600 : Palette.Gray600} />
+          <StarSvg
+            width="30"
+            height="30"
+            fill={isStarred ? Palette.Blue600 : Palette.Gray600}
+          />
         </BtnStar>
       ) : null}
     </Map>
