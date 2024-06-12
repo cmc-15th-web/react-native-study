@@ -74,9 +74,9 @@ function App() {
     createPin(center[0], center[1]);
 
     //맵 클릭 이벤트 설정
-    kakao.maps.event.addListener(map, "click", function (mouseEvent: any) {
-      createBookMark(mouseEvent.latLng);
-    });
+    // kakao.maps.event.addListener(map, "click", function (mouseEvent: any) {
+    //   createBookMark(mouseEvent.latLng);
+    // });
   }, []);
 
   return (
