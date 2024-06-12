@@ -4,10 +4,10 @@ import {useEffect, useRef} from 'react';
 import reactotron from 'reactotron-react-native';
 import {PERMISSIONS, RESULTS, request} from 'react-native-permissions';
 import Geolocation from '@react-native-community/geolocation';
-import { useStore } from '../store/store';
+import {useStore} from '../store/store';
 
 const Home = () => {
-  const {setStarList} = useStore();
+  const {setStarList, setWebViewRef} = useStore();
   const webViewRef = useRef<WebView>(null);
   const localServerURL =
     Platform.OS === 'android'
@@ -59,6 +59,10 @@ const Home = () => {
   };
 
   useEffect(() => {
+    setWebViewRef(webViewRef);
+  }, [webViewRef]);
+
+  useEffect(() => {
     const watchId = requestLocationPermission();
 
     return () => {
@@ -72,7 +76,7 @@ const Home = () => {
     try {
       const data = JSON.parse(e.nativeEvent.data);
       reactotron.log(data);
-      if(data.type === 'star') {
+      if (data.type === 'star') {
         setStarList(data.payload.starAddressList);
       }
     } catch (err) {

@@ -1,15 +1,36 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Palette} from '../constants/palette';
-import reactotron from 'reactotron-react-native';
-import { TrashCanSvg } from '../assets/TrashCanSvg';
+import {TrashCanSvg} from '../assets/TrashCanSvg';
+import {useStore} from '../store/store';
+import {useState} from 'react';
 
 const StarItem = ({addr, isLastItem}: StarItemProps) => {
-  reactotron.log(addr);
+  const [isRemoved, setIsRemoved] = useState<boolean>(false);
+  const webViewRef = useStore(state => state.webViewRef);
+
+  const handleRemove = () => {
+    setIsRemoved(true);
+    if (webViewRef) {
+      const message = {
+        type: 'removeStar',
+        payload: {
+          removedAddr: addr,
+        },
+      };
+      webViewRef.current?.postMessage(JSON.stringify(message));
+    }
+  };
+
   return (
-    <View style={[styles.wrapper, isLastItem && styles.noBottomBorder]}>
+    <View
+      style={[
+        styles.wrapper,
+        isLastItem && styles.noBottomBorder,
+        isRemoved && styles.removed,
+      ]}>
       <Text style={styles.textAddr}>{addr}</Text>
-      <TouchableOpacity>
-        <TrashCanSvg width='22' height='22' fill={Palette.Gray200}/>
+      <TouchableOpacity onPress={handleRemove}>
+        <TrashCanSvg width="22" height="22" fill={Palette.Gray200} />
       </TouchableOpacity>
     </View>
   );
@@ -24,6 +45,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: Palette.Blue200,
+  },
+  removed: {
+    display: 'none',
   },
   noBottomBorder: {
     borderBottomWidth: 0,
