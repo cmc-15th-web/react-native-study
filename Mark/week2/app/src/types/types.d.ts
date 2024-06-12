@@ -3,3 +3,8 @@ type SvgProps = {
   height: string;
   fill: string;
 }
+
+type StarItemProps = {
+  addr: string;
+  isLastItem: boolean;
+}

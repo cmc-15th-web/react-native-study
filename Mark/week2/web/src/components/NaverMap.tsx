@@ -72,13 +72,16 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
   }, [selected, starList]);
 
   useEffect(() => {
-    const message = {
-      type: 'star',
-      payload: {
-        starAddressList: starAddressList
-      }
-    };
-    window.ReactNativeWebView.postMessage(JSON.stringify(message));
+    if (window.ReactNativeWebView && window.ReactNativeWebView.postMessage) {
+      const message = {
+        type: 'star',
+        payload: {
+          starAddressList: starAddressList
+        }
+      };
+      window.ReactNativeWebView.postMessage(JSON.stringify(message));
+    }
+    
   }, [starAddressList])
 
   const handleStar = () => {

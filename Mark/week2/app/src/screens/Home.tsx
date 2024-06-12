@@ -1,11 +1,13 @@
 import {Alert, Platform, StyleSheet, View} from 'react-native';
-import {WebView} from 'react-native-webview';
+import {WebView, WebViewMessageEvent} from 'react-native-webview';
 import {useEffect, useRef} from 'react';
 import reactotron from 'reactotron-react-native';
 import {PERMISSIONS, RESULTS, request} from 'react-native-permissions';
 import Geolocation from '@react-native-community/geolocation';
+import { useStore } from '../store/store';
 
 const Home = () => {
+  const {setStarList} = useStore();
   const webViewRef = useRef<WebView>(null);
   const localServerURL =
     Platform.OS === 'android'
@@ -32,7 +34,6 @@ const Home = () => {
             },
           };
           if (webViewRef.current) {
-            reactotron.log(message);
             webViewRef.current.postMessage(JSON.stringify(message));
           }
         },
@@ -67,6 +68,18 @@ const Home = () => {
     };
   }, []);
 
+  const handleMessage = (e: WebViewMessageEvent) => {
+    try {
+      const data = JSON.parse(e.nativeEvent.data);
+      reactotron.log(data);
+      if(data.type === 'star') {
+        setStarList(data.payload.starAddressList);
+      }
+    } catch (err) {
+      reactotron.log(err);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <WebView
@@ -74,7 +87,8 @@ const Home = () => {
         style={styles.webview}
         source={{uri: localServerURL}}
         javaScriptEnabled={true}
-        onMessage={e => reactotron.log(e.nativeEvent.data)}
+        // onMessage={e => reactotron.log(e.nativeEvent.data)}
+        onMessage={handleMessage}
       />
     </View>
   );
