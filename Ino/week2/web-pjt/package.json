@@ -16,7 +16,7 @@
     "require": "./dist/counter.umd.cjs"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "tsc && vite build"
   },
   "devDependencies": {

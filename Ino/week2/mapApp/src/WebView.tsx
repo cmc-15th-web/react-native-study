@@ -10,7 +10,7 @@ class MyWeb extends Component {
     return (
       <WebView
         style={styles.webview}
-        source={{ uri: 'https://www.google.com/' }}
+        source={{ uri: 'http://192.168.0.12:5173/' }}
         // style={{ marginTop: 20 }}
       />
     );
