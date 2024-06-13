@@ -2,14 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import MarkerImage from "./assets/Marker.png";
 import RoundStar from "./assets/RoundStar.svg";
 
-const { kakao } = window;
+const { kakao, ReactNativeWebView } = window;
 
 function App() {
   const mapRef = useRef();
   // 중심좌표
-  const [center, setCenter] = useState<[number, number]>([
-    33.450701, 126.570667,
-  ]);
 
   // 핀 생성
   const createPin = (latitude: number, longitude: number) => {
@@ -63,20 +60,31 @@ function App() {
   useEffect(() => {
     const container = document.getElementById("map");
     const options = {
-      center: new kakao.maps.LatLng(center[0], center[1]),
+      center: new kakao.maps.LatLng(33.450701, 126.570667),
       level: 3,
     };
 
     const map = new kakao.maps.Map(container, options); // 맵 객체 생성
     mapRef.current = map;
 
-    // 현재 위치에 핀 생성
-    createPin(center[0], center[1]);
-
     //맵 클릭 이벤트 설정
     // kakao.maps.event.addListener(map, "click", function (mouseEvent: any) {
     //   createBookMark(mouseEvent.latLng);
     // });
+
+    // rn -> webview data flow
+    window.addEventListener("message", (e: any) => {
+      const data = JSON.parse(e.data);
+      if (data.type === "init") {
+        // alert(`Received location: ${data.latitude}, ${data.longitude}`);
+        // 맵 이동
+        map.setCenter(new kakao.maps.LatLng(data.latitude, data.longitude));
+        //핀 생성
+        createPin(data.latitude, data.longitude);
+      }
+    });
+
+    ReactNativeWebView.postMessage("webAppMount");
   }, []);
 
   return (
