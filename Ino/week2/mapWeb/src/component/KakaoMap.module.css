@@ -1,0 +1,14 @@
+.starbtn {
+  z-index: 2;
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  padding-left: 5px;
+  padding-right: 4px;
+  padding-top: 2px;
+
+  align-content: "center";
+  justify-content: "center";
+  border-radius: 100%;
+  background-color: blue;
+}

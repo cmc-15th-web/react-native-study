@@ -1,12 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Alert,
-  Platform,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Alert, Platform, StyleSheet, Text} from 'react-native';
 
 import {PERMISSIONS, RESULTS, request} from 'react-native-permissions';
 
