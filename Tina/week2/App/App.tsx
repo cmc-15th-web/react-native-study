@@ -1,37 +1,56 @@
 import React from 'react';
-import {Dimensions, SafeAreaView, StyleSheet} from 'react-native';
-import WebView from 'react-native-webview';
+import WebViewScreen from '@/screens/WebViewScreen.tsx';
+import FavoritesScreen from '@/screens/FavoritesScreen.tsx';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import HomeIcon from '@/assets/HomeIcon';
+import FavIcon from '@/assets/FavIcon';
+import THEME_COLOR from '@/styles/theme-color';
 
-const deviceHeight = Dimensions.get('window').height;
-const deviceWidth = Dimensions.get('window').width;
+const Tab = createBottomTabNavigator();
 
 function App(): React.JSX.Element {
   return (
-    <SafeAreaView style={styles.sectionContainer}>
-      <WebView
-        style={styles.webviewContainer}
-        originWhitelist={['*']}
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
-        source={{
-          uri: 'http://localhost:3000',
-        }}
-      />
-    </SafeAreaView>
+    <NavigationContainer>
+      <Tab.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          tabBarStyle: {
+            height: 70,
+            paddingBottom: 20,
+            borderTopWidth: 0,
+          },
+          tabBarActiveTintColor: THEME_COLOR.Blue[600],
+          tabBarInactiveTintColor: THEME_COLOR.Gray[600],
+        }}>
+        <Tab.Screen
+          name="Home"
+          component={WebViewScreen}
+          options={{
+            // eslint-disable-next-line react/no-unstable-nested-components
+            tabBarIcon: ({color}) => <HomeIcon color={color} />,
+            headerShown: false,
+            tabBarActiveTintColor: THEME_COLOR.Blue[600],
+            tabBarInactiveTintColor: THEME_COLOR.Gray[600],
+            tabBarLabelStyle: {fontSize: 12},
+            tabBarLabel: '홈',
+          }}
+        />
+        <Tab.Screen
+          name="Setting"
+          component={FavoritesScreen}
+          options={{
+            tabBarIcon: ({color}) => <FavIcon color={color} />,
+            headerShown: false,
+            tabBarActiveTintColor: THEME_COLOR.Blue[600],
+            tabBarInactiveTintColor: THEME_COLOR.Gray[600],
+            tabBarLabelStyle: {fontSize: 12},
+            tabBarLabel: '즐겨찾기',
+          }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    flex: 1,
-    width: deviceWidth,
-    height: deviceHeight,
-  },
-  webviewContainer: {
-    flex: 1,
-    width: deviceWidth,
-    height: deviceHeight,
-  },
-});
 
 export default App;
