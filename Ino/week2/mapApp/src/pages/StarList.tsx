@@ -1,12 +1,12 @@
 import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
-import {useStars} from '../store/star';
+import {useStarsState} from '../store/star';
 import TrashIcon from '../assets/Trash';
 import StarIcon from '../assets/Star';
 import Colors from '../Colors';
 
 const ItemListScreen: React.FC = () => {
-  const {stars, removeItem} = useStars();
+  const {stars, removeItem} = useStarsState();
 
   return (
     <View style={styles.container}>

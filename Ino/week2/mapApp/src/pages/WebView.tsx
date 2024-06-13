@@ -1,10 +1,15 @@
 import Geolocation from '@react-native-community/geolocation';
-import React, {Component, useEffect, useRef, useState} from 'react';
-import {Alert, Dimensions, Pressable, StyleSheet} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {Dimensions, Pressable, StyleSheet} from 'react-native';
 import {WebView, WebViewMessageEvent} from 'react-native-webview';
 import LocationIcon from '../assets/Location';
 import Colors from '../Colors';
-import {useStars} from '../store/star';
+import {useStarsState} from '../store/star';
+import ShowStarBtn from '../component/ShowStarList';
+import {
+  getCurrentPosition,
+  updateCurrentPosition,
+} from '../utils/webViewBridge';
 
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
@@ -21,50 +26,25 @@ const MyWeb = () => {
   const [latitude, setLatitude] = useState<string>('');
   const [longitude, setLongitude] = useState<string>('');
 
-  const {addItem} = useStars();
-
-  const getCurrent = () => {
-    // 현재위치 받아오기
-    Geolocation.getCurrentPosition(
-      position => {
-        const lat = JSON.stringify(position.coords.latitude);
-        const long = JSON.stringify(position.coords.longitude);
-        setLatitude(lat);
-        setLongitude(long);
-
-        // Webview로 전송
-        const message = JSON.stringify({
-          name: 'CurrentLocation',
-          latitude: lat,
-          longitude: long,
-        });
-        // console.log(message);
-        webRef.current?.postMessage(message);
-      },
-      err => {
-        console.log(err.code, err.message);
-      },
-      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-    );
-  };
-
-  // 현재 위치로 이동
-  const updateCurrentPosition = () => {
-    // Webview로 전송
-    const message = JSON.stringify({
-      name: 'CurrentLocation',
-      latitude: latitude,
-      longitude: longitude,
-    });
-    webRef.current?.postMessage(message);
-  };
+  const {addItem} = useStarsState();
 
   // 첫 로딩시 현재위치 받아오기.
+  const updatePosition = async () => {
+    try {
+      const position: any = await getCurrentPosition();
+      setLatitude(position.latitude);
+      setLongitude(position.longitude);
+      updateCurrentPosition(position.latitude, position.longitude, webRef);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
-    getCurrent();
+    updatePosition();
   }, []);
 
-  // Web -> WebView
+  // Web -> WebView 수신.
   const handleMessage = (e: WebViewMessageEvent) => {
     console.log(e.nativeEvent.data);
     const data = JSON.parse(e.nativeEvent.data);
@@ -83,13 +63,16 @@ const MyWeb = () => {
 
   return (
     <>
+      <ShowStarBtn webRef={webRef} />
       <WebView
         ref={webRef}
         style={styles.webview}
         source={{uri: 'http://192.168.0.12:5173/'}}
         onMessage={event => handleMessage(event)}
       />
-      <Pressable onPress={updateCurrentPosition} style={styles.current}>
+      <Pressable
+        onPress={() => updateCurrentPosition(latitude, longitude, webRef)}
+        style={styles.current}>
         <LocationIcon color={Colors.Blue600} size={24} />
       </Pressable>
     </>

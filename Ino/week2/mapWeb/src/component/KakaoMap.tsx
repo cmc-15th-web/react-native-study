@@ -4,6 +4,12 @@ import useKakaoLoader from "./useKakaoLoader";
 import StarIcon from "../assets/Star.svg";
 import styles from "./KakaoMap.module.css";
 
+interface starListItem {
+  latitude: number;
+  longitude: number;
+  address: string;
+}
+
 export default function KakaoMap() {
   useKakaoLoader();
 
@@ -14,6 +20,8 @@ export default function KakaoMap() {
   const [latitude, setLatitude] = useState<number>(0);
   const [longitude, setLongitude] = useState<number>(0);
   const [star, setStar] = useState(false);
+
+  const [starList, setStarList] = useState<starListItem[]>([]);
 
   // Bridge
   useEffect(() => {
@@ -28,6 +36,7 @@ export default function KakaoMap() {
     const data = JSON.parse(e.data);
 
     if (data.name == "CurrentLocation") getCurrentLocationEvent(data);
+    else if (data.name == "ShowStarList") showStarList(data);
   };
 
   // 현재 위치 받아서 중심 이동
@@ -36,6 +45,11 @@ export default function KakaoMap() {
     setLongitude(data.longitude);
     setView({ center: { lat: data.latitude, lng: data.longitude } });
     setType(1);
+  };
+
+  const showStarList = (data: any) => {
+    if (data.visible == false) setStarList([]);
+    else setStarList(data.list);
   };
 
   // 클릭시 마커생성
@@ -122,6 +136,16 @@ export default function KakaoMap() {
         ) : (
           <></>
         )}
+        {starList.map((star, index) => (
+          <MapMarker
+            key={`${star.address}-${star.latitude}-${star.longitude}`}
+            position={{ lat: star.latitude, lng: star.longitude }}
+            image={{
+              src: "src/assets/RoundStar.svg",
+              size: { width: 20, height: 20 },
+            }}
+          />
+        ))}
       </Map>
     </>
   );

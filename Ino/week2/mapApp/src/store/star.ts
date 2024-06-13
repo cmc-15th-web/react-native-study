@@ -1,4 +1,4 @@
-import create from 'zustand';
+import {create} from 'zustand';
 
 interface Item {
   latitude: number;
@@ -12,7 +12,7 @@ interface StoreState {
   removeItem: (index: number) => void;
 }
 
-export const useStars = create<StoreState>(set => ({
+export const useStarsState = create<StoreState>(set => ({
   stars: [],
   addItem: (item: Item) => set(state => ({stars: [...state.stars, item]})),
   removeItem: (index: number) =>
