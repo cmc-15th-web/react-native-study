@@ -13,6 +13,7 @@ export default function KakaoMap() {
   });
   const [latitude, setLatitude] = useState<number>(0);
   const [longitude, setLongitude] = useState<number>(0);
+  const [star, setStar] = useState(false);
 
   // Bridge
   useEffect(() => {
@@ -43,12 +44,45 @@ export default function KakaoMap() {
     setLongitude(lng);
     setView({ center: { lat: lat, lng: lng } });
     setType(2);
+    setStar(false);
+  };
+
+  //즐겨찾기
+  const handleStar = () => {
+    // 1. 주소 검색
+    const geocoder = new kakao.maps.services.Geocoder();
+    geocoder.coord2RegionCode(longitude, latitude, addStarList);
+  };
+
+  const addStarList = (result: any, status: any) => {
+    // 주소 검색 후 콜백 함수
+    if (status === kakao.maps.services.Status.OK) {
+      const addr = result[1].address_name;
+      //console.log(addr);
+
+      // 2. 결과를 Webview에 전송
+      const message = JSON.stringify({
+        name: "AddStar",
+        latitude: latitude,
+        longitude: longitude,
+        address: addr,
+      });
+
+      window.ReactNativeWebView.postMessage(message);
+      setStar(true);
+    } else {
+      // 검색 실패 또는 결과없음
+      window.ReactNativeWebView.postMessage("NO ADDRESS");
+    }
   };
 
   return (
     <>
       {type == 2 ? (
-        <div className={styles.starbtn}>
+        <div
+          className={star ? styles.isstar : styles.nostar}
+          onClick={handleStar}
+        >
           <img src={StarIcon} />
         </div>
       ) : (

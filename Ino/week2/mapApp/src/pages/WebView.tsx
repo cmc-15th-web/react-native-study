@@ -1,17 +1,27 @@
 import Geolocation from '@react-native-community/geolocation';
 import React, {Component, useEffect, useRef, useState} from 'react';
-import {Dimensions, Pressable, StyleSheet} from 'react-native';
-import {WebView} from 'react-native-webview';
+import {Alert, Dimensions, Pressable, StyleSheet} from 'react-native';
+import {WebView, WebViewMessageEvent} from 'react-native-webview';
 import LocationIcon from '../assets/Location';
 import Colors from '../Colors';
+import {useStars} from '../store/star';
 
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
+
+interface StarItem {
+  name: string;
+  latitude: number;
+  longitude: number;
+  address: string;
+}
 
 const MyWeb = () => {
   let webRef = useRef<WebView | null>(null);
   const [latitude, setLatitude] = useState<string>('');
   const [longitude, setLongitude] = useState<string>('');
+
+  const {addItem} = useStars();
 
   const getCurrent = () => {
     // 현재위치 받아오기
@@ -54,12 +64,30 @@ const MyWeb = () => {
     getCurrent();
   }, []);
 
+  // Web -> WebView
+  const handleMessage = (e: WebViewMessageEvent) => {
+    console.log(e.nativeEvent.data);
+    const data = JSON.parse(e.nativeEvent.data);
+
+    if (data.name === 'AddStar') handleAddStar(data);
+  };
+
+  // 즐겨찾기에 추가
+  const handleAddStar = (data: StarItem) => {
+    addItem({
+      latitude: data.latitude,
+      longitude: data.longitude,
+      address: data.address,
+    });
+  };
+
   return (
     <>
       <WebView
         ref={webRef}
         style={styles.webview}
         source={{uri: 'http://192.168.0.12:5173/'}}
+        onMessage={event => handleMessage(event)}
       />
       <Pressable onPress={updateCurrentPosition} style={styles.current}>
         <LocationIcon color={Colors.Blue600} size={24} />
