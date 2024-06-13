@@ -1,25 +1,21 @@
-import { useRef, useEffect } from 'react';
+import { useEffect } from 'react';
 
-const MapInformation = () => {
-  const mapRef = useRef(null);
+const Map = () => {
   const lat = 37.282;
   const lng = 127.0463;
+
   useEffect(() => {
     const { naver } = window;
-    if (mapRef.current && naver) {
+    if (naver) {
       const location = new naver.maps.LatLng(lat, lng);
-      const map = new naver.maps.Map(mapRef.current, {
+      new naver.maps.Map('map', {
         center: location,
-        zoom: 17, // 지도 확대 정도
-      });
-      new naver.maps.Marker({
-        position: location,
-        map,
+        zoom: 17,
       });
     }
   }, []);
 
-  return <div ref={mapRef} style={{ width: '100vw', height: '100vh' }}></div>;
+  return <div id='map' style={{ width: '100vw', height: '100vh' }}></div>;
 };
 
-export default MapInformation;
+export default Map;

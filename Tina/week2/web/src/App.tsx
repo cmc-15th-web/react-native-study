@@ -1,11 +1,9 @@
-import React from 'react';
-import './App.css';
-import MapInformation from './Map';
+import Map from './Map';
 
 function App() {
   return (
     <div className='App'>
-      <MapInformation />
+      <Map />
     </div>
   );
 }
