@@ -1,7 +1,5 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {useStore} from '../store/store';
-import {useEffect} from 'react';
-import reactotron from 'reactotron-react-native';
 import {Palette} from '../constants/palette';
 import {StarBtnSvg} from '../assets/StarBtnSvg';
 import StarItem from '../components/StarItem';
@@ -11,8 +9,8 @@ const Stars = () => {
 
   const renderItem = ({item, index}: any) => {
     const isLastItem = index === starList.length - 1;
-    return <StarItem item={item} isLastItem={isLastItem}/>
-  }
+    return <StarItem item={item} isLastItem={isLastItem} />;
+  };
 
   return (
     <View style={styles.container}>
@@ -26,7 +24,9 @@ const Stars = () => {
         data={starList}
         renderItem={renderItem}
         keyExtractor={(_, index) => index.toString()}
-        ListEmptyComponent={<Text style={styles.textListEmpty}>즐겨찾기가 없습니다</Text>}
+        ListEmptyComponent={
+          <Text style={styles.textListEmpty}>즐겨찾기가 없습니다</Text>
+        }
       />
     </View>
   );
@@ -65,8 +65,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     fontWeight: '500',
-    color: Palette.Gray600
-  }
+    color: Palette.Gray600,
+  },
 });
 
 export default Stars;

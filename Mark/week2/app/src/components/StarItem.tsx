@@ -2,7 +2,6 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Palette} from '../constants/palette';
 import {TrashCanSvg} from '../assets/TrashCanSvg';
 import {useStore} from '../store/store';
-import {useState} from 'react';
 
 const StarItem = ({item, isLastItem}: StarItemProps) => {
   // const [isRemoved, setIsRemoved] = useState<boolean>(false);
@@ -10,7 +9,7 @@ const StarItem = ({item, isLastItem}: StarItemProps) => {
   const {starList, setStarList} = useStore();
 
   const handleRemove = () => {
-    const newList = starList.filter((star) => star.markerId !== item.markerId);
+    const newList = starList.filter(star => star.markerId !== item.markerId);
     setStarList(newList);
 
     if (webViewRef) {
@@ -25,11 +24,7 @@ const StarItem = ({item, isLastItem}: StarItemProps) => {
   };
 
   return (
-    <View
-      style={[
-        styles.wrapper,
-        isLastItem && styles.noBottomBorder,
-      ]}>
+    <View style={[styles.wrapper, isLastItem && styles.noBottomBorder]}>
       <Text style={styles.textAddr}>{item.addr}</Text>
       <TouchableOpacity onPress={handleRemove}>
         <TrashCanSvg width="22" height="22" fill={Palette.Gray200} />

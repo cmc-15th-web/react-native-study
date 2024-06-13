@@ -44,7 +44,6 @@ const Home = () => {
       );
       return watchId;
     } else {
-      reactotron.log('Location permission denied');
       Alert.alert(
         'Location Permission Required',
         'This app needs location permission to provide the best experience. Please grant location access.',
@@ -75,7 +74,6 @@ const Home = () => {
   const handleMessage = (e: WebViewMessageEvent) => {
     try {
       const data = JSON.parse(e.nativeEvent.data);
-      reactotron.log(data);
       if (data.type === 'star') {
         setStarList(data.payload.starAddressList);
       }
@@ -91,7 +89,6 @@ const Home = () => {
         style={styles.webview}
         source={{uri: localServerURL}}
         javaScriptEnabled={true}
-        // onMessage={e => reactotron.log(e.nativeEvent.data)}
         onMessage={handleMessage}
       />
     </View>

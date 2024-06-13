@@ -13,6 +13,7 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
   const starAddressList = useStore((state) => state.starAddressList);
   const { setMarkerList, setStarAddressList } = useStore();
 
+  /* 현재 위치 가져와서 지도를 초기화시키는 메소드 */
   const initMap = () => {
     if (window.naver && mapRef.current) {
       const mapOption = {
@@ -37,6 +38,7 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
     initMap();
   }, [latitude, longitude]);
 
+  /* 지도 클릭 시 마커 생성 이벤트 */
   useEffect(() => {
     if (mapInstance) {
       const handleClick = (e: any) => {
@@ -50,7 +52,7 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
             url: "/assets/marker.svg",
           },
         });
-        
+
         setSelected(newMarker);
       };
 
@@ -65,6 +67,7 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
     }
   }, [selected, mapInstance]);
 
+  /* 현재 선택한 좌표의 즐겨찾기 여부 판단해서 즐겨찾기 버튼 토글 */
   useEffect(() => {
     let check = false;
     if (selected) {
@@ -77,6 +80,7 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
     setIsStarred(check);
   }, [selected, markerList]);
 
+  /* 즐겨찾기 목록 업데이트 시 RN에 목록 전달 */
   useEffect(() => {
     if (window.ReactNativeWebView && window.ReactNativeWebView.postMessage) {
       const message = {
@@ -89,9 +93,10 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
     }
   }, [starAddressList]);
 
+  /* 즐겨찾기 해제, 생성 */
   const handleStar = () => {
     if (isStarred) {
-      // 즐겨찾기 해제
+      // 즐겨찾기 마커 해제
       const selectedPos = selected!.getPosition();
       const newStarList = markerList.filter((marker) => {
         const markerPos = marker.marker.getPosition();
@@ -104,7 +109,7 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
       });
       setMarkerList(newStarList);
 
-      // 주소 비교해서 제거
+      // 주소 비교해서 목록에서 제거
       naver.maps.Service.reverseGeocode(
         {
           coords: selected!.getPosition(),
@@ -118,13 +123,15 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
             const address =
               response.v2.address.roadAddress ||
               response.v2.address.jibunAddress;
-            const newList = starAddressList.filter((item) => item.addr !== address);
+            const newList = starAddressList.filter(
+              (item) => item.addr !== address
+            );
             setStarAddressList(newList);
           }
         }
       );
     } else {
-      // 즐겨찾기 추가
+      // 즐겨찾기 마커 추가
       const newStar = new window.naver.maps.Marker({
         position: selected!.getPosition(),
         map: mapInstance!,
@@ -134,10 +141,10 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
       });
 
       const newStarId = new Date().getTime();
-      const newList = [...markerList, {marker: newStar, id: newStarId}];
+      const newList = [...markerList, { marker: newStar, id: newStarId }];
       setMarkerList(newList);
 
-      // 주소변환 후 추가
+      // 주소변환 후 목록에 추가
       naver.maps.Service.reverseGeocode(
         {
           coords: selected!.getPosition(),
@@ -151,7 +158,10 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
             const address =
               response.v2.address.roadAddress ||
               response.v2.address.jibunAddress;
-            const newList = [...starAddressList, {addr: address, markerId: newStarId}];
+            const newList = [
+              ...starAddressList,
+              { addr: address, markerId: newStarId },
+            ];
             setStarAddressList(newList);
           }
         }

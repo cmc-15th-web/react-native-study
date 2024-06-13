@@ -4,6 +4,9 @@
 
 # Xcode
 #
+__tests__
+.bundle
+.yarn
 build/
 *.pbxuser
 !default.pbxuser
