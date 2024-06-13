@@ -1,5 +1,5 @@
 import Geolocation from '@react-native-community/geolocation';
-import {WebView} from 'react-native-webview';
+import {WebView, WebViewMessageEvent} from 'react-native-webview';
 
 interface Position {
   latitude: string;
@@ -47,7 +47,7 @@ export const updateCurrentPosition = (
   webRef.current?.postMessage(message);
 };
 
-// 즐겨찾기 리스트
+// 즐겨찾기 리스트 전송
 export const showStarList = (
   visible: boolean,
   list: Item[],

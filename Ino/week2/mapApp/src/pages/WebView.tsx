@@ -1,11 +1,10 @@
-import Geolocation from '@react-native-community/geolocation';
 import React, {useEffect, useRef, useState} from 'react';
-import {Dimensions, Pressable, StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import {WebView, WebViewMessageEvent} from 'react-native-webview';
-import LocationIcon from '../assets/Location';
 import Colors from '../Colors';
 import {useStarsState} from '../store/star';
 import ShowStarBtn from '../component/ShowStarList';
+import PositionBtn from '../component/CurrentPosition';
 import {
   getCurrentPosition,
   updateCurrentPosition,
@@ -63,18 +62,14 @@ const MyWeb = () => {
 
   return (
     <>
-      <ShowStarBtn webRef={webRef} />
       <WebView
         ref={webRef}
         style={styles.webview}
         source={{uri: 'http://192.168.0.12:5173/'}}
         onMessage={event => handleMessage(event)}
       />
-      <Pressable
-        onPress={() => updateCurrentPosition(latitude, longitude, webRef)}
-        style={styles.current}>
-        <LocationIcon color={Colors.Blue600} size={24} />
-      </Pressable>
+      <ShowStarBtn webRef={webRef} />
+      <PositionBtn latitude={latitude} longitude={longitude} webRef={webRef} />
     </>
   );
 };

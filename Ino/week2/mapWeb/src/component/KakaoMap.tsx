@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import useKakaoLoader from "./useKakaoLoader";
-import StarIcon from "../assets/Star.svg";
-import styles from "./KakaoMap.module.css";
+import StarButton from "./AddStarBtn";
 
 interface starListItem {
   latitude: number;
@@ -13,14 +12,18 @@ interface starListItem {
 export default function KakaoMap() {
   useKakaoLoader();
 
+  // type : 0(없음), 1(현재위치), 2(마커)
   const [type, setType] = useState(0);
+  // 지도의 중심 좌표
   const [view, setView] = useState({
     center: { lat: 33.450701, lng: 126.570667 },
   });
+
+  // 마커의 좌표
   const [latitude, setLatitude] = useState<number>(0);
   const [longitude, setLongitude] = useState<number>(0);
-  const [star, setStar] = useState(false);
 
+  // 즐겨찾기 리스트
   const [starList, setStarList] = useState<starListItem[]>([]);
 
   // Bridge
@@ -31,6 +34,7 @@ export default function KakaoMap() {
     return () => window.removeEventListener("message", getMessage);
   }, []);
 
+  // webview -> web 수신
   const getMessage = (e: MessageEvent) => {
     e.stopPropagation();
     const data = JSON.parse(e.data);
@@ -47,6 +51,7 @@ export default function KakaoMap() {
     setType(1);
   };
 
+  // 즐겨찾기 목록 받아서 마커 표시
   const showStarList = (data: any) => {
     if (data.visible == false) setStarList([]);
     else setStarList(data.list);
@@ -58,50 +63,10 @@ export default function KakaoMap() {
     setLongitude(lng);
     setView({ center: { lat: lat, lng: lng } });
     setType(2);
-    setStar(false);
-  };
-
-  //즐겨찾기
-  const handleStar = () => {
-    // 1. 주소 검색
-    const geocoder = new kakao.maps.services.Geocoder();
-    geocoder.coord2RegionCode(longitude, latitude, addStarList);
-  };
-
-  const addStarList = (result: any, status: any) => {
-    // 주소 검색 후 콜백 함수
-    if (status === kakao.maps.services.Status.OK) {
-      const addr = result[1].address_name;
-      //console.log(addr);
-
-      // 2. 결과를 Webview에 전송
-      const message = JSON.stringify({
-        name: "AddStar",
-        latitude: latitude,
-        longitude: longitude,
-        address: addr,
-      });
-
-      window.ReactNativeWebView.postMessage(message);
-      setStar(true);
-    } else {
-      // 검색 실패 또는 결과없음
-      window.ReactNativeWebView.postMessage("NO ADDRESS");
-    }
   };
 
   return (
     <>
-      {type == 2 ? (
-        <div
-          className={star ? styles.isstar : styles.nostar}
-          onClick={handleStar}
-        >
-          <img src={StarIcon} />
-        </div>
-      ) : (
-        <></>
-      )}
       <Map
         center={view.center}
         isPanto={true}
@@ -114,6 +79,7 @@ export default function KakaoMap() {
           );
         }}
       >
+        {/* 현재위치 */}
         {type == 1 ? (
           <MapMarker
             position={{ lat: latitude, lng: longitude }}
@@ -125,6 +91,7 @@ export default function KakaoMap() {
         ) : (
           <></>
         )}
+        {/* 클릭시 마커 표시 */}
         {type == 2 ? (
           <MapMarker
             position={{ lat: latitude, lng: longitude }}
@@ -136,6 +103,7 @@ export default function KakaoMap() {
         ) : (
           <></>
         )}
+        {/* 즐겨찾기한 마커 */}
         {starList.map((star, index) => (
           <MapMarker
             key={`${star.address}-${star.latitude}-${star.longitude}`}
@@ -147,6 +115,11 @@ export default function KakaoMap() {
           />
         ))}
       </Map>
+
+      {/* 마커에 대한 즐겨찾기 추가 */}
+      {type == 2 ? (
+        <StarButton latitude={latitude} longitude={longitude} />
+      ) : null}
     </>
   );
 }
