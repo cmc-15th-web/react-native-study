@@ -5,6 +5,11 @@ type SvgProps = {
 }
 
 type StarItemProps = {
-  addr: string;
+  item: Star;
   isLastItem: boolean;
+}
+
+type Star = {
+  addr: string;
+  markerId: number;
 }

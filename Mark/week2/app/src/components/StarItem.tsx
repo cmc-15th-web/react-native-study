@@ -4,17 +4,20 @@ import {TrashCanSvg} from '../assets/TrashCanSvg';
 import {useStore} from '../store/store';
 import {useState} from 'react';
 
-const StarItem = ({addr, isLastItem}: StarItemProps) => {
-  const [isRemoved, setIsRemoved] = useState<boolean>(false);
+const StarItem = ({item, isLastItem}: StarItemProps) => {
+  // const [isRemoved, setIsRemoved] = useState<boolean>(false);
   const webViewRef = useStore(state => state.webViewRef);
+  const {starList, setStarList} = useStore();
 
   const handleRemove = () => {
-    setIsRemoved(true);
+    const newList = starList.filter((star) => star.markerId !== item.markerId);
+    setStarList(newList);
+
     if (webViewRef) {
       const message = {
         type: 'removeStar',
         payload: {
-          removedAddr: addr,
+          removedItem: item,
         },
       };
       webViewRef.current?.postMessage(JSON.stringify(message));
@@ -26,9 +29,8 @@ const StarItem = ({addr, isLastItem}: StarItemProps) => {
       style={[
         styles.wrapper,
         isLastItem && styles.noBottomBorder,
-        isRemoved && styles.removed,
       ]}>
-      <Text style={styles.textAddr}>{addr}</Text>
+      <Text style={styles.textAddr}>{item.addr}</Text>
       <TouchableOpacity onPress={handleRemove}>
         <TrashCanSvg width="22" height="22" fill={Palette.Gray200} />
       </TouchableOpacity>

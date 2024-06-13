@@ -3,15 +3,16 @@ import NaverMap from "./components/NaverMap";
 import { useStore } from "./store/store";
 
 function App() {
+  const { setMarkerList, setStarAddressList } = useStore();
+  const markerList = useStore(state => state.markerList);
+  const starAddressList = useStore(state => state.starAddressList);
+  
   const DefaultLocation: CurrentLocation = {
     latitude: 37.5665,
     longitude: 126.978,
   };
   const [currentLocation, setCurrentLocation] =
     useState<CurrentLocation>(DefaultLocation);
-
-  const { starList, setStarList, starAddressList, setStarAddressList } =
-    useStore();
 
   useEffect(() => {
     const handleMessage = (event: any) => {
@@ -29,28 +30,18 @@ function App() {
         return;
       }
       if (message.type === "removeStar") {
-        const removedAddr = message.payload.removedAddr;
-        const newList = starAddressList.filter((addr) => addr !== removedAddr);
+        const removedItem: Star = message.payload.removedItem;
+        const newList = starAddressList.filter((item) => item.markerId !== removedItem.markerId);
         setStarAddressList(newList);
-        naver.maps.Service.geocode(
-          {
-            query: removedAddr,
-          },
-          function (status, response) {
-            if (status === naver.maps.Service.Status.OK) {
-              const { x, y } = response.v2.addresses[0];
-              const position = new naver.maps.LatLng(+y, +x);
-              starList.forEach((marker) => {
-                const markerPos = marker.getPosition();
-                if (markerPos.y === +y && markerPos.x === +x) {
-                  const newList = starList.filter((item) => item !== marker);
-                  setStarList(newList);
-                  marker.setMap(null);
-                }
-              });
-            }
+
+        markerList.forEach((item) => {
+          if (item.id === removedItem.markerId) {
+            item.marker.setMap(null);
+            return;
           }
-        );
+        })
+        const filtered = markerList.filter((item) => item.id !== removedItem.markerId);
+        setMarkerList(filtered);
       }
     };
 
@@ -68,7 +59,7 @@ function App() {
         window.removeEventListener("message", handleMessage);
       }
     };
-  }, []);
+  }, [markerList, starAddressList]);
   return (
     <NaverMap
       latitude={currentLocation.latitude}

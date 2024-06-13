@@ -8,3 +8,13 @@ type SvgProps = {
   height: string;
   fill: string;
 };
+
+type Star = {
+  addr: string;
+  markerId: number;
+}
+
+type Marker = {
+  marker: naver.maps.Marker;
+  id: number;
+}

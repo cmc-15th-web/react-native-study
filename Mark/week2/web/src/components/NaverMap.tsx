@@ -9,9 +9,9 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
   const [selected, setSelected] = useState<naver.maps.Marker | null>(null);
   const [mapInstance, setMapInstance] = useState<naver.maps.Map | null>(null);
   const [isStarred, setIsStarred] = useState<boolean>(false);
-  const starList = useStore((state) => state.starList);
+  const markerList = useStore((state) => state.markerList);
   const starAddressList = useStore((state) => state.starAddressList);
-  const { setStarList, setStarAddressList } = useStore();
+  const { setMarkerList, setStarAddressList } = useStore();
 
   const initMap = () => {
     if (window.naver && mapRef.current) {
@@ -50,7 +50,7 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
             url: "/assets/marker.svg",
           },
         });
-
+        
         setSelected(newMarker);
       };
 
@@ -68,14 +68,14 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
   useEffect(() => {
     let check = false;
     if (selected) {
-      check = starList.some((marker) => {
-        const markerPos = marker.getPosition();
+      check = markerList.some((marker) => {
+        const markerPos = marker.marker.getPosition();
         const selectedPos = selected!.getPosition();
         return markerPos.y === selectedPos.y && markerPos.x === selectedPos.x;
       });
     }
     setIsStarred(check);
-  }, [selected, starList]);
+  }, [selected, markerList]);
 
   useEffect(() => {
     if (window.ReactNativeWebView && window.ReactNativeWebView.postMessage) {
@@ -93,16 +93,16 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
     if (isStarred) {
       // 즐겨찾기 해제
       const selectedPos = selected!.getPosition();
-      const newStarList = starList.filter((marker) => {
-        const markerPos = marker.getPosition();
+      const newStarList = markerList.filter((marker) => {
+        const markerPos = marker.marker.getPosition();
         const isSamePosition =
           markerPos.y === selectedPos.y && markerPos.x === selectedPos.x;
         if (isSamePosition) {
-          marker.setMap(null);
+          marker.marker.setMap(null);
         }
         return !isSamePosition;
       });
-      setStarList(newStarList);
+      setMarkerList(newStarList);
 
       // 주소 비교해서 제거
       naver.maps.Service.reverseGeocode(
@@ -118,7 +118,7 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
             const address =
               response.v2.address.roadAddress ||
               response.v2.address.jibunAddress;
-            const newList = starAddressList.filter((addr) => addr !== address);
+            const newList = starAddressList.filter((item) => item.addr !== address);
             setStarAddressList(newList);
           }
         }
@@ -132,8 +132,10 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
           url: "/assets/star.svg",
         },
       });
-      const newList = [...starList, newStar];
-      setStarList(newList);
+
+      const newStarId = new Date().getTime();
+      const newList = [...markerList, {marker: newStar, id: newStarId}];
+      setMarkerList(newList);
 
       // 주소변환 후 추가
       naver.maps.Service.reverseGeocode(
@@ -149,7 +151,7 @@ const NaverMap = ({ latitude, longitude }: CurrentLocation) => {
             const address =
               response.v2.address.roadAddress ||
               response.v2.address.jibunAddress;
-            const newList = [...starAddressList, address];
+            const newList = [...starAddressList, {addr: address, markerId: newStarId}];
             setStarAddressList(newList);
           }
         }

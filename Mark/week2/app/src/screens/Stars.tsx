@@ -11,7 +11,7 @@ const Stars = () => {
 
   const renderItem = ({item, index}: any) => {
     const isLastItem = index === starList.length - 1;
-    return <StarItem addr={item} isLastItem={isLastItem}/>
+    return <StarItem item={item} isLastItem={isLastItem}/>
   }
 
   return (
