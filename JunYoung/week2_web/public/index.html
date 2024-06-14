@@ -19,6 +19,7 @@
   <script>
     let map;
     let marker;
+    let favoriteMarkers = [];
 
     function initMap() {
       map = new naver.maps.Map('map', {
@@ -32,19 +33,37 @@
         const position = e.coord;
 
         if (marker) {
-          marker.setPosition(position);
+          marker.setPosition(position); // 기존 마커의 위치 업데이트
         } else {
           marker = new naver.maps.Marker({
             position: position,
             map: map,
-          });
+          }); // 새 마커 생성
         }
+
+        map.setCenter(position); // 마커 위치를 중심으로 지도 이동
 
         window.ReactNativeWebView.postMessage(JSON.stringify({
           latitude: position.lat(),
           longitude: position.lng(),
+          type: 'click'
         }));
       });
+    }
+
+    function addFavoriteMarker(latitude, longitude) {
+      const position = new naver.maps.LatLng(latitude, longitude);
+      const favoriteMarker = new naver.maps.Marker({
+        position: position,
+        map: map,
+        icon: {
+          url: 'Star.svg', // 별 모양 아이콘 URL
+          size: new naver.maps.Size(24, 24),
+          origin: new naver.maps.Point(0, 0),
+
+        }
+      });
+      favoriteMarkers.push(favoriteMarker);
     }
 
     window.onload = initMap;
