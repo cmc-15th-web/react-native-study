@@ -2,18 +2,21 @@ import React, {useRef, useEffect, useState, useCallback} from 'react';
 import {Alert, SafeAreaView, StyleSheet} from 'react-native';
 import {WebView, WebViewMessageEvent} from 'react-native-webview';
 import UseLocation from '@/utiles/UseLocation';
-
 import UseLoading from '@/utiles/UseLoading';
+import {useFavoriteStore} from '@/store/favoriteStore';
 
 const App = () => {
   const webViewRef = useRef<WebView>(null);
   const location = UseLocation();
-  console.log('🚀 ~ file: home.tsx:16 ~ App ~ location:', location);
-
   const [isLoading, setIsLoading] = useState(true);
+  const addFavorite = useFavoriteStore(state => state.addFavorite);
 
   const getMessage = (event: WebViewMessageEvent) => {
-    Alert.alert(event.nativeEvent.data);
+    const data = JSON.parse(event.nativeEvent.data);
+    if (data.address) {
+      addFavorite(data.address);
+      Alert.alert('즐겨찾기 추가', `주소: ${data.address}`);
+    }
   };
 
   const sendLocationToWeb = useCallback(() => {
