@@ -10,8 +10,8 @@ const NaverMap: React.FC = () => {
   useEffect(() => {
     if (window.naver && window.naver.maps) {
       const mapOptions = {
-        center: new window.naver.maps.LatLng(37.3595704, 127.105399),
-        zoom: 10,
+        center: new window.naver.maps.LatLng(37.55025, 127.073146),
+        zoom: 16,
       };
       new window.naver.maps.Map("map", mapOptions);
     }
@@ -21,9 +21,7 @@ const NaverMap: React.FC = () => {
     <div
       id="map"
       style={{ width: "100%", height: "100vh", backgroundColor: "beige" }}
-    >
-      <h1>네이버 지도입니다.</h1>
-    </div>
+    ></div>
   );
 };
 
