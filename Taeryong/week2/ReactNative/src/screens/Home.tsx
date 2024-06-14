@@ -33,7 +33,7 @@ const App = () => {
   useEffect(() => {
     if (location != null) {
       setIsLoading(false);
-      setTimeout(sendLocationToWeb, 1000);
+      setTimeout(sendLocationToWeb, 500);
     }
   }, [location, sendLocationToWeb]);
 
@@ -61,5 +61,6 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
   },
 });
