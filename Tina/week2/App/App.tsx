@@ -40,6 +40,7 @@ function App(): React.JSX.Element {
           name="Setting"
           component={FavoritesScreen}
           options={{
+            // eslint-disable-next-line react/no-unstable-nested-components
             tabBarIcon: ({color}) => <FavIcon color={color} />,
             headerShown: false,
             tabBarActiveTintColor: THEME_COLOR.Blue[600],
