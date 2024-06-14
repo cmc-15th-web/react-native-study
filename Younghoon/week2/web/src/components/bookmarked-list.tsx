@@ -7,12 +7,12 @@ export function BookmarkedList() {
     Array<{ lng: number; lat: number; address: string }>
   >([]);
 
+  const savedMarkers = localStorage.getItem('markers');
   useEffect(() => {
-    const savedMarkers = localStorage.getItem('markers');
     if (savedMarkers) {
       setMarkers(JSON.parse(savedMarkers));
     }
-  }, []);
+  }, [savedMarkers]);
 
   return (
     <Drawer>

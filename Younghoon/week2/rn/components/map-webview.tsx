@@ -14,7 +14,7 @@ export function MapWebview() {
       <WebView
         originWhitelist={["*"]}
         source={{
-          uri: `http://172.30.72.122:5173`,
+          uri: `http://${process.env.EXPO_PUBLIC_IP}:5173`,
         }}
         javaScriptEnabled={true}
         userAgent={`webview-${Platform.OS === "ios" ? "ios" : "android"}`}
