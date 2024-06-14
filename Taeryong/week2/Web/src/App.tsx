@@ -1,10 +1,9 @@
 import "./App.css";
-import MapKaKao from "./pages/MapKaKao";
+import MapKaKao from "./components/MapKaKao";
 
 export default function App() {
   return (
     <div>
-      <div>hi</div>
       <MapKaKao />
     </div>
   );

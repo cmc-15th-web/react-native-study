@@ -1,47 +1,62 @@
-import React, {useRef} from 'react';
-import {Alert, Dimensions, SafeAreaView, StyleSheet} from 'react-native';
+import React, {useRef, useEffect, useState, useCallback} from 'react';
+import {Alert, SafeAreaView, StyleSheet} from 'react-native';
 import {WebView, WebViewMessageEvent} from 'react-native-webview';
-import {API_URL_THIRD} from '@env';
 import UseLocation from '@/utiles/UseLocation';
 
-const {width, height} = Dimensions.get('screen');
+import UseLoading from '@/utiles/UseLoading';
 
 const App = () => {
-  const location = UseLocation();
-  console.log('🚀 ~ file: home.tsx:11 ~ App ~ location:', location);
-
-  console.log('🚀 ~ file: home.tsx:5 ~ API_URL:', API_URL_THIRD);
   const webViewRef = useRef<WebView>(null);
+  const location = UseLocation();
+  console.log('🚀 ~ file: home.tsx:16 ~ App ~ location:', location);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const getMessage = (event: WebViewMessageEvent) => {
     Alert.alert(event.nativeEvent.data);
   };
 
+  const sendLocationToWeb = useCallback(() => {
+    if (webViewRef.current && location) {
+      const message = JSON.stringify({
+        type: 'location',
+        latitude: location.latitude,
+        longitude: location.longitude,
+      });
+      webViewRef.current.postMessage(message);
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (location != null) {
+      setIsLoading(false);
+      setTimeout(sendLocationToWeb, 1000);
+    }
+  }, [location, sendLocationToWeb]);
+
+  if (isLoading) {
+    UseLoading;
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <WebView
         originWhitelist={['*']}
-        source={{uri: API_URL_THIRD}}
+        source={{uri: 'http://localhost:5173'}}
         ref={webViewRef}
         javaScriptEnabled={true}
         geolocationEnabled={true}
         onMessage={getMessage}
+        onLoadEnd={sendLocationToWeb}
       />
     </SafeAreaView>
   );
 };
 
+export default App;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: width,
-    height: height,
-  },
-  webViewContainer: {
-    flex: 1,
-    width: width,
-    height: height,
   },
 });
-
-export default App;

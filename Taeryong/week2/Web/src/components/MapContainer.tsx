@@ -1,6 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
-function MapKaKao() {
+interface MapContainerProps {
+  latitude: number;
+  longitude: number;
+  onMapLoad: (map: any) => void;
+}
+
+const MapContainer = ({
+  latitude,
+  longitude,
+  onMapLoad,
+}: MapContainerProps) => {
+  const mapRef = useRef<any>(null);
+
   useEffect(() => {
     const script = document.createElement("script");
     script.defer = true;
@@ -12,20 +24,18 @@ function MapKaKao() {
       window.kakao.maps.load(() => {
         const container = document.getElementById("map");
         const options = {
-          center: new window.kakao.maps.LatLng(33.450701, 126.570667),
+          center: new window.kakao.maps.LatLng(latitude, longitude),
           level: 3,
         };
         const map = new window.kakao.maps.Map(container, options);
-        console.log(
-          "🚀 ~ file: MapKaKao.tsx:18 ~ window.kakao.maps.load ~ map:",
-          map
-        );
+        mapRef.current = map;
+        onMapLoad(map);
       });
     };
     document.head.appendChild(script);
-  }, []);
+  }, [latitude, longitude, onMapLoad]);
 
   return <div id="map" style={{ width: "100vw", height: "100vh" }} />;
-}
+};
 
-export default MapKaKao;
+export default MapContainer;

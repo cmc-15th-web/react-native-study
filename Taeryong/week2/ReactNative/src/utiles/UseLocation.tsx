@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-// utils/useLocation.js
 import {useState, useEffect} from 'react';
 import {Alert} from 'react-native';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
@@ -10,9 +9,6 @@ const UseLocation = () => {
     latitude: number;
     longitude: number;
   } | null>(null);
-
-  // 데이터 확인
-  console.log('latitude', location?.latitude, 'longitude', location?.longitude);
 
   useEffect(() => {
     checkLocationPermission();
