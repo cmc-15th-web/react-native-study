@@ -5,7 +5,7 @@ import {StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Favorites from '@/assets/favorites.svg';
 import KrFavorites from '@/assets/kr-favorites.svg';
-import DeleteIocn from '@/assets/delete-icon.svg';
+import DeleteIcon from '@/assets/delete-icon.svg';
 
 const FavoritesScreen = () => {
   const {favList, removeFavList} = useFavList();
@@ -22,7 +22,7 @@ const FavoritesScreen = () => {
               <View style={styles.textContainer} key={value.id}>
                 <Text style={styles.text}>{value.address}</Text>
                 <TouchableHighlight onPress={() => removeFavList(value)}>
-                  <DeleteIocn />
+                  <DeleteIcon />
                 </TouchableHighlight>
               </View>
             );

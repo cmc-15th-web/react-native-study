@@ -1,19 +1,23 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FavoriteIcon } from './components/FavoriteIcon';
 import THEME_COLOR from './styles/theme-color';
 import './styles/App.css';
 import { GetLocationIcon } from './components/GetLocationIcon';
 import { getMessageFromRN } from './utils/map';
+import FavIconWithKr from './components/FavIconWithKr';
 
 function App() {
   const [currentLocation, setCurrentLocation] = useState({
     latitude: 37.5559,
     longitude: 126.9723,
   });
+  const [favList, setFavList] = useState<any[]>([]);
   const [favBtnActivated, setFavBtnActivated] = useState<boolean>(false);
+  const [showfavBtnActivated, setShowFavBtnActivated] =
+    useState<boolean>(false);
 
   useEffect(() => {
-    getMessageFromRN(setCurrentLocation);
+    getMessageFromRN(setCurrentLocation, setFavList);
     return () => window.removeEventListener('message', (e) => console.log(e));
   }, []);
 
@@ -35,6 +39,18 @@ function App() {
         url: 'assets/current-location-marker.svg',
       },
     });
+
+    if (showfavBtnActivated && favList && Array.isArray(favList)) {
+      favList.map((favorite) => {
+        return new naver.maps.Marker({
+          position: favorite.position,
+          map: map,
+          icon: {
+            url: 'assets/star-icon.svg',
+          },
+        });
+      });
+    }
 
     if (favBtnActivated) {
       naver.maps.Event.addListener(map, 'click', function (e) {
@@ -78,6 +94,10 @@ function App() {
           setFavBtnActivated(!favBtnActivated);
         }}
         color={favBtnActivated ? THEME_COLOR.Blue[600] : THEME_COLOR.Gray[600]}
+      />
+      <FavIconWithKr
+        selected={showfavBtnActivated}
+        onClick={() => setShowFavBtnActivated(!showfavBtnActivated)}
       />
       <GetLocationIcon onClick={() => setFavBtnActivated(!favBtnActivated)} />
       <div id='map' style={{ width: '100vw', height: '100vh' }}></div>;

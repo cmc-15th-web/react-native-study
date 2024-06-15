@@ -3,7 +3,8 @@ import { Dispatch, SetStateAction } from 'react';
 export const getMessageFromRN = (
   setCurrentLocation: Dispatch<
     SetStateAction<{ latitude: number; longitude: number }>
-  >
+  >,
+  setFavList: Dispatch<SetStateAction<any[]>>
 ) => {
   if (!window.ReactNativeWebView) return;
   const handleMessage = (e: MessageEvent<any>) => {
@@ -14,6 +15,9 @@ export const getMessageFromRN = (
           latitude: response.latitude,
           longitude: response.longitude,
         });
+      }
+      if (response.type === 'favList') {
+        setFavList(response.favList);
       }
     } catch (error) {
       console.error('Error parsing message data:', error);

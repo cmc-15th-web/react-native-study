@@ -1,9 +1,10 @@
 import {checkPermission} from '@/utils/map';
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Alert, Dimensions, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import WebView, {WebViewMessageEvent} from 'react-native-webview';
 import {useFavList} from '@/store/favList';
+import {useWebviewRef} from '@/store/webviewRef';
 
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
@@ -11,6 +12,7 @@ const deviceWidth = Dimensions.get('window').width;
 const WebViewScreen = () => {
   const webViewRef = useRef<WebView>(null);
   const {addFavList} = useFavList();
+  const {initWebview} = useWebviewRef();
 
   const handleOnMessage = (e: WebViewMessageEvent) => {
     try {
@@ -24,13 +26,28 @@ const WebViewScreen = () => {
     }
   };
 
+  useEffect(() => {
+    const unsubscribe = useFavList.subscribe(state =>
+      webViewRef.current?.postMessage(
+        JSON.stringify({
+          type: 'favList',
+          favList: state.favList,
+        }),
+      ),
+    );
+    return () => unsubscribe();
+  }, []);
+
   return (
     <SafeAreaView style={styles.safeareaContainer}>
       <WebView
         ref={webViewRef}
         originWhitelist={['*']}
         onMessage={handleOnMessage}
-        onLoadEnd={() => checkPermission(webViewRef)}
+        onLoadEnd={() => {
+          checkPermission(webViewRef);
+          initWebview(webViewRef);
+        }}
         javaScriptEnabled={true}
         domStorageEnabled={true}
         source={{
