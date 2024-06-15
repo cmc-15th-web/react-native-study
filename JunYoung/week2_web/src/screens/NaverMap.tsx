@@ -11,7 +11,7 @@ const NaverMap: React.FC = () => {
     if (window.naver && window.naver.maps) {
       const mapOptions = {
         center: new window.naver.maps.LatLng(37.55025, 127.073146),
-        zoom: 16,
+        zoom: 15,
       };
       new window.naver.maps.Map("map", mapOptions);
     }
