@@ -8,6 +8,7 @@ interface Favorite {
 interface FavoritesState {
   favorites: Favorite[];
   addFavorite: (location: Favorite) => void;
+  removeFavorite: (index: number) => void;
 }
 
 const useFavoritesStore = create<FavoritesState>((set) => ({
@@ -15,6 +16,10 @@ const useFavoritesStore = create<FavoritesState>((set) => ({
   addFavorite: (location) =>
     set((state) => ({
       favorites: [...state.favorites, location],
+    })),
+  removeFavorite: (index) =>
+    set((state) => ({
+      favorites: state.favorites.filter((_, i) => i !== index),
     })),
 }));
 
