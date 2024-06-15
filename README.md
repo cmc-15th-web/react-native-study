@@ -80,13 +80,13 @@ ex) [1주차] 레니 과제 제출합니다
 | 주차  | 날짜     | Taeryong | Ino | Mark | Tina | MagicTaro | Tease | Younghoon | Junyoung |
 | ----- | -------- | -------- | --- | ---- | ---- | --------- | ----- | --------- | -------- |
 | Week1 | 24.05.25 | ✅       | ✅  | ✅   | ✅   | -         | ✅    | ✅        | ✅       |
-| Week2 | 24.06.15 |          |     |      |      |           |       |           |          |
+| Week2 | 24.06.15 | ✅       | ✅  | ✅   | ✅   | ✅        | ✅    | ✅        | ✅       |
 | Week3 | 24.06.22 |          |     |      |      |           |       |           |          |
 
 ## 🍉 코드리뷰 파트너
 
-| 주차  | TeamA           | TeamB         | TeamC                 | TeamD                |
-| ----- | --------------- | ------------- | --------------------- | -------------------- |
-| Week1 | Taeryong & Ino  | Justin & Tina | Low & Tease           | Younghoon & Junyoung |
-| Week2 | Taeryong & Tina | Ino & Mark    | MagicTaro & Younghoon | Tease & Junyoung     |
-| Week3 |                 |               |                       |                      |
+| 주차  | TeamA                | TeamB           | TeamC                 | TeamD                |
+| ----- | -------------------- | --------------- | --------------------- | -------------------- |
+| Week1 | Taeryong & Ino       | Justin & Tina   | Low & Tease           | Younghoon & Junyoung |
+| Week2 | Taeryong & Tina      | Ino & Mark      | MagicTaro & Younghoon | Tease & Junyoung     |
+| Week3 | Taeryong & Younghoon | MagicTaro & Ino | Mark & Tease          | Tina & Junyoung      |
