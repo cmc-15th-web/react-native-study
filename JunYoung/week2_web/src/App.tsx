@@ -1,9 +1,16 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import NaverMap from "./screens/NaverMap";
 
 function App() {
-  return <div>asd</div>;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/naverMap" element={<NaverMap />}></Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
