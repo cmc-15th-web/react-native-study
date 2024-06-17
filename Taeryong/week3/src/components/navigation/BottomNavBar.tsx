@@ -1,14 +1,45 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import HomeScreen from '@/screens/Home';
 import SettingScreen from '@/screens/Setting';
 import AddIcon from '@/assets/icons/Add.svg';
 import useModalStore from '@/store/modalStore';
 import Colors from '@/constants/Colors';
 import HomeIcon from '@/assets/icons/Home.svg';
+import GradientHomeIcon from '@/assets/icons/GradientHome.svg';
 import SettingIcon from '@/assets/icons/Theme.svg';
+import GradientSettingIcon from '@/assets/icons/GradientTheme.svg';
+import GradientText from '@/components/common/GradientText';
+import CustomModal from '../modal/CustomModal';
 
 const Tab = createBottomTabNavigator();
+
+const headerTitleGradient = () => {
+  return (
+    <GradientText style={styles.headerTitleContainer}>
+      Taeryong님의 사진첩
+    </GradientText>
+  );
+};
+
+const TabBarLabel = ({focused, label}: {focused: boolean; label: string}) => {
+  return focused ? (
+    <GradientText style={styles.labelText}>{label}</GradientText>
+  ) : (
+    <Text style={[styles.labelText, {color: Colors.Gray400}]}>{label}</Text>
+  );
+};
+
+const TabBarHomeIcon = ({focused}: {focused: boolean}) => {
+  return focused ? <GradientHomeIcon /> : <HomeIcon fill={Colors.Gray400} />;
+};
+const TabBarSettingIcon = ({focused}: {focused: boolean}) => {
+  return focused ? (
+    <GradientSettingIcon />
+  ) : (
+    <SettingIcon fill={Colors.Gray400} />
+  );
+};
 
 const BottomNavBar = () => {
   const toggleModal = useModalStore(state => state.toggleModal);
@@ -17,8 +48,6 @@ const BottomNavBar = () => {
     <>
       <Tab.Navigator
         screenOptions={{
-          tabBarActiveTintColor: Colors.Pink,
-          tabBarInactiveTintColor: Colors.Gray400,
           headerStyle: styles.header,
           tabBarStyle: styles.tabBar,
           headerTitleAlign: 'left',
@@ -28,8 +57,11 @@ const BottomNavBar = () => {
           name="홈"
           component={HomeScreen}
           options={{
-            headerTitle: 'Taeryong님의 사진첩',
-            tabBarIcon: ({color}) => <HomeIcon fill={color} />,
+            headerTitle: headerTitleGradient,
+            tabBarIcon: ({focused}) => <TabBarHomeIcon focused={focused} />,
+            tabBarLabel: ({focused}) => (
+              <TabBarLabel focused={focused} label="홈" />
+            ),
           }}
         />
         <Tab.Screen
@@ -37,13 +69,17 @@ const BottomNavBar = () => {
           component={SettingScreen}
           options={{
             headerTitle: '설정',
-            tabBarIcon: ({color}) => <SettingIcon fill={color} />,
+            tabBarIcon: ({focused}) => <TabBarSettingIcon focused={focused} />,
+            tabBarLabel: ({focused}) => (
+              <TabBarLabel focused={focused} label="설정" />
+            ),
           }}
         />
       </Tab.Navigator>
       <TouchableOpacity style={styles.container} onPress={() => toggleModal()}>
         <AddIcon />
       </TouchableOpacity>
+      <CustomModal />
     </>
   );
 };
@@ -72,5 +108,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: Colors.Pink,
+  },
+  labelText: {
+    fontSize: 12,
   },
 });
