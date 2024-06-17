@@ -1,6 +1,9 @@
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Modal from 'react-native-modal';
 import useModalStore from '@/store/modalStore';
+import Colors from '@/constants/Colors';
+import CameraIcon from '@/assets/icons/Camera.svg';
+import GalleryIcon from '@/assets/icons/Gallery.svg';
 
 const CustomModal = () => {
   const isModalVisible = useModalStore(state => state.isModalVisible);
@@ -20,13 +23,23 @@ const CustomModal = () => {
     <Modal
       isVisible={isModalVisible}
       onBackdropPress={toggleModal}
+      onSwipeComplete={toggleModal}  // swipe down to close가 가능토록 설정
+      swipeDirection="down" 
+      swipeThreshold={150} // swipe down to close의 범위
       style={styles.modal}>
       <View style={styles.modalContent}>
+        <View style={styles.modalLine} />
         <TouchableOpacity style={styles.modalButton} onPress={handleCamera}>
-          <Text>카메라로 촬영하기</Text>
+          <View style={styles.contentContainer}>
+            <CameraIcon fill={Colors.White} />
+            <Text style={styles.textStyle}>카메라로 촬영하기</Text>
+          </View>
         </TouchableOpacity>
         <TouchableOpacity style={styles.modalButton} onPress={handleGallery}>
-          <Text>갤러리에서 선택하기</Text>
+          <View style={styles.contentContainer}>
+            <GalleryIcon fill={Colors.White} />
+            <Text style={styles.textStyle}>갤러리에서 선택하기</Text>
+          </View>
         </TouchableOpacity>
       </View>
     </Modal>
@@ -40,14 +53,33 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     margin: 0,
   },
+
   modalContent: {
-    backgroundColor: 'white',
-    padding: 50,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    backgroundColor: Colors.Gray600,
+    paddingHorizontal: 24,
+    paddingBottom: 40,
+    paddingTop: 18,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  modalLine: {
+    width: 50,
+    height: 5,
+    backgroundColor: Colors.Gray400,
+    borderRadius: 5,
+    alignSelf: 'center',
+    marginBottom: 20,
   },
   modalButton: {
-    padding: 15,
+    paddingVertical: 15,
+  },
+  contentContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
+    gap: 8,
+  },
+  textStyle: {
+    color: 'white',
+    fontSize: 16,
   },
 });
