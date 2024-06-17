@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, SafeAreaView } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import Splash from "./src/screens/Splash";
 import BottomTabNavi from "./src/components/BottomTabNavi";

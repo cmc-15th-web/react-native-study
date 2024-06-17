@@ -6,7 +6,7 @@ import { StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 // 화면 추가
 import HomeScreen from "../screens/HomeScreen";
 import ThemeScreen from "../screens/ThemeScreen";
-import BottomSheetModal from "./BottomModal";
+import BottomSheetModal from "./BottomSheetModal";
 
 // 아이콘 추가
 import { HomeBtn, PLusBtn, ThemeBtn } from "../assets/icons";
