@@ -4,7 +4,7 @@ import { Palette } from "../constants/palette";
 const Home = () => {
   return (
     <View style={styles.container}>
-      <Text>홈</Text>
+      <Text style={{color: Palette.White}}>홈</Text>
     </View>
   );
 }

@@ -1,11 +1,11 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {Palette} from '../constants/palette';
 import Home from '../screens/Home';
 import Setting from '../screens/Setting';
 import {HomeSvg} from '../assets/HomeSvg';
 import {SettingSvg} from '../assets/SettingSvg';
-import AddBtn from './AddBtn';
+import AddPhoto from './AddPhoto';
 
 const BottomNavigator = () => {
   const Tab = createBottomTabNavigator<RootTabParamList>();
@@ -47,15 +47,12 @@ const BottomNavigator = () => {
           }}
         />
       </Tab.Navigator>
-      <AddBtn />
+      <AddPhoto />
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  // container: {
-  //   position: 'relative',
-  // },
   tab: {
     paddingVertical: 6,
     backgroundColor: Palette.Black,

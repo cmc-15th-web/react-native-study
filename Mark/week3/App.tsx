@@ -1,12 +1,16 @@
 import React from 'react';
 import {StyleSheet, SafeAreaView} from 'react-native';
 import StackNavigator from './src/components/StackNavigator';
+import BottomSheetModalProvider from '@gorhom/bottom-sheet';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 function App(): React.JSX.Element {
   return (
-    <SafeAreaView style={styles.container}>
-      <StackNavigator />
-    </SafeAreaView>
+    <GestureHandlerRootView style={styles.container}>
+      <SafeAreaView style={styles.container}>
+        <StackNavigator />
+      </SafeAreaView>
+    </GestureHandlerRootView>
   );
 }
 
