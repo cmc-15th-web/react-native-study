@@ -97,7 +97,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.Gray900,
     // 매우 얇은 선
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderColor: Colors.Pink,
   },
   container: {
     position: 'absolute',
@@ -107,7 +106,6 @@ const styles = StyleSheet.create({
   headerTitleContainer: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: Colors.Pink,
   },
   labelText: {
     fontSize: 12,

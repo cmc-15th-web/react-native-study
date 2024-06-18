@@ -17,7 +17,6 @@ const CustomModal = () => {
   };
 
   const handleGallery = async () => {
-    console.log('갤러리에서 선택하기');
     await toggleModal();
     setTimeout(() => uploadByGallery(), 400); // 모달이 완전히 닫힌 후 실행하도록 해야 충돌 방지 가능
   };
@@ -27,7 +26,7 @@ const CustomModal = () => {
       isVisible={isModalVisible}
       onBackdropPress={toggleModal}
       onSwipeComplete={toggleModal} // swipe down to close가 가능토록 설정
-      swipeDirection="down" 
+      swipeDirection="down"
       swipeThreshold={150} // swipe down to close의 범위
       style={styles.modal}>
       <View style={styles.modalContent}>

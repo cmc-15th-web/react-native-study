@@ -2,8 +2,6 @@ import {create} from 'zustand';
 
 interface ImageDataType {
   path: string;
-  width: number;
-  height: number;
   creationDate: Date;
 }
 

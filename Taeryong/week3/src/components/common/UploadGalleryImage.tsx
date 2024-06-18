@@ -1,10 +1,7 @@
 import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 import useImageStore from '@/store/imageStore';
-
 interface ImageDataType {
   path: string;
-  width: number;
-  height: number;
   creationDate: Date;
 }
 
@@ -33,16 +30,14 @@ const UploadGalleryImage = () => {
       try {
         const croppedImage = await ImagePicker.openCropper({
           path: image.path,
-          width: 100,
-          height: 100,
+          width: 900,
+          height: 900,
           mediaType: 'photo',
         });
 
         croppedImages.push({
           creationDate: new Date(),
           path: croppedImage.path,
-          width: croppedImage.width,
-          height: croppedImage.height,
         });
       } catch (err) {
         console.log('Error cropping image:', err);
