@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
@@ -9,17 +9,6 @@ export function usePermission() {
   const [hasGalleryPermission, setHasGalleryPermission] = useState<
     boolean | null
   >(null);
-
-  useEffect(() => {
-    (async () => {
-      const cameraStatus = await ImagePicker.requestCameraPermissionsAsync();
-      setHasCameraPermission(cameraStatus.status === "granted");
-
-      const galleryStatus =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-      setHasGalleryPermission(galleryStatus.status === "granted");
-    })();
-  }, []);
 
   const requestGalleryPermission = useCallback(async () => {
     const galleryStatus =

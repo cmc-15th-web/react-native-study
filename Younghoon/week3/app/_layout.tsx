@@ -23,13 +23,16 @@ export default function _layout() {
     prepare();
   }, []);
 
+  useEffect(() => {
+    if (appIsReady) {
+      requestCameraPermission();
+      requestGalleryPermission();
+    }
+  }, [appIsReady]);
+
   const onLayoutRootView = useCallback(async () => {
     if (appIsReady) {
       await SplashScreen.hideAsync();
-      (async () => {
-        await requestCameraPermission();
-        await requestGalleryPermission();
-      })();
     }
   }, [appIsReady]);
 
