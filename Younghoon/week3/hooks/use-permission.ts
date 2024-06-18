@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
@@ -21,7 +21,12 @@ export function usePermission() {
     })();
   }, []);
 
-  const galleryPermission = async () => {
+  const galleryPermission = useCallback(async () => {
+    if (hasGalleryPermission === false) {
+      Alert.alert("갤러리 권한이 존재하지 않습니다.");
+      return;
+    }
+
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -32,9 +37,14 @@ export function usePermission() {
     if (!result.canceled) {
       console.log(result.assets[0].uri);
     }
-  };
+  }, [hasGalleryPermission]);
 
-  const cameraPermission = async () => {
+  const cameraPermission = useCallback(async () => {
+    if (hasCameraPermission === false) {
+      Alert.alert("카메라 권한이 존재하지 않습니다.");
+      return;
+    }
+
     let result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       aspect: [4, 3],
@@ -44,7 +54,7 @@ export function usePermission() {
     if (!result.canceled) {
       console.log(result.assets[0].uri);
     }
-  };
+  }, [hasCameraPermission]);
 
   return {
     galleryPermission,
