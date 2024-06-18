@@ -1,10 +1,12 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
-import { SplashIcon } from "@/components/ui/icons";
 import { Splash } from "@/components/splash";
+import { usePermission } from "@/hooks/use-permission";
 
 export default function _layout() {
+  const { galleryPermission, cameraPermission } = usePermission();
+
   const [appIsReady, setAppIsReady] = useState<boolean>(false);
 
   useEffect(() => {
@@ -15,6 +17,8 @@ export default function _layout() {
         console.warn(e);
       } finally {
         setAppIsReady(true);
+        await galleryPermission();
+        await cameraPermission();
       }
     }
 
@@ -39,5 +43,3 @@ export default function _layout() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({});

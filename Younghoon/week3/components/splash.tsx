@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { StatusBar, View, StyleSheet, Text } from "react-native";
 import { SplashIcon } from "./ui/icons";
-import { LinearGradient } from "expo-linear-gradient";
 import MaskedView from "@react-native-masked-view/masked-view";
+import { Gradient } from "./ui/gradient";
 
 export function Splash() {
   useEffect(() => {
@@ -26,12 +26,7 @@ export function Splash() {
           </View>
         }
       >
-        <LinearGradient
-          colors={["#E33AFF", "#A45CFF"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.gradient}
-        />
+        <Gradient style={styles.gradient} />
       </MaskedView>
     </View>
   );
