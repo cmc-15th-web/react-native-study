@@ -21,7 +21,24 @@ export function usePermission() {
     })();
   }, []);
 
-  const galleryPermission = useCallback(async () => {
+  const requestGalleryPermission = useCallback(async () => {
+    const galleryStatus =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+    setHasGalleryPermission(galleryStatus.status === "granted");
+    if (galleryStatus.status !== "granted") {
+      Alert.alert("갤러리 권한이 필요합니다.");
+    }
+  }, []);
+
+  const requestCameraPermission = useCallback(async () => {
+    const cameraStatus = await ImagePicker.requestCameraPermissionsAsync();
+    setHasCameraPermission(cameraStatus.status === "granted");
+    if (cameraStatus.status !== "granted") {
+      Alert.alert("카메라 권한이 필요합니다.");
+    }
+  }, []);
+
+  const onGallery = useCallback(async () => {
     if (hasGalleryPermission === false) {
       Alert.alert("갤러리 권한이 존재하지 않습니다.");
       return;
@@ -39,7 +56,7 @@ export function usePermission() {
     }
   }, [hasGalleryPermission]);
 
-  const cameraPermission = useCallback(async () => {
+  const onCamera = useCallback(async () => {
     if (hasCameraPermission === false) {
       Alert.alert("카메라 권한이 존재하지 않습니다.");
       return;
@@ -57,7 +74,9 @@ export function usePermission() {
   }, [hasCameraPermission]);
 
   return {
-    galleryPermission,
-    cameraPermission,
+    requestGalleryPermission,
+    requestCameraPermission,
+    onGallery,
+    onCamera,
   };
 }

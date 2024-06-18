@@ -5,7 +5,7 @@ import { Splash } from "@/components/splash";
 import { usePermission } from "@/hooks/use-permission";
 
 export default function _layout() {
-  const { galleryPermission, cameraPermission } = usePermission();
+  const { requestCameraPermission, requestGalleryPermission } = usePermission();
 
   const [appIsReady, setAppIsReady] = useState<boolean>(false);
 
@@ -17,8 +17,6 @@ export default function _layout() {
         console.warn(e);
       } finally {
         setAppIsReady(true);
-        await galleryPermission();
-        await cameraPermission();
       }
     }
 
@@ -28,6 +26,10 @@ export default function _layout() {
   const onLayoutRootView = useCallback(async () => {
     if (appIsReady) {
       await SplashScreen.hideAsync();
+      (async () => {
+        await requestCameraPermission();
+        await requestGalleryPermission();
+      })();
     }
   }, [appIsReady]);
 
