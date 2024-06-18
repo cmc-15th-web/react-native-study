@@ -1,9 +1,6 @@
 import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 import useImageStore from '@/store/imageStore';
-interface ImageDataType {
-  path: string;
-  creationDate: Date;
-}
+import {ImageData} from '@/types/type';
 
 const UploadGalleryImage = () => {
   const addImages = useImageStore(state => state.addImages);
@@ -24,7 +21,7 @@ const UploadGalleryImage = () => {
   };
 
   const openCrop = async (selectedImages: ImageOrVideo[]) => {
-    const croppedImages: ImageDataType[] = [];
+    const croppedImages: ImageData[] = [];
 
     for (const image of selectedImages) {
       try {

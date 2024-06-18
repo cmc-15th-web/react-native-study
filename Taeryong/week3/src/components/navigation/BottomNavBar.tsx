@@ -11,38 +11,39 @@ import SettingIcon from '@/assets/icons/Theme.svg';
 import GradientSettingIcon from '@/assets/icons/GradientTheme.svg';
 import GradientText from '@/components/common/GradientText';
 import CustomModal from '../modal/CustomModal';
+import {BottomTabParamList} from '@/types/navigation';
 
-const Tab = createBottomTabNavigator();
-
-const headerTitleGradient = () => {
-  return (
-    <GradientText style={styles.headerTitleContainer}>
-      Taeryong님의 사진첩
-    </GradientText>
-  );
-};
-
-const TabBarLabel = ({focused, label}: {focused: boolean; label: string}) => {
-  return focused ? (
-    <GradientText style={styles.labelText}>{label}</GradientText>
-  ) : (
-    <Text style={[styles.labelText, {color: Colors.Gray400}]}>{label}</Text>
-  );
-};
-
-const TabBarHomeIcon = ({focused}: {focused: boolean}) => {
-  return focused ? <GradientHomeIcon /> : <HomeIcon fill={Colors.Gray400} />;
-};
-const TabBarSettingIcon = ({focused}: {focused: boolean}) => {
-  return focused ? (
-    <GradientSettingIcon />
-  ) : (
-    <SettingIcon fill={Colors.Gray400} />
-  );
-};
+const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 const BottomNavBar = () => {
   const toggleModal = useModalStore(state => state.toggleModal);
+
+  const headerTitleGradient = () => {
+    return (
+      <GradientText style={styles.headerTitleContainer}>
+        Taeryong님의 사진첩
+      </GradientText>
+    );
+  };
+
+  const TabBarLabel = ({focused, label}: {focused: boolean; label: string}) => {
+    return focused ? (
+      <GradientText style={styles.labelText}>{label}</GradientText>
+    ) : (
+      <Text style={[styles.labelText, {color: Colors.Gray400}]}>{label}</Text>
+    );
+  };
+
+  const TabBarHomeIcon = ({focused}: {focused: boolean}) => {
+    return focused ? <GradientHomeIcon /> : <HomeIcon fill={Colors.Gray400} />;
+  };
+  const TabBarSettingIcon = ({focused}: {focused: boolean}) => {
+    return focused ? (
+      <GradientSettingIcon />
+    ) : (
+      <SettingIcon fill={Colors.Gray400} />
+    );
+  };
 
   return (
     <>
@@ -54,7 +55,7 @@ const BottomNavBar = () => {
           headerTitleStyle: styles.headerTitleContainer,
         }}>
         <Tab.Screen
-          name="홈"
+          name="home"
           component={HomeScreen}
           options={{
             headerTitle: headerTitleGradient,
@@ -65,7 +66,7 @@ const BottomNavBar = () => {
           }}
         />
         <Tab.Screen
-          name="설정"
+          name="setting"
           component={SettingScreen}
           options={{
             headerTitle: '설정',

@@ -12,20 +12,8 @@ import Colors from '@/constants/Colors';
 import CleanGallery from '@/components/common/CleanGallery';
 import useImageStore from '@/store/imageStore';
 import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-
-interface ImageDataType {
-  path: string;
-  creationDate: Date;
-}
-
-// 타입 정의 수정
-type RootStackParamList = {
-  DetailPhoto: {image: ImageDataType};
-};
-
-export type RootStackNavigationProp =
-  NativeStackNavigationProp<RootStackParamList>;
+import {RootStackNavigationProp} from '@/types/navigation';
+import {ImageData} from '@/types/type';
 
 const {width} = Dimensions.get('window');
 const imageSize = (width - 32) / 3; // 32 = 16+16 패딩 값 고려
@@ -34,9 +22,16 @@ const FlatListComponent = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
   const images = useImageStore(state => state.images);
 
-  const renderItem = ({item}: {item: ImageDataType}) => (
+  const renderItem = ({item}: {item: ImageData}) => (
     <TouchableHighlight
-      onPress={() => navigation.navigate('DetailPhoto', {image: item})}>
+      onPress={() =>
+        navigation.navigate('DetailPhoto', {
+          image: {
+            ...item,
+            creationDate: item.creationDate.toISOString(), // Date 객체는 전달이 안되므로 string으로 변환
+          },
+        })
+      }>
       <View style={styles.imageContainer}>
         <Image source={{uri: item.path}} style={styles.image} />
       </View>

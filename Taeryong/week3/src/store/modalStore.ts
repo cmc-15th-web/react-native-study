@@ -1,11 +1,7 @@
 import {create} from 'zustand';
+import {ModalStore} from '@/types/type';
 
-interface ModalState {
-  isModalVisible: boolean;
-  toggleModal: () => void;
-}
-
-const useModalStore = create<ModalState>(set => ({
+const useModalStore = create<ModalStore>(set => ({
   isModalVisible: false,
   toggleModal: () => set(state => ({isModalVisible: !state.isModalVisible})),
 }));

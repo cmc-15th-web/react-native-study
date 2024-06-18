@@ -1,8 +1,9 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import BottomNavBar from './BottomNavBar';
-import AddPhoto from '@/screens/AddPhoto';
+import DetailPhoto from '@/screens/DetailPhoto';
+import {RootStackParamList} from '@/types/navigation';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const GlobalNavigation = () => {
   return (
@@ -12,7 +13,11 @@ const GlobalNavigation = () => {
         children={BottomNavBar}
         options={{headerShown: false}}
       />
-      <Stack.Screen name="AddPhoto" component={AddPhoto} />
+      <Stack.Screen
+        name="DetailPhoto"
+        component={DetailPhoto}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };
