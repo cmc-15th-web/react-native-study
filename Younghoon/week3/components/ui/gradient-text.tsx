@@ -16,7 +16,7 @@ export function GradientText({
 }) {
   return (
     <MaskedView
-      style={[{ width: "100%", height: 50 }, maskedView]}
+      style={[{ width: "100%" }, maskedView]}
       maskElement={
         <View
           style={[
@@ -41,7 +41,7 @@ export function GradientText({
 const styles = StyleSheet.create({
   text: {
     fontWeight: "bold",
-    color: "transparent",
+    color: "black",
   },
   gradient: {
     flex: 1,

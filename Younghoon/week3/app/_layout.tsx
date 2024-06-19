@@ -55,14 +55,22 @@ export default function _layout() {
               <View
                 style={{
                   width: "100%",
-                  height: 50,
-                  justifyContent: "center",
+                  display: "flex",
+                  flexDirection: "row",
                   alignItems: "center",
+                  padding: 20,
+                  justifyContent: "flex-start",
                 }}
               >
                 <GradientText
                   title="CMC님의 사진첩"
-                  textStyle={{ fontSize: 20, fontWeight: "600" }}
+                  maskedView={{
+                    height: 50,
+                  }}
+                  textStyle={{
+                    fontSize: 24,
+                    fontWeight: "600",
+                  }}
                 />
               </View>
             ),
