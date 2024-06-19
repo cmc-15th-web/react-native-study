@@ -1,17 +1,21 @@
 import {Pressable, StyleSheet, Text} from 'react-native';
 import {AddBtnSvg} from '../assets/AddBtnSvg';
 import {Palette} from '../constants/palette';
-import {useCallback, useMemo, useRef} from 'react';
+import {useCallback, useEffect, useMemo, useRef} from 'react';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import {CameraSvg} from '../assets/CameraSvg';
 import {GallerySvg} from '../assets/GallerySvg';
+import { useImageUpload } from '../hooks/useImageUpload';
+import { useStore } from '../store/store';
 
 const AddPhoto = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => [166, 166], []);
+  const {images} = useStore();
+  const {uploadByCamera, uploadByGallery} = useImageUpload();
 
   const handlePresentModalPress = useCallback(() => {
     bottomSheetRef.current?.snapToIndex(0);
@@ -42,11 +46,11 @@ const AddPhoto = () => {
         backgroundStyle={styles.bottomSheetContainer}
         handleIndicatorStyle={styles.handleIndicator}>
         <BottomSheetView style={styles.bottomSheetContent}>
-          <Pressable style={styles.bottomSheetItem}>
+          <Pressable style={styles.bottomSheetItem} onPress={uploadByCamera}>
             <CameraSvg width="24" height="24" fill={Palette.White} />
             <Text style={styles.bottomSheetText}>카메라로 촬영하기</Text>
           </Pressable>
-          <Pressable style={styles.bottomSheetItem}>
+          <Pressable style={styles.bottomSheetItem} onPress={uploadByGallery}>
             <GallerySvg width="24" height="24" fill={Palette.White} />
             <Text style={styles.bottomSheetText}>갤러리에서 선택하기</Text>
           </Pressable>
