@@ -3,6 +3,8 @@ import { StatusBar, View, StyleSheet, Text } from "react-native";
 import { SplashIcon } from "./ui/icons";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { Gradient } from "./ui/gradient";
+import { colorPalette } from "@/styles/colors";
+import { GradientText } from "./ui/gradient-text";
 
 export function Splash() {
   useEffect(() => {
@@ -16,18 +18,30 @@ export function Splash() {
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
-        <SplashIcon />
+        <SplashIcon fill={colorPalette.gradient100} />
       </View>
-      <MaskedView
-        style={styles.maskedView}
-        maskElement={
-          <View style={styles.maskElement}>
-            <Text style={styles.text}>CMC</Text>
-          </View>
-        }
-      >
-        <Gradient style={styles.gradient} />
-      </MaskedView>
+      <GradientText
+        title="CMC"
+        maskedView={{
+          position: "absolute",
+          bottom: 50,
+          left: 0,
+          right: 0,
+          justifyContent: "center",
+          alignItems: "center",
+          height: 50,
+        }}
+        maskElement={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        textStyle={{
+          fontSize: 20,
+          fontWeight: "semibold",
+          color: "black",
+        }}
+      />
     </View>
   );
 }

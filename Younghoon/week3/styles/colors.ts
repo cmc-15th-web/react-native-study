@@ -6,4 +6,5 @@ export const colorPalette = {
   pink: "#E33AFF",
   black: "#000000",
   white: "#ffffff",
+  gradient100: "url(#paint0_linear_767_318)",
 };

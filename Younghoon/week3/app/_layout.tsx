@@ -1,8 +1,11 @@
-import { Text, View } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import { Stack } from "expo-router/stack";
+import { SafeAreaView, View } from "react-native";
+import { useCallback, useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { Splash } from "@/components/splash";
 import { usePermission } from "@/hooks/use-permission";
+import { colorPalette } from "@/styles/colors";
+import { GradientText } from "@/components/ui/gradient-text";
 
 export default function _layout() {
   const { requestCameraPermission, requestGalleryPermission } = usePermission();
@@ -39,12 +42,33 @@ export default function _layout() {
   if (!appIsReady) {
     return <Splash />;
   }
+
   return (
-    <View
-      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-      onLayout={onLayoutRootView}
-    >
-      <Text>SplashScreen Demo! 👋</Text>
-    </View>
+    <SafeAreaView style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <Stack>
+        <Stack.Screen
+          name="(tabs)"
+          options={{
+            headerShown: true,
+            headerStyle: { backgroundColor: colorPalette.gray900 },
+            headerTitle: () => (
+              <View
+                style={{
+                  width: "100%",
+                  height: 50,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <GradientText
+                  title="CMC님의 사진첩"
+                  textStyle={{ fontSize: 20, fontWeight: "600" }}
+                />
+              </View>
+            ),
+          }}
+        />
+      </Stack>
+    </SafeAreaView>
   );
 }
