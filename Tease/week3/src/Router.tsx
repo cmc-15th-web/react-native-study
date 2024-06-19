@@ -3,6 +3,7 @@ import {TouchableOpacity, StyleSheet, Dimensions} from 'react-native';
 import Home from './screens/Home';
 import Add from './screens/Add';
 import Settings from './screens/Settings';
+import Splash from './screens/Splash.tsx';
 
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -11,6 +12,7 @@ import {BottomTabIcon} from './types/BottomTabType.ts';
 import {colors, colors_type} from './styles/theme_color.ts';
 
 type RootStackParamList = {
+  Splash: undefined;
   MainTab: undefined;
   Add: undefined;
 };
@@ -28,7 +30,7 @@ const {width} = Dimensions.get('window');
 const MainTab = () => {
   const focusedColor: colors_type = 'gradient100';
   const defaultColor: colors_type = 'gray400';
-  const navigation = useNavigation();
+  const navigation: any = useNavigation(); //any 사용
   return (
     <>
       <Tab.Navigator
@@ -81,6 +83,7 @@ const Router = () => {
       screenOptions={{
         headerShown: false,
       }}>
+      <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="MainTab" component={MainTab} />
       <Stack.Screen name="Add" component={Add} />
     </Stack.Navigator>
@@ -97,12 +100,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingBottom: 8,
-    borderWidth: 0.5,
+    borderWidth: 0.1,
     borderTopColor: colors['gray400'],
   },
   addBtn: {
     position: 'absolute',
-    bottom: 30,
+    bottom: 31,
   },
 });
 
