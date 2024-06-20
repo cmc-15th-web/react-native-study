@@ -1,7 +1,7 @@
+import CustomBottomSheet from "@/components/custom-bottom-sheet";
 import { HomeIcon, PlusIcon, ThemeIcon } from "@/components/ui/icons";
 import { colorPalette } from "@/styles/colors";
 import { Tabs } from "expo-router";
-import { TouchableOpacity } from "react-native";
 
 export default function TabLayout() {
   return (
@@ -31,11 +31,7 @@ export default function TabLayout() {
         name="plus"
         options={{
           title: "",
-          tabBarIcon: () => (
-            <TouchableOpacity onPress={() => {}}>
-              <PlusIcon fill={colorPalette.gradient100} />
-            </TouchableOpacity>
-          ),
+          tabBarButton: () => <CustomBottomSheet />,
         }}
       />
       <Tabs.Screen
