@@ -1,7 +1,7 @@
 import {Pressable, StyleSheet, Text} from 'react-native';
 import {AddBtnSvg} from '../assets/AddBtnSvg';
 import {Palette} from '../constants/palette';
-import {useCallback, useEffect, useMemo, useRef} from 'react';
+import {useCallback, useMemo, useRef} from 'react';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
@@ -9,12 +9,10 @@ import BottomSheet, {
 import {CameraSvg} from '../assets/CameraSvg';
 import {GallerySvg} from '../assets/GallerySvg';
 import { useImageUpload } from '../hooks/useImageUpload';
-import { useStore } from '../store/store';
 
 const AddPhoto = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => [166, 166], []);
-  const {images} = useStore();
   const {uploadByCamera, uploadByGallery} = useImageUpload();
 
   const handlePresentModalPress = useCallback(() => {

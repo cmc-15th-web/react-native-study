@@ -12,7 +12,7 @@ const BottomNavigator = () => {
 
   return (
     <>
-      <Tab.Navigator screenOptions={{tabBarItemStyle: styles.tab}}>
+      <Tab.Navigator screenOptions={{tabBarItemStyle: styles.tab, tabBarStyle: styles.tabBar}}>
         <Tab.Screen
           name="Home"
           component={Home}
@@ -57,6 +57,9 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     backgroundColor: Palette.Black,
   },
+  tabBar: {
+    borderTopColor: Palette.Gray900
+  }
 });
 
 export default BottomNavigator;
