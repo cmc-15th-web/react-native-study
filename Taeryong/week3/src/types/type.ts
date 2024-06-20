@@ -2,7 +2,10 @@ export interface ImageData {
   path: string;
   creationDate: Date;
 }
-
+export interface CameraImageCropProps {
+  imagePath: string;
+  onCropComplete: () => void;
+}
 export interface ModalStore {
   isModalVisible: boolean;
   toggleModal: () => void;

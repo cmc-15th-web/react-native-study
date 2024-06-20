@@ -11,6 +11,8 @@ const App = () => {
     }, 2000); //스플래시 활성화 시간
   });
   const accessability = PermissionCheck(); // accessability = {"album": true, "camera": true}
+  console.log('🚀 ~ file: App.tsx:14 ~ App ~ accessability:', accessability);
+
   return (
     <NavigationContainer>
       <GlobalNavigation />
