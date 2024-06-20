@@ -26,6 +26,12 @@ const BottomNavBar = () => {
     );
   };
 
+  const settingTitleGradient = () => {
+    return (
+      <GradientText style={styles.headerTitleContainer}>설정</GradientText>
+    );
+  };
+
   const TabBarLabel = ({focused, label}: {focused: boolean; label: string}) => {
     return focused ? (
       <GradientText style={styles.labelText}>{label}</GradientText>
@@ -69,7 +75,7 @@ const BottomNavBar = () => {
           name="setting"
           component={SettingScreen}
           options={{
-            headerTitle: '설정',
+            headerTitle: settingTitleGradient,
             tabBarIcon: ({focused}) => <TabBarSettingIcon focused={focused} />,
             tabBarLabel: ({focused}) => (
               <TabBarLabel focused={focused} label="설정" />
@@ -107,6 +113,7 @@ const styles = StyleSheet.create({
   headerTitleContainer: {
     fontSize: 24,
     fontWeight: 'bold',
+    paddingTop: 4,
   },
   labelText: {
     fontSize: 12,

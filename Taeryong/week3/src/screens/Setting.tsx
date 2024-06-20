@@ -1,11 +1,13 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {Button, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import Colors from '@/constants/Colors';
+import CleanGallery from '@/components/common/CleanGallery';
 
 const Setting = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.fontStyle}>Setting</Text>
+      <Button title="Clean cache" onPress={CleanGallery} />
     </View>
   );
 };

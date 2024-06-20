@@ -9,7 +9,6 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import Colors from '@/constants/Colors';
-import CleanGallery from '@/components/common/CleanGallery';
 import useImageStore from '@/store/imageStore';
 import {useNavigation} from '@react-navigation/native';
 import {RootStackNavigationProp} from '@/types/navigation';
@@ -39,22 +38,31 @@ const FlatListComponent = () => {
   );
 
   return (
-    <FlatList
-      data={images}
-      renderItem={renderItem}
-      keyExtractor={item => item.path}
-      numColumns={3}
-      columnWrapperStyle={styles.columnWrapper}
-    />
+    <View style={styles.flexContainer}>
+      {images.length === 0 ? (
+        <View style={styles.emptyContainer}>
+          <Text style={styles.textTitle}>업로드한 사진이 없습니다.</Text>
+        </View>
+      ) : (
+        <>
+          <Text style={styles.textTitle}>Today</Text>
+          <FlatList
+            data={images}
+            renderItem={renderItem}
+            keyExtractor={item => item.path}
+            numColumns={3}
+            columnWrapperStyle={styles.columnWrapper}
+          />
+        </>
+      )}
+    </View>
   );
 };
 
 const Home = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.textTitle}>Today</Text>
       <FlatListComponent />
-      <Button title="Clean" onPress={CleanGallery} />
     </View>
   );
 };
@@ -72,6 +80,14 @@ const styles = StyleSheet.create({
     color: Colors.Gray400,
     marginTop: 20,
     marginBottom: 10,
+  },
+  flexContainer: {
+    flex: 1,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   columnWrapper: {
     justifyContent: 'flex-start',
