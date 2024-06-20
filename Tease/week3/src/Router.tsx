@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useMemo, useCallback} from 'react';
 import {TouchableOpacity, StyleSheet, Dimensions} from 'react-native';
 import Home from './screens/Home';
 import Add from './screens/Add';
@@ -10,6 +10,13 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useNavigation} from '@react-navigation/native';
 import {BottomTabIcon} from './types/BottomTabType.ts';
 import {colors, colors_type} from './styles/theme_color.ts';
+
+import {
+  BottomSheetModal,
+  BottomSheetView,
+  BottomSheetBackdrop,
+} from '@gorhom/bottom-sheet';
+import BottomSheetContent from './components/Add/BottomSheetContent.tsx';
 
 type RootStackParamList = {
   Splash: undefined;
@@ -28,9 +35,34 @@ const Stack = createStackNavigator<RootStackParamList>();
 const {width} = Dimensions.get('window');
 
 const MainTab = () => {
+  // ref
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+  // variables
+  const snapPoints = useMemo(() => ['25%'], []);
+
+  // callbacks
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log('handleSheetChanges', index);
+  }, []);
+
+  const renderBackdrop = useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        pressBehavior="close"
+        appearsOnIndex={0} // 이거 추가
+        disappearsOnIndex={-1} // 이거 추가
+      />
+    ),
+    [],
+  );
+
   const focusedColor: colors_type = 'gradient100';
   const defaultColor: colors_type = 'gray400';
-  const navigation: any = useNavigation(); //any 사용
   return (
     <>
       <Tab.Navigator
@@ -70,9 +102,23 @@ const MainTab = () => {
       </Tab.Navigator>
       <TouchableOpacity
         style={[styles.addBtn, {left: width / 2 - 25}]}
-        onPress={() => navigation.navigate('Add')}>
+        onPress={() => handlePresentModalPress()}>
         <AddIcon width={60} height={60} fill={colors[focusedColor]} />
       </TouchableOpacity>
+      {/*  */}
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        index={0}
+        backdropComponent={renderBackdrop}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}
+        style={{borderWidth: 1}}
+        handleIndicatorStyle={styles.indicator}
+        handleStyle={styles.modalTop}>
+        <BottomSheetView style={styles.contentContainer}>
+          <BottomSheetContent />
+        </BottomSheetView>
+      </BottomSheetModal>
     </>
   );
 };
@@ -106,6 +152,21 @@ const styles = StyleSheet.create({
   addBtn: {
     position: 'absolute',
     bottom: 31,
+  },
+  // bottom sheet
+  modalTop: {
+    backgroundColor: colors['gray600'],
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+  },
+  indicator: {
+    backgroundColor: colors['gray400'],
+  },
+  contentContainer: {
+    flex: 1,
+    backgroundColor: colors['gray600'],
+    paddingVertical: 40,
+    paddingHorizontal: 24,
   },
 });
 
