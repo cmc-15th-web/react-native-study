@@ -3,16 +3,23 @@ import {Palette} from '../constants/palette';
 import {useStore} from '../store/store';
 import {Dimensions} from 'react-native';
 import GradientText from '../components/GradientText';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 const Home = () => {
   const images = useStore(state => state.images);
   const IMG_SIZE = (Dimensions.get('screen').width - 52) / 3; // padding과 gap을 제외한 넓이 / 3
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  const renderItem = ({item}: any) => (
-    <Pressable>
+  const renderItem = ({item}: {item: UploadedImage}) => (
+    <Pressable onPress={() => handleImage(item.path, item.modificationDate)}>
       <Image source={{uri: item.path}} width={IMG_SIZE} height={IMG_SIZE} />
     </Pressable>
   );
+
+  const handleImage = (imagePath: string, modificationDate: string) => {
+    navigation.navigate('Detail', {imagePath, modificationDate});
+  }
+
   return (
     <View style={styles.container}>
       <GradientText style={styles.title} colors={[Palette.Pink, Palette.Purple]}>마크의 사진첩</GradientText>
