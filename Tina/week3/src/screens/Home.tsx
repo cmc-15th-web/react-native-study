@@ -9,6 +9,7 @@ const Home = () => {
       <GradientComponent
         component={<Text style={styles.header}>CMC님의 사진첩</Text>}
       />
+      <Text>업로드한 사진이 없습니다.</Text>
     </SafeAreaView>
   );
 };

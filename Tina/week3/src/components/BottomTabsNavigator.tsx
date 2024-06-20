@@ -1,11 +1,10 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
-import {StyleSheet, TouchableHighlight} from 'react-native';
 import THEME_COLOR from '../styles/theme-color';
 import HomeIcon from './icons/HomeIcon';
 import SettingIcon from './icons/SettingIcon';
-import AddIcon from './icons/AddIcon';
+import BottomSheet from './PhotoBottomSheet';
 
 const Tab = createBottomTabNavigator();
 
@@ -47,22 +46,9 @@ const BottomTabsNavigator = () => {
           }}
         />
       </Tab.Navigator>
-      <TouchableHighlight style={styles.addIcon}>
-        <AddIcon />
-      </TouchableHighlight>
+      <BottomSheet />
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  disabledText: {
-    color: THEME_COLOR.Gray[400],
-  },
-  addIcon: {
-    position: 'absolute',
-    bottom: 55,
-    alignSelf: 'center',
-  },
-});
 
 export default BottomTabsNavigator;

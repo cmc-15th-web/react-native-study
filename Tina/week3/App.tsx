@@ -3,6 +3,8 @@ import SplashScreen from 'react-native-splash-screen';
 import {checkAllPermissions} from './src/utils/permissions';
 import {NavigationContainer} from '@react-navigation/native';
 import BottomTabsNavigator from './src/components/BottomTabsNavigator';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import BottomSheet from './src/components/PhotoBottomSheet';
 
 function App(): React.JSX.Element {
   useEffect(() => {
@@ -12,9 +14,11 @@ function App(): React.JSX.Element {
     }, 1500);
   }, []);
   return (
-    <NavigationContainer>
-      <BottomTabsNavigator />
-    </NavigationContainer>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <NavigationContainer>
+        <BottomTabsNavigator />
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }
 
