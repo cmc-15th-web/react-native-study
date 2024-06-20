@@ -22,10 +22,6 @@ const PhotoBottomSheet = () => {
     bottomSheetModalRef.current?.present();
   }, []);
 
-  const handleSheetChanges = useCallback((index: number) => {
-    // console.log('handleSheetChanges', index);
-  }, []);
-
   const renderBackdrop = useCallback(
     (props: any) => (
       <BottomSheetBackdrop
@@ -49,7 +45,6 @@ const PhotoBottomSheet = () => {
         ref={bottomSheetModalRef}
         index={1}
         snapPoints={snapPoints}
-        onChange={handleSheetChanges}
         backdropComponent={renderBackdrop}
         // eslint-disable-next-line react-native/no-inline-styles
         handleStyle={{
@@ -86,17 +81,6 @@ const PhotoBottomSheet = () => {
                   return;
                 }
                 const date = new Date(Number(image.creationDate) * 1000);
-                console.log(
-                  date.getFullYear() +
-                    '.' +
-                    ('0' + (date.getMonth() + 1)).slice(-2) +
-                    '.' +
-                    ('0' + date.getDate()).slice(-2) +
-                    ' ' +
-                    ('0' + date.getHours()).slice(-2) +
-                    ':' +
-                    ('0' + date.getMinutes()).slice(-2),
-                );
                 setImgList({
                   imgUrls: image.path,
                   date:
