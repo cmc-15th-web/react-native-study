@@ -27,7 +27,7 @@ export default function BottomNav() {
         headerTitleStyle: {color: Colors.Pink},
       }}>
       <Tab.Screen
-        name="Home"
+        name="List"
         component={HomeScreen}
         options={{
           headerTitle: header,

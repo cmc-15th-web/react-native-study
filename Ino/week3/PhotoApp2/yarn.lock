@@ -6067,6 +6067,11 @@ react-native-linear-gradient@^2.8.3:
   resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.8.3.tgz#9a116649f86d74747304ee13db325e20b21e564f"
   integrity sha512-KflAXZcEg54PXkLyflaSZQ3PJp4uC4whM7nT/Uot9m0e/qxFV3p6uor1983D1YOBJbJN7rrWdqIjq0T42jOJyA==
 
+react-native-permissions@^4.1.5:
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-4.1.5.tgz#db4d1ddbf076570043f4fd4168f54bb6020aec92"
+  integrity sha512-r6VMRacASmtRHS+GZ+5HQCp9p9kiE+UU9magHOZCXZLTJitdTuVHWZRrb4v4oqZGU+zAp3mZhTQftuMMv+WLUg==
+
 react-native-safe-area-context@^4.10.5:
   version "4.10.5"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-4.10.5.tgz#a9c677a48bd273afa6876772062ce08e8af1f18d"
@@ -6079,6 +6084,11 @@ react-native-screens@^3.32.0:
   dependencies:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
+
+react-native-splash-screen@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-splash-screen/-/react-native-splash-screen-3.3.0.tgz#3af71ed17afe50fee69590a45aec399d071ead02"
+  integrity sha512-rGjt6HkoSXxMqH4SQUJ1gnPQlPJV8+J47+4yhgTIan4bVvAwJhEeJH7wWt9hXSdH4+VfwTS0GTaflj1Tw83IhA==
 
 react-native-svg-transformer@^1.4.0:
   version "1.4.0"

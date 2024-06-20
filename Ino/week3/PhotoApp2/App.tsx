@@ -1,24 +1,38 @@
-import React from 'react';
-import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Alert, SafeAreaView, StatusBar, StyleSheet} from 'react-native';
 
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import BottomNav from '@src/components/BottomNav';
 import ImageScreen from '@src/screens/ImageScreen';
+import SplashScreen from 'react-native-splash-screen';
+import PermissionScreen from '@src/screens/PermissionScreen';
+import Colors from '@src/Colors';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  // 첫 앱 진입
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle={'dark-content'} />
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          initialRouteName="Permission"
+          screenOptions={{
+            headerStyle: {backgroundColor: Colors.Gray900},
+            headerTitleStyle: {color: Colors.Pink},
+          }}>
           <Stack.Screen
-            name="Main"
+            name="Home"
             component={BottomNav}
             options={{headerShown: false}}
           />
+          <Stack.Screen name="Permission" component={PermissionScreen} />
           <Stack.Screen name="Detail" component={ImageScreen} />
         </Stack.Navigator>
       </NavigationContainer>

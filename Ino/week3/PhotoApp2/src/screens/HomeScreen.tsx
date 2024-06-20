@@ -1,11 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
-
-type RootStackParamList = {
-  Home: undefined;
-  Detail: undefined;
-};
+import {RootStackParamList} from './Props';
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 const HomeScreen = () => {
