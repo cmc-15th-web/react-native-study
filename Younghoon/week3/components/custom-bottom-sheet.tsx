@@ -6,10 +6,13 @@ import { MotiView, MotiText, useDynamicAnimation } from "moti";
 import { MaterialIcons } from "@expo/vector-icons";
 import { PlusIcon } from "./ui/icons";
 import { colorPalette } from "@/styles/colors";
+import { usePermission } from "@/hooks/use-permission";
 
 const _spacing = 16;
 
 export default function CustomBottomSheet() {
+  const { onCamera, onGallery } = usePermission();
+
   const bottomSheetModalRef = React.useRef(null);
   const dynamicAnimation = useDynamicAnimation(() => ({
     opacity: 0,
@@ -19,6 +22,7 @@ export default function CustomBottomSheet() {
   const snapPoints = React.useMemo(() => ["60%"], []);
 
   const showModal = React.useCallback(() => {
+    //@ts-expect-error no type def
     bottomSheetModalRef.current?.present();
     setTimeout(
       () =>
@@ -32,6 +36,7 @@ export default function CustomBottomSheet() {
   }, []);
 
   const hideModal = React.useCallback(() => {
+    //@ts-expect-error no type def
     bottomSheetModalRef.current?.dismiss();
     dynamicAnimation.animateTo((current) => ({
       ...current,
@@ -83,7 +88,7 @@ export default function CustomBottomSheet() {
             delay={150}
             style={{ justifyContent: "center" }}
           >
-            <Pressable>
+            <Pressable onPress={onCamera}>
               <View
                 style={{
                   alignItems: "flex-start",
@@ -102,7 +107,7 @@ export default function CustomBottomSheet() {
             delay={250}
             style={{ justifyContent: "center" }}
           >
-            <Pressable style={{ marginBottom: _spacing }}>
+            <Pressable onPress={onGallery}>
               <View
                 style={{
                   alignItems: "flex-start",
