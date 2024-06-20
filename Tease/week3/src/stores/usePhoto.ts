@@ -1,15 +1,15 @@
 import {create} from 'zustand';
 
-interface Photo {
+export interface PhotoType {
   id: number;
   image: string;
   date: number;
 }
 
 interface Store {
-  photos: Photo[];
-  addPhoto: (value: Photo) => void;
-  updatePhoto: (photos: Photo[]) => void;
+  photos: PhotoType[];
+  addPhoto: (value: PhotoType) => void;
+  updatePhoto: (photos: PhotoType[]) => void;
 }
 
 const usePhoto = create<Store>((set, get) => ({

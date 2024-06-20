@@ -7,6 +7,8 @@
   	<string>allow camera permission</string>
 	<key>NSPhotoLibraryUsageDescription</key>
   	<string>allow photoLibrary permission</string>
+	<key>NSMicrophoneUsageDescription</key>
+  	<string>allow microphone permission</string>
 
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>

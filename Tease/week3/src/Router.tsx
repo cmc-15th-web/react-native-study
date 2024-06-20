@@ -4,10 +4,10 @@ import Home from './screens/Home';
 import Add from './screens/Add';
 import Settings from './screens/Settings';
 import Splash from './screens/Splash.tsx';
+import ItemDetail from './components/Home/ItemDetail.tsx';
 
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {useNavigation} from '@react-navigation/native';
 import {BottomTabIcon} from './types/BottomTabType.ts';
 import {colors, colors_type} from './styles/theme_color.ts';
 
@@ -21,7 +21,7 @@ import BottomSheetContent from './components/Add/BottomSheetContent.tsx';
 type RootStackParamList = {
   Splash: undefined;
   MainTab: undefined;
-  Add: undefined;
+  ItemDetail: undefined;
 };
 
 type MainTabParamList = {
@@ -131,7 +131,7 @@ const Router = () => {
       }}>
       <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="MainTab" component={MainTab} />
-      <Stack.Screen name="Add" component={Add} />
+      <Stack.Screen name="ItemDetail" component={ItemDetail} />
     </Stack.Navigator>
   );
 };

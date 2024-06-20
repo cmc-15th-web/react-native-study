@@ -1,16 +1,47 @@
 import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
+import ImagePicker from 'react-native-image-crop-picker';
+import usePhoto from '../../stores/usePhoto';
+import {PhotoType} from '../../stores/usePhoto';
 
 const BottomSheetContent = () => {
+  const {addPhoto} = usePhoto();
   const cameraIcon = require('../../assets/Icons/Camera.png');
   const galleryIcon = require('../../assets/Icons/gallery.png');
+
+  const cameraHandler = () => {
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      console.log(image);
+    });
+  };
+  const galleryHandler = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      console.log('selected image', image);
+      const newPhoto: PhotoType = {
+        id: Number(image.creationDate),
+        image: image.path,
+        date: Date.now(),
+      };
+      console.log(newPhoto);
+      addPhoto(newPhoto);
+    });
+  };
+
   return (
     <View style={styles.contentWrapper}>
-      <TouchableOpacity style={styles.btn}>
+      <TouchableOpacity style={styles.btn} onPress={cameraHandler}>
         <Image source={cameraIcon} style={styles.icon} />
         <Text style={styles.text}>카메라로 촬영하기</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.btn}>
+      <TouchableOpacity style={styles.btn} onPress={galleryHandler}>
         <Image source={galleryIcon} style={styles.icon} />
         <Text style={styles.text}>갤러리에서 선택하기</Text>
       </TouchableOpacity>
