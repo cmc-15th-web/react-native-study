@@ -18,12 +18,7 @@ export function GradientText({
     <MaskedView
       style={[{ width: "100%" }, maskedView]}
       maskElement={
-        <View
-          style={[
-            { flex: 1, justifyContent: "center", alignItems: "center" },
-            maskElement,
-          ]}
-        >
+        <View style={maskElement}>
           <Text style={[styles.text, textStyle]}>{title}</Text>
         </View>
       }

@@ -45,37 +45,28 @@ export default function _layout() {
 
   return (
     <SafeAreaView style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <Stack>
-        <Stack.Screen
-          name="(tabs)"
-          options={{
-            headerShown: true,
-            headerStyle: { backgroundColor: colorPalette.gray900 },
-            headerTitle: () => (
-              <View
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  padding: 20,
-                  justifyContent: "flex-start",
-                }}
-              >
-                <GradientText
-                  title="CMC님의 사진첩"
-                  maskedView={{
-                    height: 50,
-                  }}
-                  textStyle={{
-                    fontSize: 24,
-                    fontWeight: "600",
-                  }}
-                />
-              </View>
-            ),
-          }}
-        />
+      <Stack
+        screenOptions={{
+          headerShown: true,
+          headerStyle: { backgroundColor: colorPalette.gray900 },
+          headerTitleAlign: "left",
+          headerTitle: () => (
+            <GradientText
+              title="CMC님의 사진첩"
+              maskedView={{
+                height: 50,
+                marginTop: 20,
+                marginLeft: 18,
+              }}
+              textStyle={{
+                fontSize: 24,
+                fontWeight: "600",
+              }}
+            />
+          ),
+        }}
+      >
+        <Stack.Screen name="(tabs)" />
       </Stack>
     </SafeAreaView>
   );

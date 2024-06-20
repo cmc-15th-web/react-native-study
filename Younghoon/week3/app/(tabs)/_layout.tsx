@@ -1,6 +1,7 @@
-import { HomeIcon, ThemeIcon } from "@/components/ui/icons";
+import { HomeIcon, PlusIcon, ThemeIcon } from "@/components/ui/icons";
 import { colorPalette } from "@/styles/colors";
 import { Tabs } from "expo-router";
+import { TouchableOpacity } from "react-native";
 
 export default function TabLayout() {
   return (
@@ -24,6 +25,17 @@ export default function TabLayout() {
             />
           ),
           headerShown: false,
+        }}
+      />
+      <Tabs.Screen
+        name="plus"
+        options={{
+          title: "",
+          tabBarIcon: () => (
+            <TouchableOpacity onPress={() => {}}>
+              <PlusIcon fill={colorPalette.gradient100} />
+            </TouchableOpacity>
+          ),
         }}
       />
       <Tabs.Screen
