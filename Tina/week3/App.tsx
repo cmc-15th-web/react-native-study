@@ -4,7 +4,29 @@ import {checkAllPermissions} from './src/utils/permissions';
 import {NavigationContainer} from '@react-navigation/native';
 import BottomTabsNavigator from './src/components/BottomTabsNavigator';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import BottomSheet from './src/components/PhotoBottomSheet';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import ImageDetail from './src/screens/ImageDetail';
+import {LogBox} from 'react-native';
+
+const Stack = createNativeStackNavigator();
+
+const StackNavigator = () => {
+  LogBox.ignoreAllLogs();
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="BottomTabs"
+        component={BottomTabsNavigator}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ImageDetail"
+        component={ImageDetail}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+};
 
 function App(): React.JSX.Element {
   useEffect(() => {
@@ -16,7 +38,7 @@ function App(): React.JSX.Element {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <NavigationContainer>
-        <BottomTabsNavigator />
+        <StackNavigator />
       </NavigationContainer>
     </GestureHandlerRootView>
   );

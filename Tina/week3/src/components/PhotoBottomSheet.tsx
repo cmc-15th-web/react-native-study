@@ -11,10 +11,12 @@ import THEME_COLOR from '../styles/theme-color';
 import Camera from '../assets/camera-icon.svg';
 import Gallery from '../assets/gallery-icon.svg';
 import ImagePicker from 'react-native-image-crop-picker';
+import {useImages} from '../store/images';
 
 const PhotoBottomSheet = () => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ['1%', '30%'], []);
+  const {setImgList} = useImages();
 
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
@@ -80,7 +82,35 @@ const PhotoBottomSheet = () => {
                 height: 400,
                 cropping: true,
               }).then(image => {
-                console.log(image);
+                if (!image.creationDate) {
+                  return;
+                }
+                const date = new Date(Number(image.creationDate) * 1000);
+                console.log(
+                  date.getFullYear() +
+                    '.' +
+                    ('0' + (date.getMonth() + 1)).slice(-2) +
+                    '.' +
+                    ('0' + date.getDate()).slice(-2) +
+                    ' ' +
+                    ('0' + date.getHours()).slice(-2) +
+                    ':' +
+                    ('0' + date.getMinutes()).slice(-2),
+                );
+                setImgList({
+                  imgUrls: image.path,
+                  date:
+                    date.getFullYear() +
+                    '.' +
+                    ('0' + (date.getMonth() + 1)).slice(-2) +
+                    '.' +
+                    ('0' + date.getDate()).slice(-2) +
+                    ' ' +
+                    ('0' + date.getHours()).slice(-2) +
+                    ':' +
+                    ('0' + date.getMinutes()).slice(-2),
+                  timestamp: image.creationDate,
+                });
               })
             }>
             <View style={styles.iconTextContainer}>
