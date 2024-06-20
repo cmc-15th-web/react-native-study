@@ -1,13 +1,13 @@
 import {StyleSheet, Text, View} from 'react-native';
 
-function HomePage(): React.JSX.Element {
+const ImageScreen = () => {
   return (
     <View>
-      <Text>Home 화면</Text>
+      <Text>사진 상세보기 화면</Text>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({});
 
-export default HomePage;
+export default ImageScreen;
