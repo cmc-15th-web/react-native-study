@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import Colors from '../Colors';
@@ -8,12 +8,20 @@ import {useUserStore} from '@src/store/userStore';
 import HomeIcon from '../assets/icons/Home';
 import AddIcon from '../assets/icons/Add';
 import ThemeIcon from '../assets/icons/Theme';
+import {useModalStore} from '@src/store/bottomRefStore';
+import SettingScreen from '@src/screens/SettingScreen';
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomNav() {
   const {name} = useUserStore();
   const header = name + '님의 사진첩';
+
+  const {bottomSheetModalRef} = useModalStore();
+  const handlePresentModalPress = React.useCallback(() => {
+    console.log('bottom sheet 열려라!');
+    bottomSheetModalRef?.current?.present();
+  }, []);
 
   return (
     <Tab.Navigator
@@ -49,17 +57,21 @@ export default function BottomNav() {
         name="Add"
         component={HomeScreen}
         options={{
+          headerTitle: header,
           tabBarIcon: () => (
-            <View style={{top: -30}}>
+            <TouchableOpacity
+              onPress={handlePresentModalPress}
+              style={{top: -30}}>
               <AddIcon color={Colors.Gradient100} size={60} />
-            </View>
+            </TouchableOpacity>
           ),
         }}
       />
       <Tab.Screen
         name="Settings"
-        component={HomeScreen}
+        component={SettingScreen}
         options={{
+          headerTitle: '설정',
           tabBarIcon: ({color, focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
               <ThemeIcon color={color} size={24} />
@@ -68,7 +80,7 @@ export default function BottomNav() {
                   color: focused ? Colors.Pink : Colors.Gray400,
                   fontSize: 12,
                 }}>
-                홈
+                설정
               </Text>
             </View>
           ),

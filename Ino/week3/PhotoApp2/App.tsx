@@ -8,14 +8,24 @@ import ImageScreen from '@src/screens/ImageScreen';
 import SplashScreen from 'react-native-splash-screen';
 import PermissionScreen from '@src/screens/PermissionScreen';
 import Colors from '@src/Colors';
+import {BottomSheetModal} from '@gorhom/bottom-sheet';
+import {useModalStore} from '@src/store/bottomRefStore';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  const {setBottomSheetModalRef} = useModalStore();
+
   // 첫 앱 진입
   useEffect(() => {
     SplashScreen.hide();
   }, []);
+
+  // ref설정
+  useEffect(() => {
+    const ref = React.createRef<BottomSheetModal>();
+    setBottomSheetModalRef({...ref});
+  }, [setBottomSheetModalRef]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -33,7 +43,11 @@ const App = () => {
             options={{headerShown: false}}
           />
           <Stack.Screen name="Permission" component={PermissionScreen} />
-          <Stack.Screen name="Detail" component={ImageScreen} />
+          <Stack.Screen
+            name="Detail"
+            component={ImageScreen}
+            options={{headerShown: false}}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

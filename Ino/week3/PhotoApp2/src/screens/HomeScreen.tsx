@@ -1,25 +1,21 @@
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
-import {RootStackParamList} from './Props';
+import {Pressable, StyleSheet, Text, View, FlatList, Image} from 'react-native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import CustomBottomSheet from '@src/components/BottomSheet';
+import Colors from '@src/Colors';
+import ImageListScreen from '@src/components/ImageList';
 
-type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 const HomeScreen = () => {
-  const navigation = useNavigation<HomeScreenNavigationProp>();
-  const goToDetailScreen = () => {
-    navigation.navigate('Detail');
-  };
-
   return (
-    <View>
-      <Text>Home 화면</Text>
-      <Pressable onPress={goToDetailScreen}>
-        <Text>버튼</Text>
-      </Pressable>
-    </View>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <BottomSheetModalProvider>
+        <View style={{backgroundColor: Colors.Gray900, height: '100%'}}>
+          <ImageListScreen />
+          <CustomBottomSheet />
+        </View>
+      </BottomSheetModalProvider>
+    </GestureHandlerRootView>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default HomeScreen;
