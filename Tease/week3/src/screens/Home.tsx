@@ -15,7 +15,7 @@ import {cameraPermission, libraryPermission} from '../utils/permission';
 import usePhoto, {PhotoType} from '../stores/usePhoto';
 import {useNavigation} from '@react-navigation/native';
 
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const Home = () => {
   const {photos} = usePhoto();
@@ -51,10 +51,12 @@ const Home = () => {
       </View>
       <FlatList
         data={photos}
+        // keyExtractor={item => item.id}
         renderItem={renderItem}
         removeClippedSubviews
         ListEmptyComponent={EmptyComponent}
         style={styles.photoList}
+        numColumns={3}
       />
     </SafeAreaView>
   );
@@ -76,13 +78,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
   },
-  //empty
-  emptyContainer: {
-    // flex: 1,
-    minHeight: '90%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   emptyText: {
     color: colors['gray400'],
     fontSize: 16,
@@ -90,9 +85,8 @@ const styles = StyleSheet.create({
   //photoList
   photoList: {
     flex: 1,
-    borderWidth: 1,
-    borderColor: '#fff',
     marginHorizontal: 16,
+    // flexDirection: 'row',
   },
   item: {
     width: (width - 32) / 3,

@@ -4,6 +4,7 @@ export interface PhotoType {
   id: number;
   image: string;
   date: number;
+  dateString: string;
 }
 
 interface Store {

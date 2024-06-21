@@ -14,3 +14,18 @@ export function convertDate(timestamp: number) {
 
   return formattedDate;
 }
+
+export function convertDate2(timestamp: number) {
+  //시간 x
+  const date = new Date(timestamp);
+
+  // 년, 월, 일 추출
+  const year = date.getFullYear();
+  const month = ('0' + (date.getMonth() + 1)).slice(-2); // 월은 0부터 시작하므로 +1
+  const day = ('0' + date.getDate()).slice(-2);
+
+  // 형식화된 문자열 생성
+  const formattedDate = `${year}.${month}.${day}`;
+
+  return formattedDate;
+}

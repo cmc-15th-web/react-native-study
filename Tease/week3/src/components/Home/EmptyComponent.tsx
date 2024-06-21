@@ -1,6 +1,8 @@
-import {StyleSheet, Text, View, SafeAreaView, FlatList} from 'react-native';
+import {StyleSheet, Text, View, Dimensions} from 'react-native';
 import React from 'react';
 import {colors} from '../../styles/theme_color';
+
+const {width} = Dimensions.get('window');
 
 const EmptyComponent = () => {
   return (
@@ -21,6 +23,7 @@ const styles = StyleSheet.create({
     minHeight: '90%',
     justifyContent: 'center',
     alignItems: 'center',
+    width: width - 32,
   },
   emptyText: {
     color: colors['gray400'],
