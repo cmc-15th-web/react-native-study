@@ -1,6 +1,5 @@
 import {
   StyleSheet,
-  Text,
   View,
   SafeAreaView,
   FlatList,
@@ -37,8 +36,8 @@ const Home = () => {
     );
   };
   useEffect(() => {
-    // cameraPermission();
-    // libraryPermission();
+    cameraPermission();
+    libraryPermission();
   }, []);
 
   useEffect(() => {

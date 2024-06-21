@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   //empty
   emptyContainer: {
     // flex: 1,
-    minHeight: '90%',
+    minHeight: '70%',
     justifyContent: 'center',
     alignItems: 'center',
     width: width - 32,

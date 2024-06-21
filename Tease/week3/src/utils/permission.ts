@@ -26,27 +26,31 @@ export function cameraPermission() {
     .then(result => {
       switch (result) {
         case RESULTS.UNAVAILABLE:
-          //   CameraPermissionAlert();
+          CameraPermissionAlert();
           console.log(
-            'This feature is not available (on this device / in this context)',
+            'Camera This feature is not available (on this device / in this context)',
           );
           break;
         case RESULTS.DENIED:
-          //   CameraPermissionAlert();
+          CameraPermissionAlert();
           console.log(
-            'The permission has not been requested / is denied but requestable',
+            'Camera permission has not been requested / is denied but requestable',
           );
           break;
         case RESULTS.LIMITED:
-          //   CameraPermissionAlert();
-          console.log('The permission is limited: some actions are possible');
+          CameraPermissionAlert();
+          console.log(
+            'Camera permission is limited: some actions are possible',
+          );
           break;
         case RESULTS.GRANTED:
-          console.log('The permission is granted');
+          console.log('Camera permission is granted');
           break;
         case RESULTS.BLOCKED:
-          //   CameraPermissionAlert();
-          console.log('The permission is denied and not requestable anymore');
+          CameraPermissionAlert();
+          console.log(
+            'Camera permission is denied and not requestable anymore',
+          );
           break;
       }
     })
@@ -60,27 +64,31 @@ export function libraryPermission() {
     .then(result => {
       switch (result) {
         case RESULTS.UNAVAILABLE:
-          //   LibraryPermissionAlert();
+          LibraryPermissionAlert();
           console.log(
-            'This feature is not available (on this device / in this context)',
+            'library This feature is not available (on this device / in this context)',
           );
           break;
         case RESULTS.DENIED:
-          //   LibraryPermissionAlert();
+          LibraryPermissionAlert();
           console.log(
-            'The permission has not been requested / is denied but requestable',
+            'library permission has not been requested / is denied but requestable',
           );
           break;
         case RESULTS.LIMITED:
-          //   LibraryPermissionAlert();
-          console.log('The permission is limited: some actions are possible');
+          LibraryPermissionAlert();
+          console.log(
+            'library permission is limited: some actions are possible',
+          );
           break;
         case RESULTS.GRANTED:
-          console.log('The permission is granted');
+          console.log('library permission is granted');
           break;
         case RESULTS.BLOCKED:
-          //   LibraryPermissionAlert();
-          console.log('The permission is denied and not requestable anymore');
+          LibraryPermissionAlert();
+          console.log(
+            'library permission is denied and not requestable anymore',
+          );
           break;
       }
     })
