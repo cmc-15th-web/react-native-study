@@ -7,16 +7,9 @@ const Tab = createBottomTabNavigator();
 
 export default function Navigator() {
   return (
-    <Tab.Navigator
-      initialRouteName="Home"
-      //   screenOptions={{
-      //     tabBarActiveTintColor: #800080 ,
-      //     tabBarInactiveTintColor:,
-      //     headerShown: false,
-      //   }}
-    >
+    <Tab.Navigator initialRouteName="Home">
       <Tab.Screen
-        name="Home"
+        name="CMC의 앨범"
         component={Home}
         options={{
           title: '홈',

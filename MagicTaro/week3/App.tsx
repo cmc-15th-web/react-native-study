@@ -12,6 +12,7 @@ import {Text, View} from 'react-native';
 import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import Navigator from './src/components/Navigator';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 function App(): React.JSX.Element {
   useEffect(() => {
@@ -23,29 +24,20 @@ function App(): React.JSX.Element {
   const [Permissions, setPermissions] = useState(true);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar />
-      {Permissions ? (
-        <NavigationContainer>
-          <Navigator />
-        </NavigationContainer>
-      ) : (
-        <Permission />
-      )}
-    </SafeAreaView>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <SafeAreaView style={styles.container}>
+        <StatusBar />
+        {Permissions ? (
+          <NavigationContainer>
+            <Navigator />
+          </NavigationContainer>
+        ) : (
+          <Permission />
+        )}
+      </SafeAreaView>
+    </GestureHandlerRootView>
   );
 }
-{
-  /* <View>
-        <Text>cmc</Text>
-      </View>
-
-    // <View>
-    //   <Text>CMC</Text>
-    // </View> */
-}
-//   );
-// }
 
 const styles = StyleSheet.create({
   container: {
