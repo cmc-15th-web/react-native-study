@@ -33,9 +33,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ images, navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       {/* 그라디언트 텍스트 컴포넌트 */}
-      <GradientText style={styles.title}>준영님의 사진첩</GradientText>
+      <Text style={styles.title}>준영님의 사진첩</Text>
       {images.length > 0 ? (
         // 이미지가 있는 경우 그리드 뷰로 이미지 목록을 렌더링
+
         <FlatList
           data={images}
           renderItem={renderItem}
@@ -58,14 +59,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.colors.gray900,
-    justifyContent: "center",
+    // justifyContent: "center",
   },
   imageList: {},
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    margin: 20,
-    textAlign: "center",
+    textAlign: "left",
+    color: "white",
+    padding: 20,
   },
   text: {
     color: "white",

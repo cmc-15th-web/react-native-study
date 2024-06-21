@@ -44,7 +44,7 @@ const BottomSheetModal: React.FC<BottomSheetModalProps> = ({
     const result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1, // 이미지 품질 설정 (0 ~ 1)
-      allowsEditing: false, // 이미지 편집 허용 여부
+      allowsEditing: true, // 이미지 편집 허용 여부
       aspect: [4, 3], // 이미지 비율 설정
       base64: false, // base64 인코딩된 이미지 데이터 포함 여부
     });
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: theme.colors.gray600,
-    padding: 50,
+    padding: 30,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     justifyContent: "center",
