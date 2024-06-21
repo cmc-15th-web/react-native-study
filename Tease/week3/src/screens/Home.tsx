@@ -14,6 +14,7 @@ import EmptyComponent from '../components/Home/EmptyComponent';
 import {cameraPermission, libraryPermission} from '../utils/permission';
 import usePhoto, {PhotoType} from '../stores/usePhoto';
 import {useNavigation} from '@react-navigation/native';
+import GradientText from '../components/Home/GradientText';
 
 const {width} = Dimensions.get('window');
 
@@ -47,7 +48,8 @@ const Home = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.textContainer}>
-        <Text style={styles.title}>세훈님의 사진첩</Text>
+        {/* <Text style={styles.title}>Tease Gallery</Text> */}
+        <GradientText text="Tease Gallery" style={styles.title} />
       </View>
       <FlatList
         data={photos}
@@ -74,7 +76,6 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   title: {
-    color: colors['gradient100'],
     fontSize: 20,
     fontWeight: '600',
   },
