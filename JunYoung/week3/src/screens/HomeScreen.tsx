@@ -6,22 +6,28 @@ import {
   Image,
   Dimensions,
   SafeAreaView,
+  TouchableOpacity,
 } from "react-native";
-import GradientText from "../GradientText"; // 그라디언트 텍스트 컴포넌트 (아직 못함)
+import GradientText from "../GradientText";
 import theme from "../theme"; // 테마 설정
 import { HomeScreenProps, ImagePickerResult } from "../types"; // 타입 정의
 
 // HomeScreen 컴포넌트 정의
-const HomeScreen: React.FC<HomeScreenProps> = ({ images }) => {
+const HomeScreen: React.FC<HomeScreenProps> = ({ images, navigation }) => {
   const numColumns = 3; // 그리드 뷰의 열 개수
   const imageSize = Dimensions.get("window").width / numColumns - 10; // 이미지 크기 계산
 
   // 각 이미지 아이템을 렌더링하는 함수
   const renderItem = ({ item }: { item: ImagePickerResult }) => (
-    <Image
-      source={{ uri: item.uri }} // 이미지 URI
-      style={{ width: imageSize, height: imageSize, margin: 5 }} // 이미지 스타일
-    />
+    <TouchableOpacity
+      onPress={() => navigation.navigate("Details", { image: item })}
+    >
+      <Image
+        source={{ uri: item.uri }} // 이미지 URI
+        style={{ width: imageSize, height: imageSize, margin: 5 }} // 이미지 스타일
+        resizeMode="cover" // 이미지 크기 조절 방식
+      />
+    </TouchableOpacity>
   );
 
   return (

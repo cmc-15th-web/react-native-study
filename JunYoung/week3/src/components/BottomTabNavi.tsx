@@ -1,9 +1,7 @@
-// src/components/BottomTabNavi.tsx
-
 import * as React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
 import { StyleSheet, TouchableOpacity, Dimensions } from "react-native";
+import LinearGradient from "react-native-linear-gradient"; // 그라디언트 라이브러리
 import theme from "../theme";
 
 // 화면 추가
@@ -35,15 +33,14 @@ const BottomTabNavi = () => {
   };
 
   return (
-    <NavigationContainer>
+    <>
       <Tab.Navigator
         screenOptions={{
           tabBarStyle: { backgroundColor: theme.colors.gray900 },
         }} // 탭 바 스타일 설정
       >
         <Tab.Screen
-          name="홈"
-          children={() => <HomeScreen images={images} />} // HomeScreen 컴포넌트에 이미지 배열 전달
+          name="Home"
           options={{
             headerShown: false, // 헤더 숨기기
             tabBarIcon: ({ color }) => (
@@ -51,9 +48,11 @@ const BottomTabNavi = () => {
             ),
             tabBarActiveTintColor: theme.colors.pink, // 활성 탭 색상
           }}
-        />
+        >
+          {(props) => <HomeScreen {...props} images={images} />}
+        </Tab.Screen>
         <Tab.Screen
-          name="설정"
+          name="Theme"
           component={ThemeScreen} // ThemeScreen 컴포넌트
           options={{
             headerShown: false, // 헤더 숨기기
@@ -72,7 +71,7 @@ const BottomTabNavi = () => {
         onClose={toggleModal} // 모달 닫기 함수 전달
         onImageSelect={handleImageSelect} // 이미지 선택 함수 전달
       />
-    </NavigationContainer>
+    </>
   );
 };
 

@@ -12,3 +12,8 @@ export interface ImagePickerResult {
 export interface HomeScreenProps {
   images: ImagePickerResult[];
 }
+
+export type RootStackParamList = {
+  Home: undefined;
+  Details: { image: ImagePickerResult };
+};

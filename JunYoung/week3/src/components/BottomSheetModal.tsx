@@ -1,5 +1,3 @@
-// src/components/BottomSheetModal.tsx
-
 import React, { useEffect } from "react";
 import {
   View,
@@ -36,7 +34,6 @@ const BottomSheetModal: React.FC<BottomSheetModalProps> = ({
     })();
   }, []);
 
-  // 카메라 버튼을 눌렀을 때 실행되는 함수
   const handleCameraPress = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
     if (status !== "granted") {
@@ -46,11 +43,15 @@ const BottomSheetModal: React.FC<BottomSheetModalProps> = ({
 
     const result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1, // 이미지 품질 설정 (0 ~ 1)
+      allowsEditing: false, // 이미지 편집 허용 여부
+      aspect: [4, 3], // 이미지 비율 설정
+      base64: false, // base64 인코딩된 이미지 데이터 포함 여부
     });
 
     if (!result.canceled) {
       console.log("Camera Result:", result);
-      onImageSelect([result as unknown as ImagePickerResult]); // 결과를 ImagePickerResult 타입으로 변환하여 전달
+      onImageSelect([result.assets[0] as ImagePickerResult]); // 결과를 ImagePickerResult 타입으로 변환하여 전달
     } else {
       onImageSelect([]);
     }
@@ -62,6 +63,7 @@ const BottomSheetModal: React.FC<BottomSheetModalProps> = ({
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsMultipleSelection: true, // 다중 선택 허용
+      quality: 1, // 이미지 품질 설정
     });
 
     if (!result.canceled && result.assets) {
