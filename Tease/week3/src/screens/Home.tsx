@@ -35,6 +35,7 @@ const Home = () => {
       </>
     );
   };
+
   useEffect(() => {
     cameraPermission();
     libraryPermission();
@@ -47,7 +48,6 @@ const Home = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.textContainer}>
-        {/* <Text style={styles.title}>Tease Gallery</Text> */}
         <GradientText text="Tease Gallery" style={styles.title} />
       </View>
       <FlatList
@@ -86,7 +86,6 @@ const styles = StyleSheet.create({
   photoList: {
     flex: 1,
     marginHorizontal: 16,
-    // flexDirection: 'row',
   },
   item: {
     width: (width - 32) / 3,
