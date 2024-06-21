@@ -31,6 +31,7 @@ export const useImageUpload = () => {
         mediaType: 'photo',
       });
 
+      // 배열의 각 요소마다 비동기작업을 하기 위해 for...of 사용
       for (const image of imageList) {
         try {
           const cropped = await ImagePicker.openCropper({

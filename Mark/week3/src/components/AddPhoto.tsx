@@ -14,7 +14,6 @@ const AddPhoto = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => [166, 166], []);
   const {uploadByCamera, uploadByGallery} = useImageUpload();
-
   const handlePresentModalPress = useCallback(() => {
     bottomSheetRef.current?.snapToIndex(0);
   }, []);

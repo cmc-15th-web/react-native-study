@@ -1,4 +1,4 @@
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {Palette} from '../constants/palette';
 import {NavigationProp, RouteProp, useNavigation} from '@react-navigation/native';
 import {ArrowBackSvg} from '../assets/ArrowBackSvg';
@@ -21,14 +21,13 @@ const Detail = ({route}: {route: RouteProp<RootStackParamList, 'Detail'>}) => {
             fill={Palette.GradientPurplePink}
           />
         </Pressable>
-
         <GradientText
           style={styles.date}
           colors={[Palette.Pink, Palette.Purple]}>
           {formattedDate}
         </GradientText>
       </View>
-      <View>
+      <View style={styles.imageWrapper}>
         <Image source={{uri: imagePath}} style={styles.image} />
       </View>
     </View>
@@ -53,6 +52,9 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 18,
     fontWeight: '500',
+  },
+  imageWrapper: {
+    flex: 1
   },
   image: {
     width: '100%',
