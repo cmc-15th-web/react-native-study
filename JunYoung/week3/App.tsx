@@ -18,7 +18,7 @@ const App: React.FC = () => {
     // 앱 초기화 및 준비 작업을 수행하는 비동기 함수
     const prepare = async () => {
       // 2초 대기하여 준비 시간을 시뮬레이션
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 1500));
       setIsReady(true); // 준비 완료 상태로 변경
     };
 
